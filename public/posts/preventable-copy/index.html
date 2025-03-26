@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<title>It would have been preventable | qwool</title>
+	<link rel="canonical" href="http://localhost:1313/">
+	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
+	<link rel='stylesheet' type='text/css' href='/style.css'>
+	<link rel="icon" href="/favicon.ico">
+	<meta name="description" content="this will confirm all of your biases">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="index, follow">
+	<meta charset="utf-8">
+</head>
+<body>
+<header>
+    <span>
+        <span>
+            <a href="/">index// </a>
+            <a>posts// </a>
+        </span>
+        <p><i>i just wanna grill</i></p>
+    </span>
+    <h2>qwool//</h2>
+</header>
+
+
+
+
+<main>
+<article>
+<div id="nextprev">
+    <a href="/posts/preventable/"
+        ><div id="prevart">←prev<br />It would have been preventable</div></a
+    >
+    <a href="/posts/preventable-copy-copy/"
+        ><div id="nextart">next→<br />It would have been preventable</div></a
+    >
+    </div>
+
+<p>This article will confirm all your biases about frontend.</p>
+<p><a href="https://www.youtube.com/watch?v=yjfrJzdx7DA">https://www.youtube.com/watch?v=yjfrJzdx7DA</a></p>
+<blockquote>
+<p><em>It would have been preventable</em></p></blockquote>
+<hr>
+<p>On a wonderful early March day, I decided I wanted to revive an old concept as a real app. I also realized I didn’t know much about web development, especially frontend. So, to kill two birds with one stone, I decided to make <strong>Shed</strong> (not the real name) — an app for sharing music with friends or the public, essentially the long-form version of leaving Instagram notes with music attached. RateYourMusic’s existence wasn’t even a consideration because their mobile experience isn’t great, the vibe is way different, and their audience is about 15 years older anyway.</p>
+<h3 id="screenshots-of-the-app">Screenshots of the App</h3>
+<p>For the stack, I decided to pick:</p>
+<ul>
+<li><strong>Backend:</strong> Pocketbase — its Go hooks are a lifesaver, and putting up my own security measures would be a nightmare if I ever wanted it to be public.</li>
+<li><strong>Frontend Framework:</strong> React Native — the depth of Stack Overflow knowledge is really good, and that’s what everyone seems to be using. I also need to learn React.</li>
+<li><strong>UI:</strong> I planned to make my own components and style them dynamically.</li>
+<li><strong>Music Provider:</strong> Spotify or Last.fm, whichever worked better.</li>
+</ul>
+<p>Did you spot the several problems already?</p>
+<hr>
+<h2 id="fault-1-doing-too-much-at-the-same-time">Fault 1: Doing Too Much at the Same Time</h2>
+<p>I had to learn <em>six technologies</em>:</p>
+<ul>
+<li>React</li>
+<li>React Native</li>
+<li>Mobile Development</li>
+<li>Mobile Design</li>
+<li>React Native’s specific version of React</li>
+<li>React Native’s specific CSS quirks</li>
+</ul>
+<p>A better approach would’ve been to plan out a more granular roadmap and only then combine all my knowledge into one project. I wasn’t planning to publish it anyway.</p>
+<p>And that leads to:</p>
+<hr>
+<h2 id="fault-2-absolutely-no-plan">Fault 2: Absolutely No Plan</h2>
+<p>I didn’t have much functionality in mind.</p>
+<ul>
+<li>I asked a friend if it was a good idea, but he didn’t even understand what it was about.</li>
+<li>I was too stubborn to copy straight up (even though I was subconsciously doing so) and too stubborn to ask an LLM (it dulls creativity, but that should only apply when something actually comes out of said creativity).</li>
+<li>I had no design language in mind, and all the components ended up looking completely different.</li>
+<li>I wasn’t even sure about the core functionality. Yeah, you’d be able to make posts and attach songs, but that can barely be considered an idea.</li>
+<li>I wasn’t sure what services it would rely on. Of course, it would have to rely on something — I wasn’t going to download all the music ever made.</li>
+<li>I wasn’t sure about the app layout, so I ended up rewriting stuff a million times.</li>
+</ul>
+<hr>
+<p>So, with none of that in mind, I sat down and started the <a href="https://www.freecodecamp.org/">freeCodeCamp.org React Native + Expo course</a>. I was using Expo (because, of course, I’d want an opinionated framework if I’m just getting started). Then I hit a small roadblock and tried to learn it myself through the docs. I completed the docs’ getting started guide and came out with no huge amount of knowledge. Then I watched the 4.5-hour tutorial all the way through — but <em>what now?</em></p>
+<p>The next morning, I sat down and finally wrote up a structure of the app flow, the functions, the API routes, and the database schema, and thought about it for a while before I got home.</p>
+<p>When I was home, with all of that, I realized I didn’t like it and confidently ignored it and freestyled it. Nothing fit together; it wasn’t coherent. I didn’t start with any fundamentals, didn’t set up my editor the right way, didn’t even have a global stylesheet for colors or a global <code>api.js</code>.</p>
+<p>Most importantly, look at the name of the file, or rather, at its extension.</p>
+<p>What really killed it was the biggest sin of all — <strong>I didn’t use TypeScript.</strong></p>
+<hr>
+<h2 id="fault-4-please-use-typescript">Fault 4: Please Use TypeScript</h2>
+<p>My tutorial started with regular JS for simplicity, and I just rolled with it. I felt like what my linter said was enough. If the whole thing didn’t crash, then it was working, and I shouldn’t touch it.</p>
+<p>But I didn’t consider any edge cases or the amount of inconsistency it would add.</p>
+<p>Yes, Tailwind and TypeScript are extra compilation steps. But as your project grows, it’s impossible to balance a ball on your head. And only clowns do that stuff. I’m not talented or funny enough to be a clown, and you, yes you, don’t wanna get clowned on.</p>
+<p>If it helps you, you know it doesn’t impact the performance substantially, and most importantly, it doesn’t impact the output’s performance, which means you should do it.</p>
+<hr>
+<h2 id="fault-5-some-abstractions-will-not-kill-you">Fault 5: Some Abstractions Will Not Kill You</h2>
+<p>Frontend should be just that — <strong>frontend.</strong>
+It should transport data between the client and server, both ways.</p>
+<p>It shouldn’t have its own code to handle server interaction and serialize it. It should call a function to get data from somewhere and call a function to pass user input back to the server.</p>
+<p>If you don’t have a layer between stuff, the smallest changes in the backend will be extremely painful for the frontend.</p>
+<hr>
+<p>So naturally, as my project grew, it introduced bugs. At first, they were manageable, and I fixed them up with tape (instead of the tools I should have been using for it).</p>
+<p>At some point, you realize something is wrong and your code is inefficient in some way (<em>undetected without TypeScript, btw</em>).</p>
+<p>I got spammed with both ignorable and unignorable messages in the LogBox, most of them not being informative at all.</p>
+<p>At that point, you either quit or start looking for solutions.</p>
+<p>But I was too deep into it. I wasn’t going to quit — I’m not made for that!</p>
+<p>So I lowkey had to sell my soul. I started asking LLMs to rewrite code for me — <em>is this efficient? Is this really the best way to do it?</em></p>
+<p>At first, it was amazing. In small scopes, it fixed my stuff.</p>
+<p>Then, the machine started having some sparkles fly off it, some of the metals rusted, and it just gave me wrong code with no solution to change it. It would import the wrong libraries and do things through them, start using entirely correct but very outdated information. It started making my code worse???</p>
+<p>The clanker is trained on mediocre code you’d find on GitHub. And the most fun part about it is that 11-year-old me probably posted more code publicly on GitHub than a senior engineer at a FAANG company. And that’s what it trained on.</p>
+<p>It’s seen more C++ game cheats than MongoDB, and it’s especially true for a more corporate language like React Native — the most solid, structured, and principled codebases are Facebook, Instagram, Twitter, and Discord. But they’re not in the training data. What <em>is</em> in its training data is tutorial and showcase apps. And that’s what it gives me.</p>
+<p>I’ve probably published more code at age 13 than a senior developer throughout five years of their career, and that applies to a lot of people.</p>
+<p>I didn’t think I would feel empathy for a machine’s trauma, but I am truly sorry for how it was raised, and I entirely understand why it came out like that.</p>
+<p>I had small over-engineered chunks of code that messed up the whole project. And they were very, very unfixable.</p>
+<p>LLMs don’t consider all of your input at once. They will forget what files you have and what you’ve already written and will happily ignore something you (or the golem itself) have already made.</p>
+<p>This is good knowledge to gatekeep if you’re in college and plan on getting a job once you’ve finished your education. By 2028, there will be enough blind copypaste for everyone to fix.</p>
+<hr>
+<h2 id="fault-6-reliance-on-ai">Fault 6: Reliance on AI</h2>
+<p>It’s an amazing tool if you know the language and want it to review it for you, but having it write code for you by itself is horrible.</p>
+<p>Maybe, at this point, it can set up some flexboxes in Tailwind from a screenshot you give it and add some error handling, but that’s the only thing it can really do without you either fixing it right out of the oven or a month later.</p>
+<hr>
+<p>It was the first time in a year I decided to get out of my Go comfort zone, and I regret it.</p>
+<p>So there I was, with a bunch of unmaintainable code, too tired to continue. I left it at that for a week, and then cloned the repository to pick up where I left off, and it threw too many errors for me to worry about. There was nothing I could do. It was over.</p>
+<p><img src="https://example.com/4chan-screenshot.png" alt="If Only You Knew How Bad Things Really Are"></p>
+<hr>
+<p>If enough people ask me to, I can rewrite it from scratch.</p>
+<p>If even more people ask me to fix it, I’ll document it all on YouTube, going over every single error I got.</p>
+
+
+</article>
+</main>
+
+
+<footer>
+<a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+</footer>
+
+</body>
+</html>

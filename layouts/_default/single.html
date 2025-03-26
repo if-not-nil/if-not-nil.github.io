@@ -1,0 +1,11 @@
+{{ define "main" }}
+<article>
+    {{ if .Param "nextprev" }}{{ partial "nextprev.html" . -}}{{ end -}}
+    <span class="articleheader">
+        <h1>{{ .Title }}</h1>
+        <p><em>{{ .Date.Format "January 2, 2006" }}</em></p>
+    </span>
+    <section>{{ .Content }}</section>
+    {{ if .Param "taglist" }}{{ partial "taglist.html" . }}{{ end -}}
+</article>
+{{ end }}

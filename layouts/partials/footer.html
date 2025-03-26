@@ -1,0 +1,10 @@
+<footer>
+    <a href="{{ .Site.BaseURL }}">{{ .Site.BaseURL }}</a>
+    {{- if .Param "showrss" }}<br /><br /><a href="/index.xml"
+        ><img
+            src="/rss.svg"
+            style="max-height: 1.5em"
+            alt="RSS Feed"
+            title="RSS (rubba subba slabba)" /></a
+    >{{ end }}
+</footer>

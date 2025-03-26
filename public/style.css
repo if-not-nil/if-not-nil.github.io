@@ -1,0 +1,215 @@
+/* lora-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Lora";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/lora-v35-latin-regular.woff2") format("woff2");
+}
+
+/* lora-italic - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Lora";
+    font-style: italic;
+    font-weight: 400;
+    src: url("../fonts/lora-v35-latin-italic.woff2") format("woff2");
+}
+
+/* lora-700 - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Lora";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/lora-v35-latin-700.woff2") format("woff2");
+}
+
+/* lora-700italic - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Lora";
+    font-style: italic;
+    font-weight: 700;
+    src: url("../fonts/lora-v35-latin-700italic.woff2") format("woff2");
+}
+
+:root {
+    font-family: "Lora", monospace;
+    --text: #d0d0d0;
+    --text-bold: #d0d0d0;
+    --background: #151515;
+    --black: #151515;
+    --black-bold: #505050;
+    --red: #ac4142;
+    --red-bold: #ac4142;
+    --green: #90a959;
+    --green-bold: #90a959;
+    --yellow: #f4bf75;
+    --yellow-bold: #f4bf75;
+    --blue: #6a9fb5;
+    --blue-bold: #6a9fb5;
+    --magenta: #aa759f;
+    --magenta-bold: #aa759f;
+    --cyan: #75b5aa;
+    --cyan-bold: #75b5aa;
+    --white: #d0d0d0;
+    --white-bold: #f5f5f5;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text-bold);
+    font-size: 18px;
+    max-width: 800px;
+    margin: auto;
+}
+
+code {
+    background: var(--black-bold);
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+pre {
+    background: var(--black);
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+hr {
+    opacity: 0.2;
+}
+
+a {
+    color: var(--yellow-bold);
+    text-decoration: none;
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease,
+        text-decoration-color 0.3s ease;
+}
+
+a:hover {
+    color: var(--yellow);
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+blockquote {
+    margin-left: 0.5rem;
+    padding: 0.2rem;
+    background: color-mix(in srgb, var(--white) 10%, transparent);
+    border-left: 5px solid var(--black-bold);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #50505050;
+    padding: 1rem 2rem;
+    padding-bottom: 0.1rem;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+footer {
+    text-align: center;
+    clear: both;
+}
+
+.taglist {
+    text-align: center;
+    clear: both;
+}
+
+#nextprev {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    min-width: 100%;
+    transition: transform 0.3s ease;
+}
+
+#prevart,
+#nextart {
+    padding: 0;
+    margin: 0;
+    display: inline;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease;
+}
+
+.articleheader {
+    margin: 0;
+}
+
+#prevart a,
+#nextart a {
+    text-decoration: none;
+    color: var(--yellow-bold);
+    font-weight: normal;
+    padding: 0.3rem 0.6rem;
+    transition:
+        color 0.3s ease,
+        transform 0.2s ease;
+}
+
+#prevart:hover,
+#nextart:hover {
+    background: color-mix(in srgb, var(--black) 70%, transparent);
+    transform: scale(1.05);
+}
+
+#prevart a:hover,
+#nextart a:hover {
+    color: var(--yellow);
+}
+
+main {
+    text-align: start;
+    max-width: 600px;
+    padding: 20px;
+    line-height: 1.6;
+    margin: auto;
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 0rem;
+    }
+
+    #nextprev {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    #prevart a,
+    #nextart a {
+        padding: 0.2rem 0.4rem;
+    }
+
+    #prevart,
+    #nextart {
+        margin-bottom: 10px;
+    }
+}
