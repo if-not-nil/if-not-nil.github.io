@@ -20,3 +20,30 @@ showrss = true
 [privacy.youTube]
 disable = false
 privacyEnhanced = true
+
+[mediaTypes."image/webp"]
+suffixes = ["webp"]
+
+[outputFormats]
+[outputFormats.webp]
+mediaType = "image/webp"
+relURL = true
+
+
+# [build]
+#   [build.buildStats]
+#     enable = true
+#   [[build.cachebusters]]
+#     source = 'assets/notwatching/hugo_stats\.json'
+#     target = 'css'
+#   [[build.cachebusters]]
+#     source = '(postcss|tailwind)\.config\.js'
+#     target = 'css'
+# [module]
+#   [[module.mounts]]
+#     source = 'assets'
+#     target = 'assets'
+#   [[module.mounts]]
+#     disableWatch = true
+#     source = 'hugo_stats.json'
+#     target = 'assets/notwatching/hugo_stats.json'

@@ -65,23 +65,80 @@ body {
     background: var(--background);
     color: var(--text-bold);
     font-size: 18px;
-    max-width: 800px;
     margin: auto;
 }
 
-code {
-    background: var(--black-bold);
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-family: monospace;
+/* Basic Style for Code Block */
+pre {
+    background-color: #2e2e2e;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    word-wrap: normal;
+    white-space: pre-wrap;
 }
 
+pre code {
+    display: block;
+    line-height: 1.5;
+}
+
+pre code .keyword {
+    color: #66d9ef;
+    font-weight: bold;
+}
+
+pre code .function {
+    color: #f92672;
+}
+
+pre code .string {
+    color: #e6db74;
+}
+
+pre code .comment {
+    color: #75715e;
+    font-style: italic;
+}
+
+pre code .variable {
+    color: #a6e22e;
+}
+
+pre code .highlight-line {
+    background-color: rgba(102, 217, 239, 0.2);
+}
+
+pre {
+    counter-reset: line;
+}
+
+pre code {
+    position: relative;
+}
+
+pre code span.line {
+    display: block;
+    counter-increment: line;
+}
+
+pre code span.line::before {
+    content: counter(line);
+    position: absolute;
+    left: -30px;
+    color: #888;
+    font-size: 0.85em;
+    padding-right: 10px;
+}
+
+/*
 pre {
     background: var(--black);
     padding: 10px;
     border-radius: 5px;
     overflow-x: auto;
-}
+} */
 
 hr {
     opacity: 0.2;
@@ -185,7 +242,6 @@ footer {
 
 main {
     text-align: start;
-    max-width: 600px;
     padding: 20px;
     line-height: 1.6;
     margin: auto;

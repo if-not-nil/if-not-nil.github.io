@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 	<title>It will have been preventable | qwool</title>
 	<link rel="canonical" href="http://localhost:1313/">
 	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
 	<link rel='stylesheet' type='text/css' href='/style.css'>
+	
 	<link rel="icon" href="/favicon.ico">
 	<meta name="description" content="this will confirm all of your biases">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="index, follow">
 	<meta charset="utf-8">
+	
 </head>
+
 <body>
-<header>
+	<header>
     <span>
         <span>
             <a href="/">index// </a>
-            <a>posts// </a>
+            
         </span>
-        <p><i>i just wanna grill</i></p>
+        <p><i>a monad is a monoid in the category of endofunctors</i></p>
     </span>
     <h2>qwool//</h2>
 </header>
 
 
-<main>
-
+	<main>
+		
 <article>
     <span class="articleheader">
         <h1>It will have been preventable</h1>
@@ -38,7 +42,12 @@
 </p>
 <hr>
 <p>On a wonderful early March day, I decided I wanted to revive an old concept as a real app. I also realized I didn’t know much about web development, especially frontend. So, to kill two birds with one stone, I decided to make <strong>Shed</strong> (not the real name) — an app for sharing music with friends or the public, essentially the long-form version of leaving Instagram notes with music attached. RateYourMusic’s existence wasn’t even a consideration because their mobile experience isn’t great, the vibe is way different, and their audience is about 15 years older anyway.</p>
-<h3 id="screenshots-of-the-app">Screenshots of the App</h3>
+<figure class="custom-class"><a href="1.png"><img src="/preventable/1.png"
+    alt="a screenshot"></a><figcaption>
+      <p>A detailed analysis of the UI</p>
+    </figcaption>
+</figure>
+
 <p>For the stack, I decided to pick:</p>
 <ul>
 <li><strong>Backend:</strong> Pocketbase — its Go hooks are a lifesaver, and putting up my own security measures would be a nightmare if I ever wanted it to be public.</li>
@@ -48,7 +57,7 @@
 </ul>
 <p>Did you spot the several problems already?</p>
 <hr>
-<h2 id="fault-1-doing-too-much-at-the-same-time">Fault 1: Doing Too Much at the Same Time</h2>
+<h2 id="fault-1-doing-too-much-at-the-same-time">Fault 1: Doing too much at the same time</h2>
 <p>I had to learn <em>six technologies</em>:</p>
 <ul>
 <li>React</li>
@@ -61,7 +70,7 @@
 <p>A better approach would’ve been to plan out a more granular roadmap and only then combine all my knowledge into one project. I wasn’t planning to publish it anyway.</p>
 <p>And that leads to:</p>
 <hr>
-<h2 id="fault-2-absolutely-no-plan">Fault 2: Absolutely No Plan</h2>
+<h2 id="fault-2-absolutely-no-plan">Fault 2: Absolutely no plan</h2>
 <p>I didn’t have much functionality in mind.</p>
 <ul>
 <li>I asked a friend if it was a good idea, but he didn’t even understand what it was about.</li>
@@ -78,13 +87,13 @@
 <p>Most importantly, look at the name of the file, or rather, at its extension.</p>
 <p>What really killed it was the biggest sin of all — <strong>I didn’t use TypeScript.</strong></p>
 <hr>
-<h2 id="fault-4-please-use-typescript">Fault 4: Please Use TypeScript</h2>
+<h2 id="fault-4-please-use-typescript">Fault 4: Please use TypeScript</h2>
 <p>My tutorial started with regular JS for simplicity, and I just rolled with it. I felt like what my linter said was enough. If the whole thing didn’t crash, then it was working, and I shouldn’t touch it.</p>
 <p>But I didn’t consider any edge cases or the amount of inconsistency it would add.</p>
 <p>Yes, Tailwind and TypeScript are extra compilation steps. But as your project grows, it’s impossible to balance a ball on your head. And only clowns do that stuff. I’m not talented or funny enough to be a clown, and you, yes you, don’t wanna get clowned on.</p>
 <p>If it helps you, you know it doesn’t impact the performance substantially, and most importantly, it doesn’t impact the output’s performance, which means you should do it.</p>
 <hr>
-<h2 id="fault-5-some-abstractions-will-not-kill-you">Fault 5: Some Abstractions Will Not Kill You</h2>
+<h2 id="fault-5-some-abstraction-wont-kill-you">Fault 5: Some abstraction won’t kill you</h2>
 <p>Frontend should be just that — <strong>frontend.</strong>
 It should transport data between the client and server, both ways.</p>
 <p>It shouldn’t have its own code to handle server interaction and serialize it. It should call a function to get data from somewhere and call a function to pass user input back to the server.</p>
@@ -112,18 +121,17 @@ It should transport data between the client and server, both ways.</p>
 <hr>
 <p>It was the first time in a year I decided to get out of my Go comfort zone, and I regret it.</p>
 <p>So there I was, with a bunch of unmaintainable code, too tired to continue. I left it at that for a week, and then cloned the repository to pick up where I left off, and it threw too many errors for me to worry about. There was nothing I could do. It was over.</p>
-<p><img src="https://example.com/4chan-screenshot.png" alt="If Only You Knew How Bad Things Really Are"></p>
-<hr>
-<p>If enough people ask me to, I can rewrite it from scratch.</p>
-<p>If even more people ask me to fix it, I’ll document it all on YouTube, going over every single error I got.</p>
+<p>I really want to fix it and document it all on YouTube, going over every single error I got.</p>
 </section>
     
 </article>
 
-</main>
+	</main>
 
-<footer>
-    <a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed" title="Subscribe via RSS for updates."></a>
-</footer>
+	<footer>
+		<a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed"
+				title="Subscribe via RSS for updates."></a>
+	</footer>
 </body>
+
 </html>
