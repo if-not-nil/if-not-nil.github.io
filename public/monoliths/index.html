@@ -6,7 +6,6 @@
 	<link rel="canonical" href="http://localhost:1313/">
 	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
 	<link rel='stylesheet' type='text/css' href='/new.css'>
-	<link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
 	
 	<link rel="icon" href="/favicon.ico">
 	<meta name="description" content="you&#39;ll have to become cool with a lot of things really fast">
@@ -59,6 +58,40 @@ with game engines, you’re given tools for rendering, logic, and even hosting�
 <p>It&rsquo;s an ant again.</p>
 <p>Echoes of things it cannot comprehend swirl around its mind. It cannot make use of this knowledge, but it still remembers. How is it supposed to return to its life? The more the ant saw the harder it is for it to forget. It needs to see it again, understand again. It will do anything to show others, to show itself, nothing else in this tiny world matters.</p>
 <p>This is madness.</p></blockquote>
+<h3 id="looney-tunes-chase-scene">looney tunes chase scene</h3>
+<p>before realising who i truly am, i was using PocketBase as a framework. and honestly, it checked a lot of boxes for my hobby projects. it&rsquo;s mostly a fancy wrapper around a database, but it comes with a great JS SDK, really solid auth tools, it&rsquo;s written in Go (which is actually pleasant to use), can serve templates using Go’s built-in tools, and the hooks system is just amazing.</p>
+<p>but, of course, the depth of Stack Overflow for the weird way i like doing things isn&rsquo;t exactly bottomless. that&rsquo;s why i&rsquo;ve decided to learn Django - and i’ll be back here with stories once i’ve got some experience.</p>
+<p>even picking Django took a while. thankfully, with monoliths, that kind of decision <em>doesn’t</em> matter too much - you make it once, and even if it’s hard to go back, at least you’ve committed to one clear path.</p>
+<p>i had a few goals in mind:</p>
+<ul>
+<li>learn more about the <em>big</em> stuff in software</li>
+<li>explore new ways of doing things</li>
+<li>build a full (theoretical) realworld project (not deploying it though)</li>
+</ul>
+<p>i skimmed through most of the major options and landed on these conclusions:</p>
+<ul>
+<li>
+<p><strong>Ruby on Rails</strong>: i really like how its community seems to think the way i do when it comes to software. but learning Ruby just for Rails doesn’t make sense for me—i wouldn’t use it anywhere else.</p>
+</li>
+<li>
+<p><strong>Phoenix</strong>: i <em>really</em> want to learn Elixir, but i feel like i should save functional programming for when i’ve got a bit more math under my belt (college is just a few months away). also, Phoenix’s heavy focus on “webscale” is a red flag for me, especially after whatever chaotic philosophy Next.js and MongoDB have cooked up.</p>
+</li>
+<li>
+<p><strong>SvelteKit, Next, Nuxt, SolidStart, Ember.js</strong>: next section.</p>
+</li>
+</ul>
+<hr>
+<h3 id="a-quick-diss-on-js">a quick diss on JS</h3>
+<p>this isn’t about TypeScript or JSDoc - they try their best. this is about the ecosystem itself.</p>
+<p>a lot of full-stack JS frameworks are suffering from the mess that’s built up around the language. they all do things differently, and new tech pops up <em>constantly</em>. whatever stack you pick will probably be deprecated or irrelevant in 10 years, and somehow that doesn’t even sound surprising anymore.</p>
+<p>that’s why i really appreciate suites like Django. it’s all in one package, it evolves gradually, and if something needs to get faster, they just update the thing you’re already using. no “new ORM 10x faster” hype drops that make you feel like you’re suddenly behind.</p>
+<p>it’s not even JavaScript’s fault. it was designed to be a simple language that beginners could use to add interactivity to their web pages. then the web exploded in complexity, and we started using cookies for things they weren’t meant for, and sites began running code through five layers of build tools—completely straying from the idea of static hypertext.</p>
+<p>all because the browser was the easiest way to interact with something without downloading it.</p>
+<p>once the web became <em>the</em> way to access the internet, it also became <em>the</em> way to build apps. that pushed JavaScript into the spotlight as the de facto “runs everywhere” language. so naturally, people built tools to make it do <em>everything</em>—and those tools were developed by hundreds of communities, all with different philosophies. things started moving fast, breaking faster, and suddenly there was no one way to do anything anymore&hellip; because the language wasn’t designed for any of this to begin with.</p>
+<p>and now we’ve got React Native, which <em>technically</em> uses JavaScript, but only after you transpile it from TypeScript. then it parses your JSX, which is kind of like HTML inside JS (???), except it’s not really HTML because it&rsquo; modified to support JS expressions. so the HTML isn’t really HTML, and the JS isn’t really JS. and after all that, it gets compiled into native components that don&rsquo;t even use HTML. what you <em>wrote</em> looked like HTML inside JS (which is backwards from how it used to be), but what you <em>get</em> in the end is nothing like either of them.</p>
+<p>so does JS even exist anymore?
+maybe the real JavaScript was the friends we made along the way.</p>
+<p>oh - and we also have runtimes, build systems, and package managers that all get replaced every two years as well. that’s fun.</p>
 </section>
     
 </article>
