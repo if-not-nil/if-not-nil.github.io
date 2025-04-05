@@ -1,16 +1,15 @@
 +++
 date = '2025-03-25T20:52:01+02:00'
 draft = false
-description = 'this will confirm all of your biases'
+description = 'this will confirm all of your biases about frontend'
 title = 'It will have been preventable'
 +++
 
-This article will confirm all your biases about frontend.
 {{< youtube id=yjfrJzdx7DA loading=lazy >}}
 
 ---
 
-On a wonderful early March day, I decided I wanted to revive an old concept as a real app. I also realized I didn’t know much about web development, especially frontend. So, to kill two birds with one stone, I decided to make **Shed** (not the real name) — an app for sharing music with friends or the public, essentially the long-form version of leaving Instagram notes with music attached. RateYourMusic’s existence wasn’t even a consideration because their mobile experience isn’t great, the vibe is way different, and their audience is about 15 years older anyway.
+Somewhere in March 2025, I decided I wanted to revive an old concept as a real app. I also realized I didn’t know much about web development, especially frontend. So, to kill two birds with one stone, I decided to make **Shed** (not the real name) — an app for sharing music with friends or the public, essentially the long-form version of leaving Instagram notes with music attached. RateYourMusic’s existence wasn’t even a consideration because their mobile experience isn’t great, the vibe is way different, and their audience is about 15 years older anyway.
 
 {{< figure class="custom-class" link="1.png" alt="a screenshot" caption="A detailed analysis of the UI" mouse="Hover text for the image" src="1.png" >}}
 

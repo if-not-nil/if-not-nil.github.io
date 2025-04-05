@@ -1,89 +1,190 @@
-/* lora-regular - latin */
+/*
+* the font used to be Lora
+*
+* /
+/* noto-sans-mono-regular - latin */
 @font-face {
     font-display: swap;
-    font-family: "Lora";
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Noto Sans Mono';
     font-style: normal;
     font-weight: 400;
-    src: url("../fonts/lora-v35-latin-regular.woff2") format("woff2");
+    src: url('../fonts/noto-sans-mono-v32-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* lora-italic - latin */
+/* noto-sans-mono-600 - latin */
 @font-face {
     font-display: swap;
-    font-family: "Lora";
-    font-style: italic;
-    font-weight: 400;
-    src: url("../fonts/lora-v35-latin-italic.woff2") format("woff2");
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Noto Sans Mono';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/noto-sans-mono-v32-latin-600.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* lora-700 - latin */
+/* noto-sans-mono-700 - latin */
 @font-face {
     font-display: swap;
-    font-family: "Lora";
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Noto Sans Mono';
     font-style: normal;
     font-weight: 700;
-    src: url("../fonts/lora-v35-latin-700.woff2") format("woff2");
+    src: url('../fonts/noto-sans-mono-v32-latin-700.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* lora-700italic - latin */
-@font-face {
-    font-display: swap;
-    font-family: "Lora";
-    font-style: italic;
-    font-weight: 700;
-    src: url("../fonts/lora-v35-latin-700italic.woff2") format("woff2");
-}
 
+/* Root Variables */
 :root {
-    font-family: "Lora", monospace;
+    font-family: "Noto Sans Mono", monospace;
     --text: #d0d0d0;
-    --text-bold: #d0d0d0;
     --background: #151515;
-    --black: #151515;
     --black-bold: #505050;
     --red: #ac4142;
-    --red-bold: #ac4142;
     --green: #90a959;
-    --green-bold: #90a959;
     --yellow: #f4bf75;
-    --yellow-bold: #f4bf75;
     --blue: #6a9fb5;
-    --blue-bold: #6a9fb5;
     --magenta: #aa759f;
-    --magenta-bold: #aa759f;
     --cyan: #75b5aa;
-    --cyan-bold: #75b5aa;
     --white: #d0d0d0;
     --white-bold: #f5f5f5;
 }
 
+/* Global Styles */
 html {
     scroll-behavior: smooth;
 }
 
 body {
     background: var(--background);
-    color: var(--text-bold);
+    color: var(--text);
     font-size: 18px;
     margin: auto;
+    /* max-width: 1200px; */
+    width: 90%;
 }
 
-/* Basic Style for Code Block */
+/* Typography & Elements */
+hr {
+    opacity: 0.2;
+}
+
+a {
+    color: var(--yellow);
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+    color: var(--yellow-bold);
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+blockquote {
+    margin-left: 0.5rem;
+    padding: 0.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 5px solid var(--black-bold);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+/* Header & Footer */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem 0.1rem;
+    border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+    transition: transform 0.3s ease;
+}
+
+footer,
+.taglist {
+    text-align: center;
+    clear: both;
+}
+
+/* Navigation */
+#nextprev {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    min-width: 100%;
+    transition: transform 0.3s ease;
+}
+
+#prevart,
+#nextart {
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#prevart a,
+#nextart a {
+    color: var(--yellow);
+    font-weight: normal;
+    padding: 0.3rem 0.6rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+#prevart:hover,
+#nextart:hover {
+    background: rgba(21, 21, 21, 0.7);
+    transform: scale(1.05);
+}
+
+/* Main Content */
+main {
+    text-align: start;
+    /* padding: 20px; */
+    line-height: 1.6;
+    margin: auto;
+    max-width: 80%;
+    width: 100%;
+}
+
+/* Code Blocks */
 pre {
     background-color: #2e2e2e;
     color: #f8f8f2;
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
-    word-wrap: normal;
     white-space: pre-wrap;
+    counter-reset: line;
 }
 
 pre code {
     display: block;
     line-height: 1.5;
+    position: relative;
 }
 
+pre code span.line {
+    display: block;
+    counter-increment: line;
+}
+
+pre code span.line::before {
+    content: counter(line);
+    position: absolute;
+    left: -30px;
+    color: #888;
+    font-size: 0.85em;
+    padding-right: 10px;
+}
+
+/* Syntax Highlighting */
 pre code .keyword {
     color: #66d9ef;
     font-weight: bold;
@@ -110,148 +211,12 @@ pre code .highlight-line {
     background-color: rgba(102, 217, 239, 0.2);
 }
 
-pre {
-    counter-reset: line;
-}
-
-pre code {
-    position: relative;
-}
-
-pre code span.line {
-    display: block;
-    counter-increment: line;
-}
-
-pre code span.line::before {
-    content: counter(line);
-    position: absolute;
-    left: -30px;
-    color: #888;
-    font-size: 0.85em;
-    padding-right: 10px;
-}
-
-/*
-pre {
-    background: var(--black);
-    padding: 10px;
-    border-radius: 5px;
-    overflow-x: auto;
-} */
-
-hr {
-    opacity: 0.2;
-}
-
-a {
-    color: var(--yellow-bold);
-    text-decoration: none;
-    transition:
-        color 0.3s ease,
-        transform 0.3s ease,
-        text-decoration-color 0.3s ease;
-}
-
-a:hover {
-    color: var(--yellow);
-    text-decoration: underline;
-    transform: scale(1.05);
-}
-
-blockquote {
-    margin-left: 0.5rem;
-    padding: 0.2rem;
-    background: color-mix(in srgb, var(--white) 10%, transparent);
-    border-left: 5px solid var(--black-bold);
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-    border-radius: 5px;
-}
-
-header {
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid #50505050;
-    padding: 1rem 2rem;
-    padding-bottom: 0.1rem;
-    justify-content: space-between;
-    transition: transform 0.3s ease;
-}
-
-footer {
-    text-align: center;
-    clear: both;
-}
-
-.taglist {
-    text-align: center;
-    clear: both;
-}
-
-#nextprev {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    font-size: 0.9rem;
-    min-width: 100%;
-    transition: transform 0.3s ease;
-}
-
-#prevart,
-#nextart {
-    padding: 0;
-    margin: 0;
-    display: inline;
-    transition:
-        background 0.3s ease,
-        transform 0.2s ease;
-}
-
-.articleheader {
-    margin: 0;
-}
-
-#prevart a,
-#nextart a {
-    text-decoration: none;
-    color: var(--yellow-bold);
-    font-weight: normal;
-    padding: 0.3rem 0.6rem;
-    transition:
-        color 0.3s ease,
-        transform 0.2s ease;
-}
-
-#prevart:hover,
-#nextart:hover {
-    background: color-mix(in srgb, var(--black) 70%, transparent);
-    transform: scale(1.05);
-}
-
-#prevart a:hover,
-#nextart a:hover {
-    color: var(--yellow);
-}
-
-main {
-    text-align: start;
-    padding: 20px;
-    line-height: 1.6;
-    margin: auto;
-}
-
+/* Responsive Design */
 @media (max-width: 600px) {
     header {
         flex-direction: column-reverse;
         text-align: center;
-        padding: 0rem;
+        padding: 0;
     }
 
     #nextprev {

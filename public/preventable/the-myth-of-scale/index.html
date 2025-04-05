@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-	<title>Categories | qwool</title>
+	<title>{{ replace .File.ContentBaseName &#34;-&#34; &#34; &#34; | title }} | qwool</title>
 	<link rel="canonical" href="http://localhost:1313/">
 	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
 	<link rel='stylesheet' type='text/css' href='/new.css'>
@@ -35,29 +35,19 @@
 
 	<main>
 		
-<ul class="main-ul">
-</ul>
-<style>
+<article>
+    <div id="nextprev"><a href="/preventable/"
+        ><div id="nextart">next→<br />It will have been preventable</div></a
+    >
+    </div>
+<span class="articleheader">
+        <h1>{{ replace .File.ContentBaseName &#34;-&#34; &#34; &#34; | title }}</h1>
+        <p><em>January 1, 0001</em></p>
+    </span>
+    <section></section>
+    
+</article>
 
-
-.main-ul {
-    padding: 0;
-    margin: 0;
-}
-
-.post-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background: var(--background)
-}
-
-.post-item .post-title {
-	flex-grow: 1;
-}
-
-
-</style>
 	</main>
 
 	<footer>
