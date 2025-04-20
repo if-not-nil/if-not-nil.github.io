@@ -2,130 +2,78 @@
 date = '2025-03-25T20:52:01+02:00'
 draft = false
 description = 'this will confirm all of your biases about frontend'
-title = 'It will have been preventable'
+title = 'it will have been preventable'
 +++
+
+this article will confirm all your biases about frontend
 
 {{< youtube id=yjfrJzdx7DA loading=lazy >}}
 
----
-
-Somewhere in March 2025, I decided I wanted to revive an old concept as a real app. I also realized I didn’t know much about web development, especially frontend. So, to kill two birds with one stone, I decided to make **Shed** (not the real name) — an app for sharing music with friends or the public, essentially the long-form version of leaving Instagram notes with music attached. RateYourMusic’s existence wasn’t even a consideration because their mobile experience isn’t great, the vibe is way different, and their audience is about 15 years older anyway.
+in may i've decided i wanna revive my old concept as a real app. i also realised i don't know much about web development and especially frontend. so to kill both birds with one stone i decided to make shed (not the real name) - an app for sharing music with your friends or public, the long-form version of leaving instagram notes with music attached. rateyourmusic's existence wasn't even a consideration, because their mobile experience isn't good, the vibe is way different, and their audience is 15 years older anyways.
 
 {{< figure class="custom-class" link="1.png" alt="a screenshot" caption="A detailed analysis of the UI" mouse="Hover text for the image" src="1.png" >}}
 
+for the stack i decided to pick:
+- the good old pocketbase as backend - its' go hooks are a lifesaver and putting up your own security measures is a nightmare if i would ever want it to be public
+- react native - the depth-of-stack-overflow is really good and that's what everybody's using. i also need to learn react
+- for the UI i was gonna make my own components and style them dynamically
+- for the music provider i was going to use spotify or lastfm, whatever works better
 
-For the stack, I decided to pick:
-- **Backend:** Pocketbase — its Go hooks are a lifesaver, and putting up my own security measures would be a nightmare if I ever wanted it to be public.
-- **Frontend Framework:** React Native — the depth of Stack Overflow knowledge is really good, and that’s what everyone seems to be using. I also need to learn React.
-- **UI:** I planned to make my own components and style them dynamically.
-- **Music Provider:** Spotify or Last.fm, whichever worked better.
+did you see the several problems here already?
 
-Did you spot the several problems already?
+---
+### fault 1: doing too much at the same time
+i would have to learn 6 technologies: react, react native, mobile development, mobile design, react native's specific version of react, react native's specific CSS quirks
+
+a better way would've been to plan out a more granular roadmap and only then combine all my knowledge into one thing. i wasn't gonna publish it anyways
+and that leads to:
+
+### fault 2: absolutely no plan
+i didn't have much functionality in mind.
+i asked my friend if it's a good idea but he didn't understand what it was even about. i was too stubborn to copy straight up (even though i was already doing so subconsciously) and too stubborn to ask an LLM (it dulls down the creativity, but that should only apply when something actually comes out of said creativity)
+i had no design language in mind and all the components ended up looking completely different
+and i wasn't even sure about the core functionality. yeah, you'll be able to make posts and attach songs, but that can barely be considered an idea
+i wasn't sure what services it would rely on. it would be required to rely on something, of course - i wasn't gonna download all the music to ever be made
+i wasn't sure about the app layout so i ended up rewriting stuff a million times
 
 ---
 
-## Fault 1: Doing too much at the same time
-I had to learn *six technologies*:
-- React
-- React Native
-- Mobile Development
-- Mobile Design
-- React Native’s specific version of React
-- React Native’s specific CSS quirks
+so with none of that in mind, i sat down and started the freecodecamp react native + expo course. i was using expo (because of course i'd want an opinionated framework if i'm just getting started). then i hit a small roadblock and tried to learn it myself through the docs. i completed the docs getting started guide and came out with no huge amount of knowledge. then i watched the 4.5 tutorial all the way through - but what now?
+next morning i sat down and finally wrote up a structure of the app flow, the functions, the api routes and database schema and thought about it for a while before i got home.
+when i was home, with all of that, i realised i didn't like it and confidently ignored it and freestyled it. nothing fit together, it wasn't coherent, i didn't start on any fundamentals, didn't set up my editor the right way, didn't even have a global stylesheet for colors or a global `api.js`. most importantly, look at the name of the file, or rather, at it's extension. what really killed it is the biggest sin of all - i didn't use typescript.
 
-A better approach would’ve been to plan out a more granular roadmap and only then combine all my knowledge into one project. I wasn’t planning to publish it anyway.
+---
+### fault 4: PLEASE USE TYPESCRIPT
+my tutorial started with regular js for simplicity and i just rolled with it. i felt like what my linter says is enough. if the whole thing doesn't crash then it's working and i shouldn't touch it. but i didn't consider the any edge cases and the amount of inconsistency it would add
+yes, tailwind and typescript are extra compilation steps. but as your project grows, it's impossible to balance a ball on your head. and only clowns do that stuff. i'm not talented or funny enough to be a clown and you, yes you, don't wanna get clowned on. if it helps you, you know it and it doesn't impact the performance a substantial amount, and most importantly, and doesn't impact the output's performance, that means you should do it
 
-And that leads to:
+### fault 5: some abstractions will NOT kill you
+frontend should be just that - frontend.
+it should transport the data between client and server, both ways.
+it shouldn't have its' own code to handle server interaction and serialise it. it should call a function to get data from somewhere and call a function and pass user input into it to talk back to the server. if you don't have a layer between stuff, the smallest changes in the backend will be extremely painful to the frontend
+
+---
+so naturally, as my project grew it introduced bugs. at first they were manageable, i fixed them up with tape (instead of the tools i should have been using for it)
+
+at some point you realise something is wrong and your code is inefficient in some way (undetected without typescript btw)
+i got spammed with both ignorable and unignorable messages in the logbox, most of them not being informative at all.
+at that point you either quit or start looking for solutions
+but i was too deep into it. i wasn't gonna quit - i'm not made for that!
+so i lowkey had to sell my soul. i started asking LLMs to rewrite code for me - is this efficient? is this really the best way to do it?
+at first it was amazing, in small scopes it fixed my stuff. then AM started having some sparkles fly off it, some of the metals rusted and it just gave me wrong code with no solution to change it. it would import the wrong libraries and do things through them, it would start using entirely correct but very very outdated information. it started making my code worse??? the clanker is trained on mediocre code you would find on github. and the most fun part about it is that 11 year old me probably posted more code publicly on github than a senior engineer at a faang company. and that's what it trained on. it's seen more c++ game cheats than it's mongodb, and it is especially true for a more corporate language like react native - the most solid, structured and principled codebases are facebook, instagram, twitter and discord. but they're not in the training data. what is in its' training data is the tutorial and showcase apps. and that's what it gives me. i've probably published more code at age 13 than a senior developer throughout 5 years of their career, and that applies for a lot of people. i didn't think i would feel empathy for a machine's trauma, but i am truly sorry for how it was raised and i entirely understand why it came out like that.
+i had small over engineered chunks of code that messed up the whole project. and they were very very unfixable
+
+LLMs don't consider all of your input at once, they will forget what files you have and what you already have down and will happily ignore something you (or the golem itself) have already made. this is good knowledge to gatekeep if you're in college and plan on getting a job once you've finished your education, in 2028 there will be enough blind copypaste for everyone to fix.
+
+---
+### fault 6: reliance on AI
+it's an amazing tool if you know the language and want it to review it for you, but having it write code for you by itself is horrible. maybe  at this point it can set up some flexboxes in tailwind from a screenshot you give it and add some error handling but that's the only thing it can really do without you either fixing it right out of the oven or a month later
 
 ---
 
-## Fault 2: Absolutely no plan
-I didn’t have much functionality in mind.
-- I asked a friend if it was a good idea, but he didn’t even understand what it was about.
-- I was too stubborn to copy straight up (even though I was subconsciously doing so) and too stubborn to ask an LLM (it dulls creativity, but that should only apply when something actually comes out of said creativity).
-- I had no design language in mind, and all the components ended up looking completely different.
-- I wasn’t even sure about the core functionality. Yeah, you’d be able to make posts and attach songs, but that can barely be considered an idea.
-- I wasn’t sure what services it would rely on. Of course, it would have to rely on something — I wasn’t going to download all the music ever made.
-- I wasn’t sure about the app layout, so I ended up rewriting stuff a million times.
+it was the first time in a year i've decided to get out of my go comfort zone and i regret it.
+so there i was, with a bunch of unmaintainable code, too tired to continue. i left it at that for a week and then cloned the repository to pick up and it threw too many errors for me to worry about. there is nothing i can do. it's over.
 
----
+ ! [if only you knew how bad things really are 4chan screenshot] ()
 
-So, with none of that in mind, I sat down and started the [freeCodeCamp.org React Native + Expo course](https://www.freecodecamp.org/). I was using Expo (because, of course, I’d want an opinionated framework if I’m just getting started). Then I hit a small roadblock and tried to learn it myself through the docs. I completed the docs’ getting started guide and came out with no huge amount of knowledge. Then I watched the 4.5-hour tutorial all the way through — but *what now?*
-
-The next morning, I sat down and finally wrote up a structure of the app flow, the functions, the API routes, and the database schema, and thought about it for a while before I got home.
-
-When I was home, with all of that, I realized I didn’t like it and confidently ignored it and freestyled it. Nothing fit together; it wasn’t coherent. I didn’t start with any fundamentals, didn’t set up my editor the right way, didn’t even have a global stylesheet for colors or a global `api.js`.
-
-Most importantly, look at the name of the file, or rather, at its extension.
-
-What really killed it was the biggest sin of all — **I didn’t use TypeScript.**
-
----
-
-## Fault 4: Please use TypeScript
-My tutorial started with regular JS for simplicity, and I just rolled with it. I felt like what my linter said was enough. If the whole thing didn’t crash, then it was working, and I shouldn’t touch it.
-
-But I didn’t consider any edge cases or the amount of inconsistency it would add.
-
-Yes, Tailwind and TypeScript are extra compilation steps. But as your project grows, it’s impossible to balance a ball on your head. And only clowns do that stuff. I’m not talented or funny enough to be a clown, and you, yes you, don’t wanna get clowned on.
-
-If it helps you, you know it doesn’t impact the performance substantially, and most importantly, it doesn’t impact the output’s performance, which means you should do it.
-
----
-
-## Fault 5: Some abstraction won’t kill you
-Frontend should be just that — **frontend.**
-It should transport data between the client and server, both ways.
-
-It shouldn’t have its own code to handle server interaction and serialize it. It should call a function to get data from somewhere and call a function to pass user input back to the server.
-
-If you don’t have a layer between stuff, the smallest changes in the backend will be extremely painful for the frontend.
-
----
-
-So naturally, as my project grew, it introduced bugs. At first, they were manageable, and I fixed them up with tape (instead of the tools I should have been using for it).
-
-At some point, you realize something is wrong and your code is inefficient in some way (*undetected without TypeScript, btw*).
-
-I got spammed with both ignorable and unignorable messages in the LogBox, most of them not being informative at all.
-
-At that point, you either quit or start looking for solutions.
-
-But I was too deep into it. I wasn’t going to quit — I’m not made for that!
-
-So I lowkey had to sell my soul. I started asking LLMs to rewrite code for me — *is this efficient? Is this really the best way to do it?*
-
-At first, it was amazing. In small scopes, it fixed my stuff.
-
-Then, the machine started having some sparkles fly off it, some of the metals rusted, and it just gave me wrong code with no solution to change it. It would import the wrong libraries and do things through them, start using entirely correct but very outdated information. It started making my code worse???
-
-The clanker is trained on mediocre code you’d find on GitHub. And the most fun part about it is that 11-year-old me probably posted more code publicly on GitHub than a senior engineer at a FAANG company. And that’s what it trained on.
-
-It’s seen more C++ game cheats than MongoDB, and it’s especially true for a more corporate language like React Native — the most solid, structured, and principled codebases are Facebook, Instagram, Twitter, and Discord. But they’re not in the training data. What *is* in its training data is tutorial and showcase apps. And that’s what it gives me.
-
-I’ve probably published more code at age 13 than a senior developer throughout five years of their career, and that applies to a lot of people.
-
-I didn’t think I would feel empathy for a machine’s trauma, but I am truly sorry for how it was raised, and I entirely understand why it came out like that.
-
-I had small over-engineered chunks of code that messed up the whole project. And they were very, very unfixable.
-
-LLMs don’t consider all of your input at once. They will forget what files you have and what you’ve already written and will happily ignore something you (or the golem itself) have already made.
-
-This is good knowledge to gatekeep if you’re in college and plan on getting a job once you’ve finished your education. By 2028, there will be enough blind copypaste for everyone to fix.
-
----
-
-## Fault 6: Reliance on AI
-It’s an amazing tool if you know the language and want it to review it for you, but having it write code for you by itself is horrible.
-
-Maybe, at this point, it can set up some flexboxes in Tailwind from a screenshot you give it and add some error handling, but that’s the only thing it can really do without you either fixing it right out of the oven or a month later.
-
----
-
-It was the first time in a year I decided to get out of my Go comfort zone, and I regret it.
-
-So there I was, with a bunch of unmaintainable code, too tired to continue. I left it at that for a week, and then cloned the repository to pick up where I left off, and it threw too many errors for me to worry about. There was nothing I could do. It was over.
-
-<!-- ![If Only You Knew How Bad Things Really Are](https://example.com/4chan-screenshot.png) -->
-
-I really want to fix it and document it all on YouTube, going over every single error I got.
+if there's enough people asking me to, i can rewrite it from scratch. if there are even more people asking me to fix it, i'll document it all on youtube, going over every single error i got.
