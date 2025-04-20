@@ -1,4 +1,4 @@
-# my website
+# if you use my template, please let me know! i'd like to see what you do with it
 
 whole thing is based on heavily modified [lugo](https://github.com/LukeSmithxyz/lugo) and [new.css](https://newcss.net/)
 
