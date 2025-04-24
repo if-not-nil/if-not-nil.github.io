@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-	<title>i love you, but please use monoliths | qwool</title>
-	<link rel="canonical" href="http://localhost:1313/">
-	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
-	<link rel='stylesheet' type='text/css' href='/new.css'>
-	
-	<link rel="icon" href="/favicon.gif">
-	<meta name="description" content="you&#39;ll have to become cool with a lot of things really fast">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="robots" content="index, follow">
-	<meta charset="utf-8">
+    <title>i love you, but please use monoliths | qwool</title>
+    <link rel="canonical" href="http://localhost:1313/">
+    <link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
+    <link rel='stylesheet' type='text/css' href='/new.css'>
+    
+    <link rel="icon" href="/favicon.gif">
+    <meta name="description" content="you&#39;ll have to become cool with a lot of things really fast">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <meta charset="utf-8">
 </head>
 
 <body>
-	<header>
+    <header>
     <h1>qwool</h1>
 
         <nav>
@@ -32,17 +32,52 @@
 </header>
 
 
-	<main>
-		
+    <main>
+        
 <article>
-    <div id="nextprev">
-    <a href="/preventable/"
-        ><div id="prevart">←prev<br />it will have been preventable</div></a
-    >
-    <a href="/htmx/"
-        ><div id="nextart">next→<br />what exactly is htmx?</div></a
-    >
-    </div>
+    <div class="nextprev">
+
+    <span class="prevart">
+        <a href="/preventable/">
+            <div>←prev<br />it will have been preventable</div>
+        </a>
+        </span>
+
+    <span class="nextart"><a href="/htmx/">
+            <div>next→<br />what exactly is htmx?</div>
+        </a>
+        </span>
+
+</div>
+
+<style>
+    .prevart,
+    .nextart {
+        display: inline-block;
+        flex: 1 1 50%;
+        max-width: 50%;
+    }
+
+    .prevart>a,
+    .nextart>a {
+        line-clamp: 3;
+        text-decoration: none;
+        font-size: small;
+        height: calc(3 * 1.2em)
+    }
+
+    .nextart {
+        text-align: end;
+    }
+
+    .nextprev {
+        background: var(--bg-2);
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+        height: calc(3 * 1.2em);
+    }
+</style>
 <span class="articleheader">
         <h1>i love you, but please use monoliths</h1>
         <p><em>April 5, 2025</em></p>
@@ -99,12 +134,12 @@ maybe the real JavaScript was the friends we made along the way.</p>
     
 </article>
 
-	</main>
+    </main>
 
-	<footer>
-		<a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed"
-				title="Subscribe via RSS for updates."></a>
-	</footer>
+    <footer>
+        <a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em"
+                alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+    </footer>
 </body>
 
 </html>

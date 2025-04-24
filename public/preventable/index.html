@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-	<title>it will have been preventable | qwool</title>
-	<link rel="canonical" href="http://localhost:1313/">
-	<link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
-	<link rel='stylesheet' type='text/css' href='/new.css'>
-	
-	<link rel="icon" href="/favicon.gif">
-	<meta name="description" content="this will confirm all of your biases about frontend">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="robots" content="index, follow">
-	<meta charset="utf-8">
+    <title>it will have been preventable | qwool</title>
+    <link rel="canonical" href="http://localhost:1313/">
+    <link rel='alternate' type='application/rss+xml' title="qwool RSS" href='/index.xml'>
+    <link rel='stylesheet' type='text/css' href='/new.css'>
+    
+    <link rel="icon" href="/favicon.gif">
+    <meta name="description" content="this will confirm all of your biases about frontend">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <meta charset="utf-8">
 </head>
 
 <body>
-	<header>
+    <header>
     <h1>qwool</h1>
 
         <nav>
@@ -32,13 +32,52 @@
 </header>
 
 
-	<main>
-		
+    <main>
+        
 <article>
-    <div id="nextprev"><a href="/monoliths/"
-        ><div id="nextart">next→<br />i love you, but please use monoliths</div></a
-    >
-    </div>
+    <div class="nextprev">
+
+    <span class="prevart">
+        <a href="/svelte/">
+            <div>←prev<br />svelte has your back</div>
+        </a>
+        </span>
+
+    <span class="nextart"><a href="/monoliths/">
+            <div>next→<br />i love you, but please use monoliths</div>
+        </a>
+        </span>
+
+</div>
+
+<style>
+    .prevart,
+    .nextart {
+        display: inline-block;
+        flex: 1 1 50%;
+        max-width: 50%;
+    }
+
+    .prevart>a,
+    .nextart>a {
+        line-clamp: 3;
+        text-decoration: none;
+        font-size: small;
+        height: calc(3 * 1.2em)
+    }
+
+    .nextart {
+        text-align: end;
+    }
+
+    .nextprev {
+        background: var(--bg-2);
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+        height: calc(3 * 1.2em);
+    }
+</style>
 <span class="articleheader">
         <h1>it will have been preventable</h1>
         <p><em>March 25, 2025</em></p>
@@ -109,12 +148,12 @@ so there i was, with a bunch of unmaintainable code, too tired to continue. i le
     
 </article>
 
-	</main>
+    </main>
 
-	<footer>
-		<a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed"
-				title="Subscribe via RSS for updates."></a>
-	</footer>
+    <footer>
+        <a href="http://localhost:1313/">http://localhost:1313/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em"
+                alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+    </footer>
 </body>
 
 </html>

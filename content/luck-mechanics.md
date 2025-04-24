@@ -2,6 +2,7 @@
 date = '2025-04-20T14:55:59+03:00'
 title = 'alternative luck mechanics'
 description = 'crazy ways to make your RNG calculations more addictive'
+draft = true
 +++
 i've been experimenting with luck stat mechanics, the traditional way is to just increase rng so the odds of rare stuff happening are higher, but what if you do it a lil different?
 

@@ -2,11 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/luck-mechanics/</loc>
-    <lastmod>2025-04-20T14:55:59+03:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-04-20T14:55:59+03:00</lastmod>
+    <lastmod>2025-04-06T10:44:41+03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/htmx/</loc>
     <lastmod>2025-04-06T10:44:41+03:00</lastmod>
@@ -16,6 +13,9 @@
   </url><url>
     <loc>http://localhost:1313/preventable/</loc>
     <lastmod>2025-03-25T20:52:01+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/svelte/</loc>
+    <lastmod>1980-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

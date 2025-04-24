@@ -10,15 +10,6 @@
 	
 	
 	<item>
-		<title>alternative luck mechanics</title>
-		<link>http://localhost:1313/luck-mechanics/</link>
-		<pubDate>Sun, 20 Apr 2025 14:55:59 +0300</pubDate>
-		
-		<guid>http://localhost:1313/luck-mechanics/</guid>
-		<description>crazy ways to make your RNG calculations more addictive</description>
-	</item>
-	
-	<item>
 		<title>what exactly is htmx?</title>
 		<link>http://localhost:1313/htmx/</link>
 		<pubDate>Sun, 06 Apr 2025 10:44:41 +0300</pubDate>
@@ -43,6 +34,15 @@
 		
 		<guid>http://localhost:1313/preventable/</guid>
 		<description>this will confirm all of your biases about frontend</description>
+	</item>
+	
+	<item>
+		<title>svelte has your back</title>
+		<link>http://localhost:1313/svelte/</link>
+		<pubDate>Tue, 01 Jan 1980 00:00:00 +0000</pubDate>
+		
+		<guid>http://localhost:1313/svelte/</guid>
+		<description>last one about frontend</description>
 	</item>
 	
 	</channel>

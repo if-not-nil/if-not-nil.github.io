@@ -1,14 +1,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
 	<title>qwool</title>
-	<link>http://localhost:1313/</link>
-	<description>on qwool</description>
+	<link>http://localhost:1313/neat/</link>
+	<description>in Neats on qwool</description>
 	<generator>Hugo -- gohugo.io</generator>
 	<language>en-us</language>
-	<lastBuildDate>Sun, 06 Apr 2025 10:44:41 +0300</lastBuildDate>
+	<lastBuildDate>Tue, 22 Apr 2025 15:40:36 +0300</lastBuildDate>
     
-        <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://localhost:1313/neat/index.xml" rel="self" type="application/rss+xml" />
 	
+	
+	<item>
+		<title>test</title>
+		<link>http://localhost:1313/neat/test/</link>
+		<pubDate>Tue, 22 Apr 2025 15:40:36 +0300</pubDate>
+		
+		<guid>http://localhost:1313/neat/test/</guid>
+		<description>test</description>
+	</item>
+	
+	<item>
+		<title>alternative luck mechanics</title>
+		<link>http://localhost:1313/luck-mechanics/</link>
+		<pubDate>Sun, 20 Apr 2025 14:55:59 +0300</pubDate>
+		
+		<guid>http://localhost:1313/luck-mechanics/</guid>
+		<description>crazy ways to make your RNG calculations more addictive</description>
+	</item>
 	
 	<item>
 		<title>what exactly is htmx?</title>
@@ -35,15 +53,6 @@
 		
 		<guid>http://localhost:1313/preventable/</guid>
 		<description>this will confirm all of your biases about frontend</description>
-	</item>
-	
-	<item>
-		<title>svelte has your back</title>
-		<link>http://localhost:1313/svelte/</link>
-		<pubDate>Tue, 01 Jan 1980 00:00:00 +0000</pubDate>
-		
-		<guid>http://localhost:1313/svelte/</guid>
-		<description>last one about frontend</description>
 	</item>
 	
 	</channel>
