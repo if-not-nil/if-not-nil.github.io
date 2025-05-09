@@ -1,5 +1,5 @@
-title = "qwool"
-baseURL = 'https://example.org'
+title = "if err != nil"
+baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
 
 [caches]
