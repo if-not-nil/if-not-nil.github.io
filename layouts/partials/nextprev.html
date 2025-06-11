@@ -1,50 +1,51 @@
 {{ if or .Next .Prev -}}
 <div class="nextprev">
 
-    <span class="prevart">
-        {{- with .Prev }}
-        <a href="{{ .RelPermalink}}">
-            <div>←prev<br />{{.Title}}</div>
-        </a>
-        {{ end -}}
-    </span>
+  <span class="prevart">
+    {{- with .Prev }}
+    <a href="{{ .RelPermalink}}">
+      <div>←prev<br />{{.Title}}</div>
+    </a>
+    {{ end -}}
+  </span>
 
-    <span class="nextart">
-        {{- with .Next -}}
-        <a href="{{ .RelPermalink}}">
-            <div>next→<br />{{.Title}}</div>
-        </a>
-        {{ end -}}
-    </span>
+  <span class="nextart">
+    {{- with .Next -}}
+    <a href="{{ .RelPermalink}}">
+      <div>next→<br />{{.Title}}</div>
+    </a>
+    {{ end -}}
+  </span>
 
 </div>
 
 <style>
-    .prevart,
-    .nextart {
-        display: inline-block;
-        flex: 1 1 50%;
-        max-width: 50%;
-    }
+  .prevart,
+  .nextart {
+    display: inline-block;
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
 
-    .prevart>a,
-    .nextart>a {
-        line-clamp: 3;
-        text-decoration: none;
-        font-size: small;
-        height: calc(3 * 1.2em)
-    }
+  .prevart>a,
+  .nextart>a {
+    line-clamp: 3;
+    text-decoration: none;
+    font-size: small;
+    height: calc(3 * 1.2em);
+    background: var(--bg-2);
 
-    .nextart {
-        text-align: end;
-    }
+  }
 
-    .nextprev {
-        background: var(--bg-2);
-        padding: 4px;
-        display: flex;
-        justify-content: space-between;
-        height: calc(3 * 1.2em);
-    }
+  .nextart {
+    text-align: end;
+  }
+
+  .nextprev {
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    height: calc(3 * 1.2em);
+  }
 </style>
 {{ end -}}

@@ -37,46 +37,47 @@
 <article>
     <div class="nextprev">
 
-    <span class="prevart">
-        <a href="/preventable/">
-            <div>←prev<br />it will have been preventable</div>
-        </a>
-        </span>
+  <span class="prevart">
+    <a href="/preventable/">
+      <div>←prev<br />it will have been preventable</div>
+    </a>
+    </span>
 
-    <span class="nextart"><a href="/htmx/">
-            <div>next→<br />what exactly is htmx?</div>
-        </a>
-        </span>
+  <span class="nextart"><a href="/htmx/">
+      <div>next→<br />what exactly is htmx?</div>
+    </a>
+    </span>
 
 </div>
 
 <style>
-    .prevart,
-    .nextart {
-        display: inline-block;
-        flex: 1 1 50%;
-        max-width: 50%;
-    }
+  .prevart,
+  .nextart {
+    display: inline-block;
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
 
-    .prevart>a,
-    .nextart>a {
-        line-clamp: 3;
-        text-decoration: none;
-        font-size: small;
-        height: calc(3 * 1.2em)
-    }
+  .prevart>a,
+  .nextart>a {
+    line-clamp: 3;
+    text-decoration: none;
+    font-size: small;
+    height: calc(3 * 1.2em);
+    background: var(--bg-2);
 
-    .nextart {
-        text-align: end;
-    }
+  }
 
-    .nextprev {
-        background: var(--bg-2);
-        padding: 4px;
-        display: flex;
-        justify-content: space-between;
-        height: calc(3 * 1.2em);
-    }
+  .nextart {
+    text-align: end;
+  }
+
+  .nextprev {
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    height: calc(3 * 1.2em);
+  }
 </style>
 <span class="articleheader">
         <h1>i love you, but please use monoliths</h1>
