@@ -69,16 +69,16 @@ It's is dynamically typed, so if you're familiar with JS, you can check out the 
 
 On dialects, it's easier to make them compared to other language, so there's a lot of them.
 #### dialects
-[fennel - lisp lua](https://fennel-lang.org/)
-[moonscript - coffeescript lua](https://moonscript.org/). there's also [yuescript](https://yuescript.org/).
-[teal - lua's own little typescript](https://github.com/teal-language/tl)
-[amulet(not the engine) - ML lua](https://amulet.works/)
+[fennel - lisp lua](https://fennel-lang.org/)  
+[moonscript - coffeescript lua](https://moonscript.org/). there's also [yuescript](https://yuescript.org/).  
+[teal - lua's own little typescript](https://github.com/teal-language/tl)  
+[amulet(not the engine) - ML lua](https://amulet.works/)  
 
 #### languages that are not lua, but can compile to it
-[haxe](https://haxe.org/)
-[c#](https://github.com/yanghuan/CSharp.lua)
-[typescript](https://github.com/TypeScriptToLua/TypeScriptToLua)
-[go](https://github.com/gijit/gi)
+[haxe](https://haxe.org/)  
+[c#](https://github.com/yanghuan/CSharp.lua)  
+[typescript](https://github.com/TypeScriptToLua/TypeScriptToLua)  
+[go](https://github.com/gijit/gi)  
 
 this leaves lua in a very interesting spot - there are ecosystems like the ones of jvm, dotnet and erlang, but they all run through VMs. lua's, however, is one of transpiled languages
 
