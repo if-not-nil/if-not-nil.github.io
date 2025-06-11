@@ -1,57 +1,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
 	<title>if err != nil</title>
-	<link>http://localhost:1313/</link>
+	<link>https://if-not-nil.github.io/</link>
 	<description>on if err != nil</description>
 	<generator>Hugo -- gohugo.io</generator>
 	<language>en-us</language>
 	<lastBuildDate>Wed, 11 Jun 2025 15:57:24 +0300</lastBuildDate>
     
-        <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://if-not-nil.github.io/index.xml" rel="self" type="application/rss+xml" />
 	
 	
 	<item>
 		<title>no, the moon</title>
-		<link>http://localhost:1313/no-the-moon/</link>
+		<link>https://if-not-nil.github.io/no-the-moon/</link>
 		<pubDate>Wed, 11 Jun 2025 15:57:24 +0300</pubDate>
 		
-		<guid>http://localhost:1313/no-the-moon/</guid>
+		<guid>https://if-not-nil.github.io/no-the-moon/</guid>
 		<description>a love letter to lua</description>
 	</item>
 	
 	<item>
 		<title>what exactly is htmx?</title>
-		<link>http://localhost:1313/htmx/</link>
+		<link>https://if-not-nil.github.io/htmx/</link>
 		<pubDate>Sun, 06 Apr 2025 10:44:41 +0300</pubDate>
 		
-		<guid>http://localhost:1313/htmx/</guid>
+		<guid>https://if-not-nil.github.io/htmx/</guid>
 		<description>and why htmx</description>
 	</item>
 	
 	<item>
 		<title>i love you, but please use monoliths</title>
-		<link>http://localhost:1313/monoliths/</link>
+		<link>https://if-not-nil.github.io/monoliths/</link>
 		<pubDate>Sat, 05 Apr 2025 16:21:55 +0300</pubDate>
 		
-		<guid>http://localhost:1313/monoliths/</guid>
+		<guid>https://if-not-nil.github.io/monoliths/</guid>
 		<description>you&#39;ll have to become cool with a lot of things really fast</description>
 	</item>
 	
 	<item>
 		<title>it will have been preventable</title>
-		<link>http://localhost:1313/preventable/</link>
+		<link>https://if-not-nil.github.io/preventable/</link>
 		<pubDate>Tue, 25 Mar 2025 20:52:01 +0200</pubDate>
 		
-		<guid>http://localhost:1313/preventable/</guid>
+		<guid>https://if-not-nil.github.io/preventable/</guid>
 		<description>this will confirm all of your biases about frontend</description>
 	</item>
 	
 	<item>
 		<title>svelte has your back</title>
-		<link>http://localhost:1313/svelte/</link>
+		<link>https://if-not-nil.github.io/svelte/</link>
 		<pubDate>Tue, 01 Jan 1980 00:00:00 +0000</pubDate>
 		
-		<guid>http://localhost:1313/svelte/</guid>
+		<guid>https://if-not-nil.github.io/svelte/</guid>
 		<description>last one about frontend</description>
 	</item>
 	

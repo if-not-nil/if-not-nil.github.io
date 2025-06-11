@@ -2,26 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://if-not-nil.github.io/</loc>
     <lastmod>2025-06-11T15:57:24+03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/no-the-moon/</loc>
+    <loc>https://if-not-nil.github.io/no-the-moon/</loc>
     <lastmod>2025-06-11T15:57:24+03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/htmx/</loc>
+    <loc>https://if-not-nil.github.io/htmx/</loc>
     <lastmod>2025-04-06T10:44:41+03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/monoliths/</loc>
+    <loc>https://if-not-nil.github.io/monoliths/</loc>
     <lastmod>2025-04-05T16:21:55+03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/preventable/</loc>
+    <loc>https://if-not-nil.github.io/preventable/</loc>
     <lastmod>2025-03-25T20:52:01+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/svelte/</loc>
+    <loc>https://if-not-nil.github.io/svelte/</loc>
     <lastmod>1980-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://if-not-nil.github.io/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://if-not-nil.github.io/tags/</loc>
   </url>
 </urlset>
