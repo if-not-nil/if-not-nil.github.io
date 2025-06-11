@@ -1,11 +1,14 @@
 {{ define "main" }}
 <article>
-    {{ if .Param "nextprev" }}{{ partial "nextprev.html" . -}}{{ end -}}
-    <span class="articleheader">
-        <h1>{{ .Title }}</h1>
-        <p><em>{{ .Date.Format "January 2, 2006" }}</em></p>
-    </span>
-    <section>{{ .Content }}</section>
-    {{ if .Param "taglist" }}{{ partial "taglist.html" . }}{{ end -}}
+  {{ if .Param "nextprev" }}{{ partial "nextprev.html" . -}}{{ end -}}
+  <span class="articleheader">
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Params.description }}<br />
+      <span style="font-size:14px;"> {{ .Date.Format "January 2, 2006" }}</span>
+    </p>
+    <hr>
+  </span>
+  <section>{{ .Content }}</section>
+  {{ if .Param "taglist" }}{{ partial "taglist.html" . }}{{ end -}}
 </article>
 {{ end }}
