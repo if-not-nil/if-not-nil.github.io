@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>what exactly is htmx? | if err != nil</title>
+    <link rel="canonical" href="https://if-not-nil.github.io/">
+    <link rel='alternate' type='application/rss+xml' title="if err != nil RSS" href='/index.xml'>
+    <link rel='stylesheet' type='text/css' href='/new.css'>
+    
+    <link rel="icon" href="/favicon.gif">
+    <meta name="description" content="and why htmx">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <header>
+  <h1>if err != nil</h1>
+
+  <nav>
+    <a href="https://if-not-nil.github.io//">home</a> /
+    
+    <a href="https://github.com/if-not-nil">github</a>
+  </nav> 
+  
+  
+  
+  
+  
+  
+</header>
+
+
+    <main>
+        
+<article>
+    <div class="nextprev">
+
+    <span class="prevart">
+        <a href="/monoliths/">
+            <div>←prev<br />i love you, but please use monoliths</div>
+        </a>
+        </span>
+
+    <span class="nextart"><a href="/no-the-moon/">
+            <div>next→<br />no, the moon</div>
+        </a>
+        </span>
+
+</div>
+
+<style>
+    .prevart,
+    .nextart {
+        display: inline-block;
+        flex: 1 1 50%;
+        max-width: 50%;
+    }
+
+    .prevart>a,
+    .nextart>a {
+        line-clamp: 3;
+        text-decoration: none;
+        font-size: small;
+        height: calc(3 * 1.2em)
+    }
+
+    .nextart {
+        text-align: end;
+    }
+
+    .nextprev {
+        background: var(--bg-2);
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+        height: calc(3 * 1.2em);
+    }
+</style>
+<span class="articleheader">
+        <h1>what exactly is htmx?</h1>
+        <p><em>April 6, 2025</em></p>
+    </span>
+    <section><blockquote>
+<p>when they go low, i go lowER</p></blockquote>
+<p>a long, long time ago, HTML was made. it was supposed to be simple - just documents with information and links to other documents. then someone added <code>&lt;a&gt;</code> and <code>&lt;form&gt;</code>, which let pages submit requests to the server. and then they just kind of stopped?</p>
+<p>so the community stepped in. layer after layer of tools and frameworks were added to extend HTML&rsquo;s limited interactivity. eventually, your HTML markup became just a small slice of what makes up the modern frontend. that works, sure - but wouldn’t it be cooler if you could interact with your backend <strong>without</strong> JavaScript?</p>
+<p>enter <a href="https://htmx.org">htmx</a>, which uses javascript so you don’t have to.</p>
+<p>i read their manifesto (which they call a book for some reason), and what hit me the hardest was how it described modern client-server interaction: the client sends a request, the server responds with JSON, the client parses that JSON, turns it into HTML, and re-renders a chunk of the page—often way more than necessary.</p>
+<p>i used to think htmx was pretty much the same thing as alpine.js. but after reading that, i finally saw the difference: htmx skips the middleman. it lets the server return <strong>HTML directly</strong>, removing the need for JSON wrangling on the frontend.</p>
+<p>at first, i was deeply offended. just return HTML?
+what about data reusability? what if i want to use that JSON on another platform?</p>
+<p>then it hit me: i literally don’t need that
+and if i ever do, i could easily tweak my code to support both. it’s not like i have hundreds of endpoints to maintain.</p>
+<p>in fact, most of what i want to build could be written in PHP. and the <em>only</em> reason i don’t use php is because i don’t like the language - not because the way it works is wrong. philosophically, i’m fine with how php does things.</p>
+<p>so what is the htmx way of doing things?</p>
+<p>you pretend it’s the 90s. you don’t treat the web like it’s a native app—because it’s not. you lean into HTML. you get full pages, partials, fragments - just raw HTML from your server, like an alternate timeline where web dev stayed a hobbyist project for 10 more years instead of pivoting to app-building.</p>
+<p>and honestly, i think it’s really beautiful to try a dish you hated in childhood and realize that now, you actually <em>love</em> it.</p>
+</section>
+    
+</article>
+
+    </main>
+
+    <footer>
+        <a href="https://if-not-nil.github.io/">https://if-not-nil.github.io/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em"
+                alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+    </footer>
+</body>
+
+</html>

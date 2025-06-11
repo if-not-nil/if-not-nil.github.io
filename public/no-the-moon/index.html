@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>no, the moon | if err != nil</title>
+    <link rel="canonical" href="https://if-not-nil.github.io/">
+    <link rel='alternate' type='application/rss+xml' title="if err != nil RSS" href='/index.xml'>
+    <link rel='stylesheet' type='text/css' href='/new.css'>
+    
+    <link rel="icon" href="/favicon.gif">
+    <meta name="description" content="a love letter to lua">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <header>
+  <h1>if err != nil</h1>
+
+  <nav>
+    <a href="https://if-not-nil.github.io//">home</a> /
+    
+    <a href="https://github.com/if-not-nil">github</a>
+  </nav> 
+  
+  
+  
+  
+  
+  
+</header>
+
+
+    <main>
+        
+<article>
+    <div class="nextprev">
+
+    <span class="prevart">
+        <a href="/htmx/">
+            <div>←prev<br />what exactly is htmx?</div>
+        </a>
+        </span>
+
+    <span class="nextart"></span>
+
+</div>
+
+<style>
+    .prevart,
+    .nextart {
+        display: inline-block;
+        flex: 1 1 50%;
+        max-width: 50%;
+    }
+
+    .prevart>a,
+    .nextart>a {
+        line-clamp: 3;
+        text-decoration: none;
+        font-size: small;
+        height: calc(3 * 1.2em)
+    }
+
+    .nextart {
+        text-align: end;
+    }
+
+    .nextprev {
+        background: var(--bg-2);
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+        height: calc(3 * 1.2em);
+    }
+</style>
+<span class="articleheader">
+        <h1>no, the moon</h1>
+        <p><em>June 11, 2025</em></p>
+    </span>
+    <section><p><a href="https://teensuicide.bandcamp.com/track/no-the-moon-3">https://teensuicide.bandcamp.com/track/no-the-moon-3</a></p>
+<p>Over time, I&rsquo;ve come to use many languages, with use cases and quirks of their own.</p>
+<p>Lua truly succeeded in being painless because of its limitation to be as small and extensible as possible while providing the biggest amount of features. Its philosophy is very simple, but, once the programmer understands it, they can implement whatever they want if they think about it hard enough.</p>
+<p>If you think something is impossible in Lua, here are some pages to check out, in order of amount of information:
+<a href="https://learnxbyexample.com/lua/">https://learnxbyexample.com/lua/</a>
+<a href="http://lua-users.org/wiki/LuaFaq">http://lua-users.org/wiki/LuaFaq</a>
+<a href="https://github.com/uhub/awesome-lua">https://github.com/uhub/awesome-lua</a></p>
+<p>Next two paragraphs are going to be very subjective so you can skip them.</p>
+<p>Tables are so elegant they can represent arrays, dictionaries, objects, classes, structs, modules, namespaces, sets, enums and queues/stacks.</p>
+<p>Where in other languages you would have a class with a method, in Lua you have a table with a function which either can or can&rsquo;t take itself as the first argument, with the help of the t:fn() syntax, represented as t:fn(self) under the hood. Its most complicated feature is metatables, which allow for overriding operators, indexing, comparisons, function calls and string conversion. You can control the garbage collector from within your script, you can use the debug library to look into what the interpreter does although you mostly shouldn&rsquo;t.</p>
+<p><a href="https://luarocks.org/stats">Lua is growing almost exponentially.</a>
+It&rsquo;s really fast, has multithreading and, unlike other similar languages, and still manages to have nice little convenient methods and functions built in.
+Some things it doesn&rsquo;t have by default: its tests are primitive and it doesn&rsquo;t have networking due to its embedded nature, but the ways in which you&rsquo;ll get these features are trivial - a large portion of your libraries will be single files which can be pasted directly into your text editor, and larger ones are installed through the <a href="luarocks.org">luarocks.org</a> package manager. Here&rsquo;s a <a href="https://lunarmodules.github.io/busted/">testing framework</a> and an <a href="https://luarocks.org/modules/daurnimator/http">http client</a>.
+The runtime&rsquo;s code is thoroughly commented. If you don&rsquo;t want to read it yourself, <a href="https://youtu.be/5CaoYmXYx6U">watch Tsoding do it</a>
+There&rsquo;s no shame in using wrappers for it from any other language, meaning that external libraries will likely run C under the hood, and with LuaJIT it ends up being way faster than languages like Python, which just end up being bottlenecks for underlying C code</p>
+<h3 id="its-uses-as-a-scripting-language-for-low-level-code">Its uses as a scripting language for low-level code</h3>
+<ul>
+<li><a href="https://love2d.org">love2d</a>
+A full 2D game framework. Game of the year 2024, Balatro was made in it. If you have a copy of Balatro on your machine, I recommend opening it like a zip archive and looking through the source code - you&rsquo;ll get a good overview of fairly complicated Lua code as well as love&rsquo;s capabilities and its ecosystem.</li>
+<li><a href="https://redbean.dev/">redbean</a> and <a href="https://github.com/pkulchenko/fullmoon">fullmoon</a>
+This is the most impressive thing I&rsquo;ve seen Lua do. Redbean is a web framework within the <a href="https://justine.lol/ape.html">αcτµαlly pδrταblε εxεcµταblε</a> project, meaning that one binary can be ran on the big three platforms, BSD and BIOS at the same time. At 5 megabytes, fullmoon can hash passwords, serialize json and lua, do stuff with sqlite, do HTML templates and CGI, websockets and SSE, while being the fastest web server to ever touch my machine.</li>
+<li><a href="https://lite-xl.com/">LiteXL</a>
+LiteXL is to Lua what Emacs is to Lisp. It&rsquo;s insanely extensible and it fits within 6 megabytes. When I need a GUI text editor - this is the one I always use.</li>
+<li><a href="https://www.amulet.xyz/editor.html">amulet</a>
+Just like love, it&rsquo;s a game framework, but <a href="https://www.vertexmeadow.xyz/">way more complicated</a>. Criminally underrated.</li>
+<li><a href="https://openresty.org/en/">OpenResty</a>
+The most used web technology. It uses LuaJIT to script for nginx.</li>
+</ul>
+<h3 id="as-a-config-language">As a config language</h3>
+<p>Without even noticing, at some point I started using a mostly Lua configured ecosystem</p>
+<ul>
+<li><a href="https://neovim.io/">neovim</a>
+the lua config interface must be its most loved feature so far - especially for those, who had to use it with vimscript. i don&rsquo;t even see people talking about emacs as much after neovim became popular</li>
+<li><a href="https://github.com/awesomeWM/awesome">the awesome window manager</a>
+i think it was my first window manager</li>
+<li><a href="https://wezterm.org/">wezterm</a>
+a terminal written in rust. i love it. there&rsquo;s no types there by default, but you can add them from <a href="https://github.com/justinsgithub/wezterm-types">justin&rsquo;s github</a></li>
+<li><a href="https://www.supergiantgames.com/games/hades/">hades</a> and <a href="https://gmod.facepunch.com/">garry&rsquo;s mod</a>
+since lua is so easy to embed, many games use a lower-level language for defining the game&rsquo;s base functionality and lua to script out levels.
+i&rsquo;ve been told that many other games use it, but those are the two i&rsquo;m personally familiar with. hades has their scripts just there, which is a surprising game to require nothing but notepad to mod (just like balatro)</li>
+<li><a href="https://github.com/if-not-nil/">cow tools (i made this! please check it out!!!!!)</a>
+please take a minute to check it out and give me a little bit of feedback, i haven&rsquo;t seen a system like this used before and i feel like a lot of people would like it</li>
+</ul>
+<h3 id="its-not-a-toy-language-most-of-the-time">it&rsquo;s not a toy language (most of the time)</h3>
+<p>Lua is often considered one for its usage in Roblox, 1-indexed arrays and dynamic typing, and it&rsquo;s definitely true. But Lua manages to be a rare kind of language, one, which is easy to learn, easy to master and easy to go beyond. Most people use it for configuration, more advanced programmers use it for game development, and the ones beyond advaned do make insane things like redbean.
+There&rsquo;s a clear path to take at every step from using it for Roblox to applying it in serious software.</p>
+<p>Lua doesn&rsquo;t break in big projects, in fact, it&rsquo;s the only language where I didn&rsquo;t feel even remotely tired after 5000 lines of code.
+Due to its simplicity, it&rsquo;s hard for code to feel foreign.</p>
+<p><a href="https://leafo.net/lapis/">lapis.lua</a> is used in web by itch.io</p>
+<p>1-indexed arrays are hard to defend, but I still argue that they&rsquo;re most intuitive to use in the context of manipulating strings. Also don&rsquo;t under any circumstanced look at how the arg[] table is stored (please). At least we aren&rsquo;t visual basic, those guys have arrays start at 0 and sometimes 1</p>
+<p>It&rsquo;s is dynamically typed, so if you&rsquo;re familiar with JS, you can check out the JSDoc-style LuaDoc comments and teal, Lua&rsquo;s TypeScript</p>
+<p>On dialects, it&rsquo;s easier to make them compared to other language, so there&rsquo;s a lot of them.</p>
+<h4 id="dialects">dialects</h4>
+<p><a href="https://fennel-lang.org/">fennel - lisp lua</a>
+<a href="https://moonscript.org/">moonscript - coffeescript lua</a>. there&rsquo;s also <a href="https://yuescript.org/">yuescript</a>.
+<a href="https://github.com/teal-language/tl">teal - lua&rsquo;s own little typescript</a>
+<a href="https://amulet.works/">amulet(not the engine) - ML lua</a></p>
+<h4 id="languages-that-are-not-lua-but-can-compile-to-it">languages that are not lua, but can compile to it</h4>
+<p><a href="https://haxe.org/">haxe</a>
+<a href="https://github.com/yanghuan/CSharp.lua">c#</a>
+<a href="https://github.com/TypeScriptToLua/TypeScriptToLua">typescript</a>
+<a href="https://github.com/gijit/gi">go</a></p>
+<p>this leaves lua in a very interesting spot - there are ecosystems like the ones of jvm, dotnet and erlang, but they all run through VMs. lua&rsquo;s, however, is one of transpiled languages</p>
+<p><strong>Javascript</strong> is great - it works well for making your website interactive and often similar to a native application.
+However, once you build more complex things, it gets more rough. It allows for its use both inside and outside the browser, but the community moves on from established tooling and fails to declare &ldquo;the right way&rdquo; of doing things with its chest and often becomes outdated in many aspects. It has different major runtimes, two major type systems and what has to be a million different build systems and both front- and back- end frameworks, all of which have strong advantages and disadvantages over each other. Lua has a big ecosystem too, but at least you can wrap your head around it and nobody&rsquo;s trying to sell you anything.</p>
+<p><strong>C++</strong> is not garbage-collected, making it great for writing efficient software. Its community is exactly 40 years this year, and they&rsquo;ve built up what must be the largest ecosystem of third-party libraries together with the C community.
+Being forced to be C, itself, and many other languages at the same time, made it adopt traits which require for it to have more upkeep than it can keep up with.
+Having to uphold most of the modern software world led to it becoming too complex and being the inspiration for Go</p>
+<p><strong>Go</strong> is explicit, has great documentation, a big standard library, and excelent tooling tooling. It&rsquo;s what C++ would&rsquo;ve been if it was invented in the modern age. It&rsquo;s fast and portable, but fundamentally tries to be more concise, &ldquo;just works&rdquo; and C-like than it can sometimes afford. It technically has semicolons, the compiler just never tells you, it has while loops, they&rsquo;re just under the &ldquo;for&rdquo; keyword. Oh and I just <strong>personally</strong> don&rsquo;t like the default testing suite, please let me have an assert keyword</p>
+<p>Lua is the only language that manages to be good by itself and pleasant with other software. Sure, it won&rsquo;t replace existing languages (except js on the backend PLEASE i want it gone), but it will always be able to put what they have into a more approachable package, it will let you write twice as much functionality in the same timeframe and keep it a lot more readable and maintainable. It will always be able to create something new and morph into other forms. I really hope we can see each other more often, Lua</p>
+</section>
+    
+</article>
+
+    </main>
+
+    <footer>
+        <a href="https://if-not-nil.github.io/">https://if-not-nil.github.io/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em"
+                alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+    </footer>
+</body>
+
+</html>
