@@ -20,7 +20,7 @@ Next two paragraphs are going to be very subjective so you can skip them.
 
 Tables are so elegant they can represent arrays, dictionaries, objects, classes, structs, modules, namespaces, sets, enums and queues/stacks.
 
-Where in other languages you would have a class with a method, in Lua you have a table with a function which either can or can't take itself as the first argument, with the help of the t:fn() syntax, represented as t:fn(self) under the hood. Its most complicated feature is metatables, which allow for overriding operators, indexing, comparisons, function calls and string conversion. You can control the garbage collector from within your script, you can use the debug library to look into what the interpreter does although you mostly shouldn't.
+Where in other languages you would have a class with a method, in Lua you have a table with a function which either can or can't take itself as the first argument, with the help of the t:fn() syntax, represented as t.fn(self) under the hood. Its most complicated feature is metatables, which allow for overriding operators, indexing, comparisons, function calls and string conversion. You can control the garbage collector from within your script, you can use the debug library to look into what the interpreter does although you mostly shouldn't.
 
 [Lua is growing almost exponentially.](https://luarocks.org/stats)
 It's really fast, has multithreading and, unlike other similar languages, and still manages to have nice little convenient methods and functions built in.
