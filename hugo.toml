@@ -1,6 +1,7 @@
 title = "if err != nil"
 baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
+enableRobotsTXT = "true"
 
 [caches]
   [caches.images]
