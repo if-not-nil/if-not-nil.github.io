@@ -4,35 +4,33 @@ draft = false
 title = "making lua do what it shouldn't: typesafe structs"
 description = "it shouldn't, but it should should, if that makes sense"
 +++
-> this is part of [the soup files](https://github.com/if-not-nil/soup). check them out, a rusty Result type, a match expression, and pretty print utilities are already on the list. please drop any suggestions you might have in the issues section
+*this is part of [the soup files](https://github.com/if-not-nil/soup). (it has a lot of different things you might like). drop anything you have to say in the issues section*
 
+---
+
+{{< figure
+    src="https://wiby.me/lh_c.gif"
+    class="float-right"
+    caption="i like this image" >}}
 lua is a horrible, horrible language. it has one data structure for everything - the table, which i'll be exploiting here. 
 
-my main inspiration is the zig struct syntax
-```zig
-pub const Database = struct {
-    root: Directory,
-    pub fn init(alloc: std.mem.Allocator) !Database {
-        ...
-    }
-}; // this is from my project dbfs btw
-```
+<div style="clear: both;">
+</div>
+
+my main inspiration is the zig struct syntax\
+or any struct syntax for that matter
 
 which is just not that realistic to implement at all. but
 i'll try hard enough to get motivated by the sunk cost fallacy
 
 so in this one, i'll be implementing structs with no extra features
 
-BUT, later on, the todo list is as follows:
 
-- [ ] traits: implement them to look like a magic rust translator. some
-  easy ones which are already accessible thru metatables are:
-    - [ ] `Grid:impl(Traits.debug(), function(self) end)` (you can now print() the grid and tostring() it)
-    - [ ] `Email:impl(Traits.from("string"), function(str) end)` (you can now `Email.from("asdf@yahoo.com")`)
-    - [ ] `Point:impl(Traits.sum(Point), function(self, other) end)` (you can now grid1 + grid2)
-    - [ ] `Grid:impl(Traits.drop(), function(self) end)` (this will run when it goes out of scope after `local grid <close> = Grid(...)`)
-    - [ ] `Grid:impl(Traits.trash(), function(self) end)` (this will run on garbage collection)
-- [ ] methods: exactly how it looks in normal lua, but one function is shared for all objects
+### toc
+- [structs](#structs)
+- [you can't have your boat and eat it too](#you-cant-have-your-boat-and-eat-it-too)
+- [how it ended up looking](#how-it-ended-up-looking)
+- [plans](#plans)
 
 # structs
 
@@ -103,7 +101,7 @@ local names, -- struct names: x and y
 is the index table really that necessary? probably not. but the limitations forced me to make it because the order in which you loop over a map is random
 
 
-so, putting all the sacrifices together lets me make a nice little oneliner
+so, putting all the sacrifices together lets me make a nice oneliner
 ```lua
 __index = function(tbl, key) return key and tbl[self.index[key]] end
 ```
@@ -168,7 +166,7 @@ but yeah, the implementation actually went down from about 32 lines to 20
 
 and, since we won't have duck typing, i'll allow for single-field structs to be initialized with just `Email("asdf@yahoo.com")`
 
-## and i finally have example to show you!
+# how it ended up looking
 ```lua
 "welcome to the end of the page if you skimmed it"
 
@@ -198,13 +196,34 @@ assert(l.type == Line)
 but hold on
 
 isn't the biggest argument against duck typing the email struct?
+{{< figure
+    src="cat-on-a-monitor.jpg"
+    class="float-right"
+    caption="this guy knows email" >}}
+
+
 it's always a good idea to make invalid states unrepresentable. ideally, your pipeline would look like this:
-- call `local email = Email.parse("test@example.com")`
-- that function ensures the user's email isn't "asdf", <function>, or on outlook
-- it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult))
-- you pass that into a function which requires an argument to be of the Email type
+
+<div style="clear: both;"></div>
+
+- |> ` local email = Email.try_parse("test@example.com"):expect("invalid email")`
+    - | that function ensures the user's email isn't "asdf", <function>, or on outlook
+    - | it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult))
+- |> pass it into `function(email) end` which checks the type inside of it (and actually throws this time)
 - if the soup dream lives on, it would also be done through pipe operators
+
 
 this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too
 
 so, that's what i'll be implementing next. thanks for coming to my ted talk!
+
+# plans
+
+- [ ] traits: implement them to look like a magic rust translator. some
+  easy ones which are already accessible thru metatables are:
+    - [ ] `Grid:impl(Traits.debug(), function(self) end)` (you can now print() the grid and tostring() it)
+    - [ ] `Email:impl(Traits.from("string"), function(str) end)` (you can now `Email.from("asdf@yahoo.com")`)
+    - [ ] `Point:impl(Traits.sum(Point), function(self, other) end)` (you can now grid1 + grid2)
+    - [ ] `Grid:impl(Traits.drop(), function(self) end)` (this will run when it goes out of scope after `local grid <close> = Grid(...)`)
+    - [ ] `Grid:impl(Traits.trash(), function(self) end)` (this will run on garbage collection)
+- [ ] methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better

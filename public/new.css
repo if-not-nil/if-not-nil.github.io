@@ -35,6 +35,7 @@
     --font-sans: 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     --text: #d0d0d0;
+    --text-darker: #b0b0b0;
     --bg-1: #151515;
     --bg-2: #101010;
     --bg-3: #fefefe0f;
@@ -132,6 +133,38 @@ h3 {
     margin-bottom: 8px;
     /* border-bottom: 1px solid var(--bg-3); */
 }
+
+/* figure.float-right { */
+/*   float: right; */
+/*   margin: 0.2em 0 0.8em 1em; */
+/* } */
+/**/
+/* figure.float-left { */
+/*   float: left; */
+/*   margin: 0.2em 1em 0.8em 0; */
+/* } */
+/**/
+/* figure.float-right, */
+/* figure.float-left { */
+/*   max-width: 260px; */
+/* } */
+/**/
+/* figure img { */
+/*   width: 100%; */
+/*   height: auto; */
+/* } */
+/**/
+/* figure figcaption { */
+/*   font-size: 0.85em; */
+/*   color: var(--text-darker); */
+/* } */
+
+/* @media (min-width: 800px) { */
+/*   figure.float-right, */
+/*   figure.float-left { */
+/*     max-width: 300px; */
+/*   } */
+/* } */
 
 h4,
 h5,

@@ -89,33 +89,53 @@
     </p>
     <hr>
   </span>
-  <section><blockquote>
-<p>this is part of <a href="https://github.com/if-not-nil/soup">the soup files</a>. check them out, a rusty Result type, a match expression, and pretty print utilities are already on the list. please drop any suggestions you might have in the issues section</p>
-</blockquote>
-<p>lua is a horrible, horrible language. it has one data structure for everything - the table, which i&rsquo;ll be exploiting here.</p>
-<p>my main inspiration is the zig struct syntax</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-zig" data-lang="zig"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> Database <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    root<span style="color:#f92672">:</span> Directory,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">init</span>(alloc<span style="color:#f92672">:</span> std.mem.Allocator) <span style="color:#f92672">!</span>Database {
-</span></span><span style="display:flex;"><span>        ...
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}; <span style="color:#75715e">// this is from my project dbfs btw
-</span></span></span></code></pre></div><p>which is just not that realistic to implement at all. but
+  <section><p><em>this is part of <a href="https://github.com/if-not-nil/soup">the soup files</a>. (it has a lot of different things you might like). drop anything you have to say in the issues section</em></p>
+<hr>
+<p>
+<figure class="float-right"><img src="https://wiby.me/lh_c.gif"loading="lazy"
+	><figcaption>i like this image</figcaption></figure>
+
+<style>
+figure.float-right {
+  float: right;
+  margin: 0.2em 0 0.8em 1em;
+}
+
+figure.float-left {
+  float: left;
+  margin: 0.2em 1em 0.8em 0;
+}
+
+figure.float-right,
+figure.float-left {
+  max-width: 260px;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+}
+
+figure figcaption {
+  font-size: 0.85em;
+  color: var(--text-darker);
+}
+
+</style>
+
+lua is a horrible, horrible language. it has one data structure for everything - the table, which i&rsquo;ll be exploiting here.</p>
+<!-- raw HTML omitted -->
+<p>my main inspiration is the zig struct syntax<br>
+or any struct syntax for that matter</p>
+<p>which is just not that realistic to implement at all. but
 i&rsquo;ll try hard enough to get motivated by the sunk cost fallacy</p>
 <p>so in this one, i&rsquo;ll be implementing structs with no extra features</p>
-<p>BUT, later on, the todo list is as follows:</p>
+<h3 id="toc">toc</h3>
 <ul>
-<li><input disabled="" type="checkbox"> traits: implement them to look like a magic rust translator. some
-easy ones which are already accessible thru metatables are:
-<ul>
-<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.debug(), function(self) end)</code> (you can now print() the grid and tostring() it)</li>
-<li><input disabled="" type="checkbox"> <code>Email:impl(Traits.from(&quot;string&quot;), function(str) end)</code> (you can now <code>Email.from(&quot;asdf@yahoo.com&quot;)</code>)</li>
-<li><input disabled="" type="checkbox"> <code>Point:impl(Traits.sum(Point), function(self, other) end)</code> (you can now grid1 + grid2)</li>
-<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.drop(), function(self) end)</code> (this will run when it goes out of scope after <code>local grid &lt;close&gt; = Grid(...)</code>)</li>
-<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.trash(), function(self) end)</code> (this will run on garbage collection)</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> methods: exactly how it looks in normal lua, but one function is shared for all objects</li>
+<li><a href="#structs">structs</a></li>
+<li><a href="#you-cant-have-your-boat-and-eat-it-too">you can&rsquo;t have your boat and eat it too</a></li>
+<li><a href="#how-it-ended-up-looking">how it ended up looking</a></li>
+<li><a href="#plans">plans</a></li>
 </ul>
 <h1 id="structs">structs</h1>
 <p>all tables in lua are always passed by reference, never by copy.</p>
@@ -161,7 +181,7 @@ which is where the safety comes in</p>
 </span></span><span style="display:flex;"><span>      index  <span style="color:#75715e">-- indices: { x = 2, y = 1, }</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">=</span> {}, {}, {}
 </span></span></code></pre></div><p>is the index table really that necessary? probably not. but the limitations forced me to make it because the order in which you loop over a map is random</p>
-<p>so, putting all the sacrifices together lets me make a nice little oneliner</p>
+<p>so, putting all the sacrifices together lets me make a nice oneliner</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>__index <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(tbl, key) <span style="color:#66d9ef">return</span> key <span style="color:#f92672">and</span> tbl[self.index[key]] <span style="color:#66d9ef">end</span>
 </span></span></code></pre></div><p>and now we can get <code>point.x</code> and <code>point.y</code>, which asks the underlying type to tell it where x and y are</p>
 <p>so, how is it different from the sane way?</p>
@@ -200,7 +220,7 @@ and you don&rsquo;t have to add the <code>if type(tbl[1]) == &quot;string&quot;<
 <p>but yeah, the implementation actually went down from about 32 lines to 20
 (also it doesn&rsquo;t look stupid anymore)</p>
 <p>and, since we won&rsquo;t have duck typing, i&rsquo;ll allow for single-field structs to be initialized with just <code>Email(&quot;asdf@yahoo.com&quot;)</code></p>
-<h2 id="and-i-finally-have-example-to-show-you">and i finally have example to show you!</h2>
+<h1 id="how-it-ended-up-looking">how it ended up looking</h1>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#e6db74">&#34;welcome to the end of the page if you skimmed it&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Point <span style="color:#f92672">=</span> struct {
@@ -226,16 +246,66 @@ and you don&rsquo;t have to add the <code>if type(tbl[1]) == &quot;string&quot;<
 </span></span><span style="display:flex;"><span>assert(l.type <span style="color:#f92672">==</span> Line)
 </span></span></code></pre></div><p>but hold on</p>
 <p>isn&rsquo;t the biggest argument against duck typing the email struct?
-it&rsquo;s always a good idea to make invalid states unrepresentable. ideally, your pipeline would look like this:</p>
+
+<figure class="float-right"><img src="cat-on-a-monitor.jpg"loading="lazy"
+	><figcaption>this guy knows email</figcaption></figure>
+
+<style>
+figure.float-right {
+  float: right;
+  margin: 0.2em 0 0.8em 1em;
+}
+
+figure.float-left {
+  float: left;
+  margin: 0.2em 1em 0.8em 0;
+}
+
+figure.float-right,
+figure.float-left {
+  max-width: 260px;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+}
+
+figure figcaption {
+  font-size: 0.85em;
+  color: var(--text-darker);
+}
+
+</style>
+</p>
+<p>it&rsquo;s always a good idea to make invalid states unrepresentable. ideally, your pipeline would look like this:</p>
+<!-- raw HTML omitted -->
 <ul>
-<li>call <code>local email = Email.parse(&quot;test@example.com&quot;)</code></li>
-<li>that function ensures the user&rsquo;s email isn&rsquo;t &ldquo;asdf&rdquo;, <!-- raw HTML omitted -->, or on outlook</li>
-<li>it would return the email struct (wrapped in the <a href="https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult">Result struct from the soup files btw</a>)</li>
-<li>you pass that into a function which requires an argument to be of the Email type</li>
+<li>|&gt; <code> local email = Email.try_parse(&quot;test@example.com&quot;):expect(&quot;invalid email&quot;)</code>
+<ul>
+<li>| that function ensures the user&rsquo;s email isn&rsquo;t &ldquo;asdf&rdquo;, <!-- raw HTML omitted -->, or on outlook</li>
+<li>| it would return the email struct (wrapped in the <a href="https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult">Result struct from the soup files btw</a>)</li>
+</ul>
+</li>
+<li>|&gt; pass it into <code>function(email) end</code> which checks the type inside of it (and actually throws this time)</li>
 <li>if the soup dream lives on, it would also be done through pipe operators</li>
 </ul>
 <p>this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too</p>
 <p>so, that&rsquo;s what i&rsquo;ll be implementing next. thanks for coming to my ted talk!</p>
+<h1 id="plans">plans</h1>
+<ul>
+<li><input disabled="" type="checkbox"> traits: implement them to look like a magic rust translator. some
+easy ones which are already accessible thru metatables are:
+<ul>
+<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.debug(), function(self) end)</code> (you can now print() the grid and tostring() it)</li>
+<li><input disabled="" type="checkbox"> <code>Email:impl(Traits.from(&quot;string&quot;), function(str) end)</code> (you can now <code>Email.from(&quot;asdf@yahoo.com&quot;)</code>)</li>
+<li><input disabled="" type="checkbox"> <code>Point:impl(Traits.sum(Point), function(self, other) end)</code> (you can now grid1 + grid2)</li>
+<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.drop(), function(self) end)</code> (this will run when it goes out of scope after <code>local grid &lt;close&gt; = Grid(...)</code>)</li>
+<li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.trash(), function(self) end)</code> (this will run on garbage collection)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better</li>
+</ul>
 </section>
   
 </article>
