@@ -17,10 +17,10 @@ lua is a horrible, horrible language. it has one data structure for everything -
 my main inspiration is the zig struct syntax\
 or any struct syntax for that matter
 
-which is just not that realistic to implement at all. but
-i'll try hard enough to get motivated by the sunk cost fallacy
+which is not very realistic to implement. but
+i'll try to get motivated by the sunk cost fallacy
 
-so for this one, i'll be implementing structs with no extra features
+for this one, i'll be implementing structs with no extra features
 
 ### toc
 - [structs](#structs)
@@ -28,7 +28,7 @@ so for this one, i'll be implementing structs with no extra features
 - [how it ended up looking](#how-it-ended-up-looking)
 - [plans](#plans)
 
-oh and also this makes mose sense in the context of me composing [the soup files](https://github.com/if-not-nil/soup).
+oh, and also, this makes more sense in the context of [the soup files](https://github.com/if-not-nil/soup).
 
 i already made a result enum with Ok/Err
 ```lua
@@ -42,7 +42,7 @@ local line_result = Result.Ok("soup.lua")
 
 local line = line_result:unwrap()
 ```
-and a match expression with guards which is supposed to be reused to account for lua being an interpreted language 
+and a match expression with guards, which is supposed to be reused to account for lua being an interpreted language 
 ```lua
 local m = soup.match()
 	:case(6, "six")
@@ -60,24 +60,21 @@ so this was very much the natural next step
 
 all tables in lua are always passed by reference, never by copy.
 
-they are also, on accident, usually the biggest and the smallest data structures possible.
+they are also, on accident, the biggest and the smallest data structures possible.
 
-so this opens up this neat little trick:
+so this opens up this neat implication:
 ```lua
 local l = {}
 for _ = 1, 2 do
-    print({})
-        -- table: ...50c0
-        -- table: ...5100
-end
+    print(l)  -- table: ...10c0
+end           -- table: ...10c0  
+
 for _ = 1, 2 do
-    print(l)
-        -- table: ...10c0
-        -- table: ...10c0
-end
+    print({}) -- table: ...50c0
+end           -- table: ...5100
 ```
-now this isn't some grand insane discovery, BUT it lets you do something that
-most people don't think about when making tagged data structures in lua
+now this isn't some grand insane discovery, BUT it lets you have an alternative
+approach to implementing tagged data structures
 
 usually, they are done like this:
 ```lua

@@ -126,9 +126,9 @@ lua is a horrible, horrible language. it has one data structure for everything -
 <!-- raw HTML omitted -->
 <p>my main inspiration is the zig struct syntax<br>
 or any struct syntax for that matter</p>
-<p>which is just not that realistic to implement at all. but
-i&rsquo;ll try hard enough to get motivated by the sunk cost fallacy</p>
-<p>so for this one, i&rsquo;ll be implementing structs with no extra features</p>
+<p>which is not very realistic to implement. but
+i&rsquo;ll try to get motivated by the sunk cost fallacy</p>
+<p>for this one, i&rsquo;ll be implementing structs with no extra features</p>
 <h3 id="toc">toc</h3>
 <ul>
 <li><a href="#structs">structs</a></li>
@@ -136,7 +136,7 @@ i&rsquo;ll try hard enough to get motivated by the sunk cost fallacy</p>
 <li><a href="#how-it-ended-up-looking">how it ended up looking</a></li>
 <li><a href="#plans">plans</a></li>
 </ul>
-<p>oh and also this makes mose sense in the context of me composing <a href="https://github.com/if-not-nil/soup">the soup files</a>.</p>
+<p>oh, and also, this makes more sense in the context of <a href="https://github.com/if-not-nil/soup">the soup files</a>.</p>
 <p>i already made a result enum with Ok/Err</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> line_result <span style="color:#f92672">=</span> Result.Ok(<span style="color:#e6db74">&#34;soup.lua&#34;</span>)
 </span></span><span style="display:flex;"><span>    :bind(<span style="color:#66d9ef">function</span>(filename)
@@ -147,7 +147,7 @@ i&rsquo;ll try hard enough to get motivated by the sunk cost fallacy</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> line <span style="color:#f92672">=</span> line_result:unwrap()
-</span></span></code></pre></div><p>and a match expression with guards which is supposed to be reused to account for lua being an interpreted language</p>
+</span></span></code></pre></div><p>and a match expression with guards, which is supposed to be reused to account for lua being an interpreted language</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> m <span style="color:#f92672">=</span> soup.match()
 </span></span><span style="display:flex;"><span>	:case(<span style="color:#ae81ff">6</span>, <span style="color:#e6db74">&#34;six&#34;</span>)
 </span></span><span style="display:flex;"><span>	:case(<span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;seveen&#34;</span>)
@@ -159,21 +159,18 @@ i&rsquo;ll try hard enough to get motivated by the sunk cost fallacy</p>
 </span></span></code></pre></div><p>so this was very much the natural next step</p>
 <h1 id="structs">structs</h1>
 <p>all tables in lua are always passed by reference, never by copy.</p>
-<p>they are also, on accident, usually the biggest and the smallest data structures possible.</p>
-<p>so this opens up this neat little trick:</p>
+<p>they are also, on accident, the biggest and the smallest data structures possible.</p>
+<p>so this opens up this neat implication:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> l <span style="color:#f92672">=</span> {}
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">do</span>
-</span></span><span style="display:flex;"><span>    print({})
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- table: ...50c0</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- table: ...5100</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    print(l)  <span style="color:#75715e">-- table: ...10c0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>           <span style="color:#75715e">-- table: ...10c0  </span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">do</span>
-</span></span><span style="display:flex;"><span>    print(l)
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- table: ...10c0</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- table: ...10c0</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
-</span></span></code></pre></div><p>now this isn&rsquo;t some grand insane discovery, BUT it lets you do something that
-most people don&rsquo;t think about when making tagged data structures in lua</p>
+</span></span><span style="display:flex;"><span>    print({}) <span style="color:#75715e">-- table: ...50c0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>           <span style="color:#75715e">-- table: ...5100</span>
+</span></span></code></pre></div><p>now this isn&rsquo;t some grand insane discovery, BUT it lets you have an alternative
+approach to implementing tagged data structures</p>
 <p>usually, they are done like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> t <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;point&#34;</span>,
