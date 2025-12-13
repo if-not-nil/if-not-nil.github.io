@@ -4,9 +4,6 @@ draft = false
 title = "making lua do what it shouldn't: typesafe structs"
 description = "it shouldn't, but it should should, if that makes sense"
 +++
-*this is part of [the soup files](https://github.com/if-not-nil/soup). (it has a lot of different things you might like). drop anything you have to say in the issues section*
-
----
 
 {{< figure
     src="https://wiby.me/lh_c.gif"
@@ -23,14 +20,41 @@ or any struct syntax for that matter
 which is just not that realistic to implement at all. but
 i'll try hard enough to get motivated by the sunk cost fallacy
 
-so in this one, i'll be implementing structs with no extra features
-
+so for this one, i'll be implementing structs with no extra features
 
 ### toc
 - [structs](#structs)
 - [you can't have your boat and eat it too](#you-cant-have-your-boat-and-eat-it-too)
 - [how it ended up looking](#how-it-ended-up-looking)
 - [plans](#plans)
+
+oh and also this makes mose sense in the context of me composing [the soup files](https://github.com/if-not-nil/soup).
+
+i already made a result enum with Ok/Err
+```lua
+local line_result = Result.Ok("soup.lua")
+    :bind(function(filename)
+        local file, err = io.open(filename, "r")
+        if not file then return Result.Err(err) end
+
+        return Result.Ok(file)
+    end)
+
+local line = line_result:unwrap()
+```
+and a match expression with guards which is supposed to be reused to account for lua being an interpreted language 
+```lua
+local m = soup.match()
+	:case(6, "six")
+	:case(7, "seveen")
+	:case(function(x) return x % 2 == 0 end, "even")
+	:case(function(x) return x % 2 ~= 0 end, "odd")
+	:otherwise("idk")
+
+soup.println({ m(6), m(7), m(9), m(10) })
+```
+
+so this was very much the natural next step
 
 # structs
 
@@ -216,6 +240,8 @@ it's always a good idea to make invalid states unrepresentable. ideally, your pi
 this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too
 
 so, that's what i'll be implementing next. thanks for coming to my ted talk!
+
+dude also i randomly came across a comment on the internet of someone putting this blog among their two top favorite dev blogs it made me so happy that was the only reason i felt like writing about this one
 
 # plans
 
