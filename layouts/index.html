@@ -9,7 +9,7 @@
 
 <ul class="main-ul">
     {{- range .Pages }}
-    {{- if ne .File.Path "index.md" }}
+    {{- if and (ne .File.Path "index.md") (not (.Param "hideInList")) }}
     <span class="single-post-item">
         <li class="post-item">
             <div class="post-title">

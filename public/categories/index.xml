@@ -63,5 +63,23 @@
 		<description>last one about frontend</description>
 	</item>
 	
+	<item>
+		<title></title>
+		<link>http://localhost:1313/asdf/</link>
+		<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+		
+		<guid>http://localhost:1313/asdf/</guid>
+		<description></description>
+	</item>
+	
+	<item>
+		<title>me</title>
+		<link>http://localhost:1313/me/</link>
+		<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+		
+		<guid>http://localhost:1313/me/</guid>
+		<description></description>
+	</item>
+	
 	</channel>
 </rss>

@@ -47,21 +47,21 @@
 	</item>
 	
 	<item>
-		<title>it will have been preventable</title>
-		<link>http://localhost:1313/preventable/</link>
-		<pubDate>Tue, 25 Mar 2025 20:52:01 +0200</pubDate>
+		<title></title>
+		<link>http://localhost:1313/asdf/</link>
+		<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 		
-		<guid>http://localhost:1313/preventable/</guid>
-		<description>this will confirm all of your biases about frontend</description>
+		<guid>http://localhost:1313/asdf/</guid>
+		<description></description>
 	</item>
 	
 	<item>
-		<title>svelte has your back</title>
-		<link>http://localhost:1313/svelte/</link>
-		<pubDate>Tue, 01 Jan 1980 00:00:00 +0000</pubDate>
+		<title>me</title>
+		<link>http://localhost:1313/me/</link>
+		<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 		
-		<guid>http://localhost:1313/svelte/</guid>
-		<description>last one about frontend</description>
+		<guid>http://localhost:1313/me/</guid>
+		<description></description>
 	</item>
 	
 	</channel>

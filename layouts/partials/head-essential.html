@@ -1,0 +1,39 @@
+<head>
+		<title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+		<link rel="canonical" href="{{ .Site.BaseURL }}">
+		<link rel='alternate' type='application/rss+xml' title="{{ .Site.Title }} RSS" href='/index.xml'>
+		{{ with .Site.Params.favicon }}
+		<link rel="icon" href="{{ . }}">
+		{{ end -}}
+		<meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}">
+		{{ if isset .Params "tags" }}
+		<meta name="keywords" content="{{ with .Params.tags }}{{ delimit . " , " }}{{ end }}">
+		{{ end -}}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="index, follow">
+		<meta charset="utf-8">
+
+		<!-- images for social media preview -->
+		<meta property="og:title" content="{{ .Title }}">
+		<meta property="og:description" content="{{ .Params.description }}">
+
+		{{ $img := or (index .Params.images 0) .Site.Params.default_image }}
+		{{ if $img }}
+		<meta property="og:image" content="{{ $img | absURL }}">
+		<meta name="twitter:image" content="{{ $img | absURL }}">
+		{{ end }}
+
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="{{ .Title }}">
+		<meta name="twitter:description" content="{{ .Params.description }}">
+
+		{{ with index .Params.images 0 }}
+		<meta name="twitter:image" content="{{ . | absURL }}">
+		{{ end }}
+		<script>
+			window.goatcounter = {
+				path: location.pathname || '/',
+			}
+		</script>
+		<script data-goatcounter="https://if-not-nil.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+	</head>
