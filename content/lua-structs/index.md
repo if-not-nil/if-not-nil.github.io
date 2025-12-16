@@ -8,8 +8,8 @@ description = "it shouldn't, but it should should, if that makes sense"
 {{< figure
     src="https://wiby.me/lh_c.gif"
     class="float-right"
-    caption="i like this image" >}}
-lua is a horrible, horrible language. it has one data structure for everything - the table, which i'll be exploiting here. 
+    caption="" >}}
+lua is a horrible language in the best way possible. it has one data structure for everything - the table, which i'll be exploiting here. 
 
 <div style="clear: both;">
 </div>
@@ -249,4 +249,4 @@ dude also i randomly came across a comment on the internet of someone putting th
     - [ ] `Point:impl(Traits.sum(Point), function(self, other) end)` (you can now grid1 + grid2)
     - [ ] `Grid:impl(Traits.drop(), function(self) end)` (this will run when it goes out of scope after `local grid <close> = Grid(...)`)
     - [ ] `Grid:impl(Traits.trash(), function(self) end)` (this will run on garbage collection)
-- [ ] methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better
+- [x] methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better
