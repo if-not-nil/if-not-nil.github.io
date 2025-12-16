@@ -46,7 +46,7 @@ and a match expression with guards, which is supposed to be reused to account fo
 ```lua
 local m = soup.match()
 	:case(6, "six")
-	:case(7, "seveen")
+	:case(7, "seven")
 	:case(function(x) return x % 2 == 0 end, "even")
 	:case(function(x) return x % 2 ~= 0 end, "odd")
 	:otherwise("idk")
@@ -237,8 +237,6 @@ it's always a good idea to make invalid states unrepresentable. ideally, your pi
 this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too
 
 so, that's what i'll be implementing next. thanks for coming to my ted talk!
-
-dude also i randomly came across a comment on the internet of someone putting this blog among their two top favorite dev blogs it made me so happy that was the only reason i felt like writing about this one
 
 # plans
 
