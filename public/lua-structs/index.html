@@ -106,7 +106,7 @@
 	<a href="https://github.com/if-not-nil/if-not-nil.github.io/issues/new">comments</a>
 	<section><p>
 <figure class="float-right"><img src="https://wiby.me/lh_c.gif"loading="lazy"
-	><figcaption>i like this image</figcaption></figure>
+	></figure>
 
 <style>
 figure.float-right {
@@ -136,7 +136,7 @@ figure figcaption {
 
 </style>
 
-lua is a horrible, horrible language. it has one data structure for everything - the table, which i&rsquo;ll be exploiting here.</p>
+lua is a horrible language in the best way possible. it has one data structure for everything - the table, which i&rsquo;ll be exploiting here.</p>
 <!-- raw HTML omitted -->
 <p>my main inspiration is the zig struct syntax<br>
 or any struct syntax for that matter</p>
@@ -164,7 +164,7 @@ i&rsquo;ll try to get motivated by the sunk cost fallacy</p>
 </span></span></code></pre></div><p>and a match expression with guards, which is supposed to be reused to account for lua being an interpreted language</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> m <span style="color:#f92672">=</span> soup.match()
 </span></span><span style="display:flex;"><span>	:case(<span style="color:#ae81ff">6</span>, <span style="color:#e6db74">&#34;six&#34;</span>)
-</span></span><span style="display:flex;"><span>	:case(<span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;seveen&#34;</span>)
+</span></span><span style="display:flex;"><span>	:case(<span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;seven&#34;</span>)
 </span></span><span style="display:flex;"><span>	:case(<span style="color:#66d9ef">function</span>(x) <span style="color:#66d9ef">return</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">end</span>, <span style="color:#e6db74">&#34;even&#34;</span>)
 </span></span><span style="display:flex;"><span>	:case(<span style="color:#66d9ef">function</span>(x) <span style="color:#66d9ef">return</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">~=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">end</span>, <span style="color:#e6db74">&#34;odd&#34;</span>)
 </span></span><span style="display:flex;"><span>	:otherwise(<span style="color:#e6db74">&#34;idk&#34;</span>)
@@ -323,7 +323,6 @@ figure figcaption {
 </ul>
 <p>this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too</p>
 <p>so, that&rsquo;s what i&rsquo;ll be implementing next. thanks for coming to my ted talk!</p>
-<p>dude also i randomly came across a comment on the internet of someone putting this blog among their two top favorite dev blogs it made me so happy that was the only reason i felt like writing about this one</p>
 <h1 id="plans">plans</h1>
 <ul>
 <li><input disabled="" type="checkbox"> traits: implement them to look like a magic rust translator. some
@@ -336,7 +335,7 @@ easy ones which are already accessible thru metatables are:
 <li><input disabled="" type="checkbox"> <code>Grid:impl(Traits.trash(), function(self) end)</code> (this will run on garbage collection)</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better</li>
+<li><input checked="" disabled="" type="checkbox"> methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better</li>
 </ul>
 </section>
 	

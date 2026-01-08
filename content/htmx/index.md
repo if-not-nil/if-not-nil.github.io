@@ -2,6 +2,7 @@
 date = '2025-04-06T10:44:41+03:00'
 title = 'what exactly is htmx?'
 description = 'and why htmx'
+draft = true
 +++
 > when they go low, i go lowER
 

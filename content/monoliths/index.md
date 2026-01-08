@@ -2,6 +2,7 @@
 date = '2025-04-05T16:21:55+03:00'
 title = 'i love you, but please use monoliths'
 description = "you'll have to become cool with a lot of things really fast"
+draft = true
 +++
 i started making stuff for the web around 2017, when i first learned how to code. what struck me the most was how complex everything felt. one day, the people who introduced me to it were using PHP and MySQL. the next, they had switched to Vue and Bootstrap, with a build step just to make a frontend for a chat app built with Node, Express, and MySQL - something they could’ve made entirely in PHP.
 it made no sense to me. they could’ve just used jQuery and PHP, which is what i was learning at the time. it felt overwhelming for no reason. honestly, that might’ve been my first childhood tech trauma.
