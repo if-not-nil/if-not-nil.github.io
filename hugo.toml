@@ -4,11 +4,7 @@ languageCode = 'en-us'
 enableRobotsTXT = "true"
 
 [markup.goldmark.renderer]
-hardWraps = true
-
-[markup.orgmode.renderer]
-hardWraps = true
-
+	hardWraps = true
 
 [caches]
   [caches.images]
@@ -18,7 +14,7 @@ hardWraps = true
 # "relatedtext" is the text that appears above the tag list at the bottom of pages.
     relatedtext = "related"
     favicon = "/favicon.gif"
-	default_image = "/static/cat.png"
+		default_image = "/static/cat.png"
 #list items
     datesinlist = true
     authorsinlist = true
@@ -29,14 +25,14 @@ hardWraps = true
     showrss = true
 
 [privacy]
-[privacy.youTube]
-disable = false
-privacyEnhanced = true
+	[privacy.youTube]
+		disable = false
+		privacyEnhanced = true
 
 [mediaTypes."image/webp"]
-suffixes = ["webp"]
+	suffixes = ["webp"]
 
 [outputFormats]
-[outputFormats.webp]
-mediaType = "image/webp"
-relURL = true
+	[outputFormats.webp]
+		mediaType = "image/webp"
+		relURL = true

@@ -2,14 +2,12 @@
 title: 'deriving your linux'
 date: 2026-02-17T17:43:42+02:00
 ---
+> choose life, choose a job, choose a linux distribution
+  this is wip
 
-> universal covered: setup, partitioning, UEFI bootloader, wayland
-
-> hardware-specific covered (thinkpad t480, intel network, cpu and gpu): network, 
-
-> not covered: swap, proprietary drivers, x11
-
-# this is wip
+universal covered: setup, partitioning, UEFI bootloader, wayland
+hardware-specific covered (thinkpad t480, intel network, cpu and gpu): network, 
+not covered: swap, proprietary drivers, x11
 - [optional: local copy of the docs](#optional-local-copy-of-the-docs)
 - [partitioning](#partitioning)
 - [the boots](#the-boots)
