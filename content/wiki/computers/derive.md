@@ -24,7 +24,7 @@ not covered: swap, proprietary drivers, x11
 
 # optional: local copy of the docs
 
-the website was a little too slow while i was using it and you could not grep through it. i recommend you clone almost the entire project (not that big i sweat) for a more pleasant experience
+the website was a little too slow while i was using it and you could not grep through it. i recommend you clone almost the entire project (not that big i swear) for a more pleasant experience
 
 this also doesn't ddos the contributors
 
@@ -94,7 +94,8 @@ chmod 1777 /mnt/tmp
 chmod 600 /mnt/etc/shadow
 ```
 
-there's no manual useradd
+there's no useradd util
+
 **add a user**
 ```bash
 echo "user:x:1000:1000::/home/user:/bin/sh" >> /mnt/etc/passwd
@@ -111,13 +112,11 @@ echo "derive" > /mnt/etc/hostname
 
 # system setup
 
-now, you're safe to `derive-chroot /mnt`!!!!
+now, you're safe to `derive-chroot /mnt`! if it starts, your system is all ready (except for the bootloader)
 
 you wanna run `passwd root` to set up a root password and `passwd user` if you set up a normal user
 
-you only need to set up /etc/fstab (you can also do anything else you'd do in a chroot but you should probably be sure your system is bootable prior)
-
-so make yr fstab. this is mine
+you only need to set up /etc/fstab now (the one below is how i have it \[you can also do anything else you'd do in a chroot but you should probably be sure your system is bootable prior\])
 
 **/etc/fstab**
 ```
@@ -129,15 +128,19 @@ if you can, the system itself is functional and you only have the bootloader lef
 
 if you have ethernet - good, install whatever you need.
 
-> note that the system is statically linked
+> note that everything in the system is statically linked
+if you have golang binaries accessible over curl, those onces almost certainly be compatible
+i recommend getting the `micro` text editor if you're unhappy with vi
 
 
 # bootloader
+## installing limine
+...
+
+## configuring limine
 copy the boot image into your boot partition
 
 `cp /boot/bzImage /mnt/boot/vmlinuz`
-
-> i installed it onto an existing limine setup, so there's no part where it says how to get limine installed. its just the normal way tho and you'll be totally fine
 
 then you wanna add an entry for derive into your bootloader
 
