@@ -1,0 +1,9 @@
+{{ define "main" }}
+<nav class="wiki-nav">
+    <a href="/wiki/">wiki</a>{{ if .Title }} / {{ .Title }}{{ end }}
+</nav>
+<article>
+    <!-- <h1>{{ .Title }}</h1> -->
+    {{ .Content }}
+</article>
+{{ end }}

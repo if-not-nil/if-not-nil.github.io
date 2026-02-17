@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <link rel="icon" href="{{ .Site.Params.favicon }}" type="image/gif">
+    <style>
+        :root {
+            --redrose: #321b19;
+            --redderrose: #712b2a;
+            --wall: #626059;
+            --whiterose: #dee3e7;
+            --pinkrose: #c3b7b9;
+            --pinkshadow: #753239;
+            --leaf: #3b463d;
+            --leaf2: #454e4e;
+            --creamrose: #efede4;
+            --table: #352f29;
+            --purple: #513889;
+            --pink: #e4b3d0;
+            --periwinkle: #8d84bb;
+            --skyblue: #b2d9f6;
+        }
+				#title {
+					color: var(--periwinkle); 
+				}
+        body {
+					--font-sans: 'Segoe UI', 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+					font-family: var(--font-sans);
+					background: #0e1316;
+					color: #d3c4aa;
+					margin: 0;
+					min-height: 100vh;
+        }
+        .sidebar {
+					padding: 1em;
+					overflow-y: auto;
+					max-height: 400px;
+					background: #0b1013;
+					width: 100%;
+					box-sizing: border-box;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding-left: 1rem;
+            margin: 0;
+        }
+        .sidebar > ul {
+            padding-left: 0;
+        }
+        .sidebar li {
+            margin: 0.25rem 0;
+        }
+        .sidebar a {
+            color: var(--periwinkle);
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+        .sidebar a.active {
+            color: var(--pink);
+        }
+        .content {
+            padding: 2rem;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+            }
+            .sidebar {
+                width: 250px;
+                height: 100vh;
+                position: sticky;
+                top: 0;
+                max-height: none;
+                flex-shrink: 0;
+                padding: 1em;
+            }
+            .content {
+                padding: 4rem 8rem 4rem 4rem;
+                max-width: 800px;
+            }
+        }
+        a, a:visited {
+            color: var(--periwinkle);
+        }
+        pre, code {
+            font-family: 'Fira Mono', 'Noto Sans Mono', monospace;
+        /*     background: var(--table); */
+        }
+        pre {
+            padding: 0.5em;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h3><a id="title" href="/wiki/">wiki</a> / <a id="title" href="/">me</a></h3>
+        {{ $currentPage := . }}
+        {{ $wikiPages := where .Site.RegularPages "Section" "wiki" }}
+        {{ $rootPages := where $wikiPages "File.Dir" "wiki/" }}
+        {{ $subdirs := slice }}
+        {{ range $wikiPages }}
+            {{ $dir := .File.Dir }}
+            {{ if and (ne $dir "wiki/") (hasPrefix $dir "wiki/") }}
+                {{ $subdir := index (split $dir "/") 1 }}
+                {{ if not (in $subdirs $subdir) }}
+                    {{ $subdirs = $subdirs | append $subdir }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        
+        <ul>
+        {{ range $rootPages }}
+            <li>
+                <a href="{{ .RelPermalink }}"{{ if eq $currentPage.Permalink .Permalink }} class="active"{{ end }}>{{ .Title }}</a>
+            </li>
+        {{ end }}
+        {{ range sort $subdirs }}
+            {{ $subdir := . }}
+            <li>
+                {{ $subdir }}
+                <ul>
+                {{ range where $wikiPages "File.Dir" (printf "wiki/%s/" $subdir) }}
+                    <li>
+                        <a href="{{ .RelPermalink }}"{{ if eq $currentPage.Permalink .Permalink }} class="active"{{ end }}>{{ .Title }}</a>
+                    </li>
+                {{ end }}
+                </ul>
+            </li>
+        {{ end }}
+        </ul>
+    </nav>
+    <main class="content">
+        {{ block "main" . }}{{ end }}
+    </main>
+</body>
+</html>

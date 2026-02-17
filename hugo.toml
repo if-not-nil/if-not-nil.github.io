@@ -3,6 +3,13 @@ baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
 enableRobotsTXT = "true"
 
+[markup.goldmark.renderer]
+hardWraps = true
+
+[markup.orgmode.renderer]
+hardWraps = true
+
+
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
