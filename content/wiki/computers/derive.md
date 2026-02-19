@@ -8,19 +8,13 @@ date: 2026-02-17T17:43:42+02:00
 universal covered: setup, partitioning, UEFI bootloader, wayland
 hardware-specific covered (thinkpad t480, intel network, cpu and gpu): network, 
 not covered: swap, proprietary drivers, x11
-- [optional: local copy of the docs](#optional-local-copy-of-the-docs)
-- [partitioning](#partitioning)
-- [the boots](#the-boots)
-- [system setup](#system-setup)
-- [bootloader](#bootloader)
-- [booting](#booting)
-   * [services & kernel modules (to get yr wifi to work)](#services-kernel-modules-to-get-yr-wifi-to-work)
-   * [package management](#package-management)
-      + [the package managers](#the-package-managers)
-- [graphical environment (wayland)](#graphical-environment-wayland)
-- [graphical environment (xorg)](#graphical-environment-xorg)
-- [porting packages](#porting-packages)
-- [further: what to do when stuff breaks](#further-what-to-do-when-stuff-breaks)
+
+# u should know this
+there are many advantages to a simple linux system, and some will be applied here, sometimes unnecessarily. i'll try to have this be transparent and educational
+
+!!!please do all of this on a ventoy drive with the derive iso and also an arch iso. not everything is guaranteed to work/exist
+
+no steps here require you to be in the actual iso. you just need to have the rootfs from it. whatever you do in the ISO before copying the rootfs will be transferred over to the resulting installation, so don't be afraid to install packages and set up wifi and such
 
 # optional: local copy of the docs
 
@@ -45,18 +39,30 @@ cd derive
 ```
 
 # partitioning
-you'd wanna mount your drives the normal way
+you'd format mount your drives the normal way
 
 rootfs: anything, 2gb+
 uefi partition: vfat, 1gb+
+
+this is how the guide did it:
+```sh
+mount /dev/nvme0n1p2 /mnt
+btrfs subvolume create /mnt/@derive
+umount /mnt
+mount /dev/nvme0n1p2 /mnt -o subvol=@derive,compress=zstd
+mount /dev/nvme0n1p1 /mnt/boot
+# i recommend you only plug in your home partition after the install
+```
 
 let's say they're on /mnt for the purposes of this
 
 # the boots
 
+this is the part where you can already work on the resulting system (install packages, configure wifi, etc). it's currently loaded into ram, but you'll copy the whole thing anyway. dont do it now, but remember for future installations
+
 **copy the rootfs**
 ```bash
-for dir in bin boot dev etc home lib lib64 libexec local opt root sbin srv usr var; do
+for dir in bin boot dev etc home include lib lib64 local opt ports root run sbin share usr var; do
     cp -a /$dir /mnt/
 done
 ```
@@ -102,7 +108,7 @@ echo "user:x:1000:1000::/home/user:/bin/sh" >> /mnt/etc/passwd
 echo "user:x:1000:" >> /mnt/etc/group
 mkdir -p /mnt/home/user
 chown -R 1000:1000 /mnt/home/user
-# then you'll wanna set the user's password once chrooted in
+# then you'll wanna run "passwd user"
 ```
 
 **set hostname**
@@ -120,7 +126,7 @@ you only need to set up /etc/fstab now (the one below is how i have it \[you can
 
 **/etc/fstab**
 ```
-/dev/nvme0n1p1  /boot  vfat  defaults  0  2
+/dev/nvme0n1p1  /boot/efi  vfat  defaults  0  2
 /dev/nvme0n1p2  /btrfs  defaults,noatime,compress=zstd,subvol=@derive  0  1
 ```
 
@@ -134,13 +140,19 @@ i recommend getting the `micro` text editor if you're unhappy with vi
 
 
 # bootloader
-## installing limine
-...
+## installing limine, for EFI (fiction atm)
+> derive doesnt ship efibootmgr OR efi limine for now, copy it from another linux system's /usr/share/limine/BOOTX64.efi. what i did is i booted into an arch iso
 
-## configuring limine
+
+i assume you're doing it on an EFI system
+
 copy the boot image into your boot partition
 
-`cp /boot/bzImage /mnt/boot/vmlinuz`
+`cp /boot/bzImage /mnt/boot/vmlinuz-derive`
+```bash
+mkdir -p /mnt/boot/efi/EFI/limine
+cp /usr/share/limine/BOOTX64.efi /mnt/boot/efi/EFI/limine/BOOTX64
+```
 
 then you wanna add an entry for derive into your bootloader
 
@@ -151,7 +163,7 @@ timeout: 1
 
 /derive
     protocol: linux
-    kernel_path: boot():/vmlinuz
+    kernel_path: boot():/vmlinuz-derive
     cmdline: console=tty0 console=ttyS0 init=/bin/situation root=/dev/nvme0n1p2 rootfstype=btrfs rootflags=subvol=@derive rw
 EOF
 ```
@@ -173,6 +185,8 @@ you can change it with passwd
 
 > and also see [the derive article for setting up wifi on iwd](https://derivelinux.org/docs/system/networking/iwd-wifi) but only after doing this
 
+> iwd is a direct improvement to wpa_supplicant. there are tools out there for intuitive management like iwctl and impala(can be installed through cargo). derive will never ship NetworkManager
+
 this is a big one and you'll write your first service here. you have to have them if you use wifi
 
 you'll wanna check if `ip link show` brings up your wifi device. if it does - good, you're ready. you can skip enabling modules, but you'll still wanna see how it's done
@@ -190,7 +204,7 @@ ath9k           # atheros (not sure)
 rtw88           # realtek (not sure)
 ```
 
-the simplest janky but working way is to prepend your commands to /etc/sv/iwd. then it'll surely start before iwd but it might break with updates
+what i did is simple and janky - i prepended module loading to the iwd service directly. this may break with updates so please dont do it. but do it if you cant get the modules to load before iwd and just fix it if it breaks
 
 so if you want to make your own service, you'll `touch /etc/sv/modules && chmod +x /etc/sv/modules && vi /etc/sv/modules`
 
@@ -205,26 +219,38 @@ and then `sctl ua modules`
 
 and the modules will be started immediately & autostarted on every boot
 
-
 ## package management
 
-now, you can install your first package! we need to larp so the first tool we install is qfetch and its dependency, bmake (a suckless cmake alternative)
+we need to larp so bad but our only way to do so is `cat /etc/os-release`
+this NEEDS fixing
 
+the first tool we'll install is qfetch and its build dependency, bmake (a suckless cmake alternative)
+
+remember: this is a statically-linked distro, so a lot of packages will not have dependencies. they're already bundled in
+
+lets do `spc add bmake && dtr mi qfetch`
 yo why does it say not found
 
-well it's because we didn't clone the ports tree. this is equivalent to `pacman -Sy`. do it now: `dtr s`
+well it's because we didn't clone the ports tree. this is equivalent to `pacman -Sy`. do it now: `dtr s`, and do it every few days. sometimes you may want to install ports with `dtr mis` instead
 
-lets do `spc add bmake && dtr mi qfetch`. we use spc for bmake, because its already compiled&seasoned, and dtr for qfetch, since it's just a build recipe.
-
+we use the `spc` package manager for bmake, because its already compiled & seasoned to our clanker's taste, and `dtr` for qfetch, since it's just a build recipe
 ### the package managers
 - [`spc`](https://derivelinux.org/docs/pkg/spc) | [`package list`](https://pkg.derivelinux.org/)
-    provides cooked&seasoned binaries. also is broken atm so i cant rly do much
+    provides cooked&seasoned binaries
 - [`dtr`](https://derivelinux.org/docs/pkg/dtr) | [`package list`](https://ports.derivelinux.org/)
-    provides ports, which are just compilation recipes adjusted to your system
+    provides ports, which are derive-specific recipes adjusted to your system
 
-and now you can run the install commands!! and everything works!
+the repos are strict about included packages: if a piece of software is too big, a smaller alternative is offered instead. and if the smaller alternative doesn't exist, the community will attempt to make one. this is evident in the standard build tools
 
-if you're not reading this on a piece of paper, you're reading this on a device with network access that can connect via ssh. i recommend you install it via `spc add dropbear`
+and now you can install programs! and everything works!
+
+# essential packages
+- `mandoc` and `scdoc` - for manpages
+- `dtr mi vim`, `micro` - probably close to your text editor
+- `dtr mi dropbear` - ssh server
+    first, you need to make sure you have a user (that's not root) set up.
+    then, you run the server as root with `dropbear -F -E -R`. if everything works, you can make a service for it
+    create a script at `/etc/sv/dropbear`, put that command in, `chmod +x` it and run `sctl ua dropbear`
 
 # graphical environment (wayland)
 ...
