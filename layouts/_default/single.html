@@ -3,9 +3,12 @@
 	{{ if .Param "nextprev" }}{{ partial "nextprev.html" . -}}{{ end -}}
 	<span class="articleheader">
 		<h1>{{ .Title }}</h1>
-		<p>{{ .Params.description }}<br />
-		<span style="font-size:14px;"> {{ .Date.Format "January 2, 2006" }}</span>
-		</p>
+		{{- with .Param "description" }}
+		<p>{{ . }}</p>
+		{{- end }}
+		{{- if not .Date.IsZero }}
+		<p><span style="font-size:14px;"> {{ .Date.Format "January 2, 2006" }}</span></p>
+		{{- end }}
 		<hr>
 	</span>
 	<a href="https://github.com/if-not-nil/if-not-nil.github.io/issues/new">comments</a>
