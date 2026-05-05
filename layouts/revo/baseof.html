@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ if .IsHome }}revo
+		{{ else }}{{ if .Title }}
+		{{ .Title }} | revo
+		{{ else }} revo
+		{{ end }}{{ end }}
+	</title>
+	<link rel="icon" href="{{ .Site.Params.favicon }}" type="image/gif">
+	<link rel='stylesheet' type='text/css' href='/wiki.css'>
+</head>
+
+<body>
+	<nav class="sidebar">
+		<h3><a id="title" href="/revo/">revo</a>, by <a id="title" href="/">me</a></h3>
+		{{ $currentPage := . }}
+		{{ $wikiPages := where .Site.RegularPages "Section" "revo" }}
+		{{ $rootPages := where $wikiPages "File.Dir" "revo/" }}
+		{{ $subdirs := slice }}
+		{{ range $wikiPages }}
+		{{ $dir := .File.Dir }}
+		{{ if and (ne $dir "revo/") (hasPrefix $dir "revo/") }}
+		{{ $subdir := index (split $dir "/") 1 }}
+		{{ if not (in $subdirs $subdir) }}
+		{{ $subdirs = $subdirs | append $subdir }}
+		{{ end }}
+		{{ end }}
+		{{ end }}
+
+		<ul>
+			{{ range $rootPages }}
+			<li>
+				<a href="{{ .RelPermalink }}" {{ if eq $currentPage.Permalink .Permalink }} class="active" {{ end }}>{{ .Title
+					}}</a>
+			</li>
+			{{ end }}
+			{{ range sort $subdirs }}
+			{{ $subdir := . }}
+			<li>
+				{{ $subdir }}
+				<ul>
+					{{ range where $wikiPages "File.Dir" (printf "revo/%s/" $subdir) }}
+					<li>
+						<a href="{{ .RelPermalink }}" {{ if eq $currentPage.Permalink .Permalink }} class="active" {{ end }}>{{
+							.Title }}</a>
+					</li>
+					{{ end }}
+				</ul>
+			</li>
+			{{ end }}
+		</ul>
+	</nav>
+	<main class="content">
+		{{ block "main" . }}{{ end }}
+	</main>
+</body>
+<script>
+
+	document.querySelectorAll("code-editor").forEach(el => {
+		customElements.upgrade(el);
+	});
+</script>
+
+</html>

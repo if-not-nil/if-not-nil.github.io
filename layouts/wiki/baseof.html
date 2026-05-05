@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<nav class="sidebar">
-			<h3><a id="title" href="/wiki/">wiki</a> / <a id="title" href="/">me</a></h3>
+			<h3><a id="title" href="/wiki/">wiki</a>, by <a id="title" href="/">me</a></h3>
 			{{ $currentPage := . }}
 			{{ $wikiPages := where .Site.RegularPages "Section" "wiki" }}
 			{{ $rootPages := where $wikiPages "File.Dir" "wiki/" }}

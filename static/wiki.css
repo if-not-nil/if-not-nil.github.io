@@ -13,24 +13,45 @@
 	--pink: #e4b3d0;
 	--periwinkle: #8d84bb;
 	--skyblue: #b2d9f6;
-
 	--rat: #0a0e11;
 }
+
 
 blockquote {
 	background: var(--rat);
 	font-style: italic;
-	padding: 0.2em 4em 0.2em 40px;
-	margin-left: 0px;
-	display: inline-block;
+	padding: 0.5em 2em 0.5em 1.25em;
+	margin-left: 0;
+	border-left: 3px solid var(--periwinkle);
+	display: block;
 }
 
 html {
 	background: #0a0e11;
 }
 
+.ascii {
+	margin: 0;
+	font-family: monospace;
+	white-space: pre;
+	max-width: 100%;
+	flex-shrink: 1;
+	font-size: clamp(4px, 1.2vw, 12px);
+	padding: 0;
+	font-weight: bolder;
+	text-shadow: 1ch 1ch #ffffff88;
+	padding-right: 2ch;
+}
+
+.ascii.small {
+	font-size: clamp(4px, 1vw, 8px);
+}
+
 body {
-	--font-sans: 'Segoe UI', 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	--font-sans: 'Segoe UI', 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	--font-mono: 'Maple Mono NL NF', 'Ubuntu Mono', 'Fira Mono', 'Noto Sans Mono', monospace;
 	font-family: var(--font-sans);
 	background: #0e1316;
 	color: #d3c4aa;
@@ -49,7 +70,7 @@ body {
 
 .sidebar ul {
 	list-style: none;
-	padding-left: 1rem;
+	padding-left: 1ch;
 	margin: 0;
 }
 
@@ -63,11 +84,13 @@ body {
 
 .sidebar a {
 	text-decoration: none;
+	color: var(--pinkrose);
 }
 
 .content {
 	padding: 2rem;
-	max-width: 100%;
+	width: 100%;
+	max-width: 72ch;
 	box-sizing: border-box;
 }
 
@@ -77,7 +100,7 @@ body {
 	}
 
 	.sidebar {
-		width: 250px;
+		width: 15vw;
 		height: 100vh;
 		position: sticky;
 		top: 0;
@@ -88,13 +111,7 @@ body {
 
 	.content {
 		padding: 4rem 8rem 4rem 4rem;
-		max-width: 800px;
-	}
-}
-
-@media (min-width: 1300px) {
-	.content {
-		max-width: 1100px;
+		max-width: 85vw;
 	}
 }
 
@@ -113,7 +130,7 @@ a:hover {
 
 pre,
 code {
-	font-family: 'Fira Mono', 'Noto Sans Mono', monospace;
+	font-family: 'Maple Mono NL NF', 'Ubuntu Mono', 'Fira Mono', 'Noto Sans Mono', monospace;
 }
 
 pre {

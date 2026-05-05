@@ -1,0 +1,15 @@
+{{ define "main" }}
+<article>
+	{{ if .Date }}
+	{{ $d := .Date.Day }}
+	{{ $suffix := "th" }}
+	{{ if or (eq $d 1) (eq $d 21) (eq $d 31) }}{{ $suffix = "st" }}{{ end }}
+	{{ if or (eq $d 2) (eq $d 22) }}{{ $suffix = "nd" }}{{ end }}
+	{{ if or (eq $d 3) (eq $d 23) }}{{ $suffix = "rd" }}{{ end }}
+	<time style="font-family: monospace; font-size: 1.1em;" datetime="{{ .Date.Format " 2006-01-02" }}" >
+		the {{ $d }}{{ $suffix }} of {{ .Date.Format "January" | lower }}, {{ .Date.Format "2006" }}
+	</time>
+	{{ end }}
+	{{ .Content }}
+</article>
+{{ end }}

@@ -3,8 +3,15 @@ baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
 enableRobotsTXT = "true"
 
+[server]
+[[server.headers]]
+  for = "/**.wasm"
+  [server.headers.values]
+    Content-Type = "application/wasm"
+
 [markup.goldmark.renderer]
 	hardWraps = true
+	unsafe = true
 
 [caches]
   [caches.images]
