@@ -1,51 +1,60 @@
 ---
-title: 'the language'
+title: 'basics'
 ---
 
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
   
+  <pre class="ascii small">
+⠀⠀⠀⠄⠀⡀⠀⠀⠀⠀⠀⠀⢀⠀⠀⡀⠀⢀⠀⢀⡀⣤⡢⣤⡤⡀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠈⡄⡄⠐⡀⠈⣀⠀⡠⡠⠀⣢⣆⢌⡾⢙⠺⢽⠾⡋⣻⡷⡫⢵⣭⢦⣴⠦⠀⢠⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢠⣤⣽⣥⡈⠧⣂⢧⢾⠕⠞⠡⠊⠁⣐⠉⠀⠉⢍⠀⠉⠌⡉⠀⠂⠁⠱⠉⠁⢝⠻⠎⣬⢌⡌⣬⣡⣀⣢⣄⡄⠀⡀
+⠀⢀⢸⣿⣿⢿⣾⣯⣑⢄⡂⠀⠄⠂⠀⠀⢀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠄⠐⠀⠀⠀⠀⣄⠭⠂⠈⠜⣩⣿⢝⠃⠀⠁
+⠀⢀⣻⡟⠏⠀⠚⠈⠚⡉⡝⢶⣱⢤⣅⠈⠀⠄⠀⠀⠀⠀⠀⠠⠀⠀⡂⠐⣤⢕⡪⢼⣈⡹⡇⠏⠏⠋⠅⢃⣪⡏⡇⡍⠀
+⠀⠀⠺⣻⡄⠀⠀⠀⢠⠌⠃⠐⠉⢡⠱⠧⠝⡯⣮⢶⣴⣤⡆⢐⣣⢅⣮⡟⠦⠍⠉⠀⠁⠐⠀⠀⠀⠄⠐⠡⣽⡸⣎⢁⠀
+⠀⢈⡻⣧⠀⠁⠐⠀⠀⠀⠀⠀⠀⠊⠀⠕⢀⡉⠈⡫⠽⡿⡟⠿⠟⠁⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠬⠥⣋⡯⠀⠀
+⠀⡀⣾⡍⠕⡀⠀⠀⠀⠄⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠥⣤⢌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠄⢀⠀⢝⢞⣫⡆⡄⠀
+⠀⠀⣽⡶⡄⠐⡀⠀⠀⠀⠀⠀⠀⢀⠀⠄⠀⠀⠀⠄⠁⠇⣷⡆⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡸⢝⣮⠍⠀⠀
+⢀⠀⢾⣷⠀⠠⡀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠁⡁⠀⠀⣾⡥⠖⠀⠀⠀⠂⠀⠀⠀⠀⠀⠁⠀⡀⠁⠀⠀⠻⢳⣻⢄⠀⠀
+⠀⠀⣞⡙⠨⣀⠠⠄⠀⠂⠀⠀⠀⠈⢀⠀⠀⠀⠀⠀⠤⢚⢢⣟⠀⠀⠀⠀⡐⠀⠀⡀⠀⠀⠀⠀⠁⠈⠌⠊⣯⣮⡏⠡⠂
+⠀⠀⣻⡟⡄⡡⣄⠀⠠⠀⠀⡅⠀⠐⠀⡀⠀⡀⠀⠄⠈⠃⠳⠪⠤⠀⠀⠀⠀⡀⠀⠂⠀⠀⠀⠁⠈⢠⣠⠒⠻⣻⡧⠀⠀
+⠀⠀⠪⡎⠠⢌⠑⡀⠂⠀⠄⠠⠀⠠⠀⠁⡀⠠⠠⡀⣀⠜⢏⡅⠀⠀⡀⠁⠀⠀⠁⠁⠐⠄⡀⢀⠀⠀⠄⢑⣿⣿⣿⡀⠀
+⠀⠀⠼⣻⠧⣣⣀⠐⠨⠁⠕⢈⢀⢀⡁⠀⠈⠠⢀⠀⠐⠜⣽⡗⡤⠀⠂⠀⠠⠀⢂⠠⠀⠁⠀⠀⠔⠀⠑⣨⣿⢯⠋⡅⠀
+⠀⠀⡚⣷⣭⠎⢃⡗⠄⡄⢀⠁⠀⠅⢀⢅⡀⠠⠀⢠⡀⡩⠷⢇⠀⡀⠄⡀⠄⠂⠀⠀⠄⠉⡠⠃⠴⠀⠈⢁⣿⡛⡯⠀⠀
+⠀⠘⡬⡿⣿⡏⡻⡯⠌⢁⢛⠠⠓⠐⠐⠐⠌⠃⠋⠂⡠⢰⣈⢏⣠⠂⠈⠀⠠⠒⠡⠄⠢⠤⠨⠢⡬⠆⠿⢷⢿⡽⡧⠉⠊
+⠀⠀⠺⣷⣺⣗⣿⡶⡎⡅⣣⢎⠠⡅⣢⡖⠴⠬⡈⠂⡨⢡⠾⣣⣢⠀⠀⡹⠄⡄⠄⡇⣰⡖⡊⠔⢹⣄⣿⣭⣵⣿⢷⡀⠀
+⠀⠀⠩⣿⣿⣲⣿⣷⣟⣼⠟⣬⢉⡠⣪⢜⣂⣁⠥⠓⠚⡁⢶⣷⣠⠂⡄⡢⣀⡐⠧⢆⣒⡲⡳⡫⢟⡃⢪⡧⣟⡟⣯⠐⠀
+⠀⠀⢺⠟⢿⢟⢻⡗⡮⡿⣲⢷⣆⣏⣇⡧⣄⢖⠾⡷⣿⣤⢳⢷⣣⣦⡜⠗⣭⢂⠩⣹⢿⡲⢎⡧⣕⣖⣓⣽⡿⡖⡿⠀⠀
+⠀⠀⠀⠀⠈⠉⠂⠂⠏⠿⢻⣥⡪⢽⣳⣳⣥⡶⣫⣍⢐⣥⣻⣾⡻⣅⢭⡴⢭⣿⠕⣧⡭⣞⣻⣣⣻⢿⠟⠛⠙⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠋⠫⠯⣍⢻⣿⣿⣷⣕⣵⣹⣽⣿⣷⣇⡏⣿⡿⣍⡝⠵⠯⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠠⠁⠋⢣⠓⡍⣫⠹⣿⣿⣷⡿⠯⠺⠁⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⢀⠋⢈⡿⠿⠁⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  </pre>
   <div style="flex:1; min-width:250px;">
 
 # basics
+[docs](docs/basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo) | [license](#license)
+
 > thinking of this as either a rewritten lisp, a weird lua, or a weird javascript might help a lot and the semantics do match a bit!
 
 everything is an expression, and everything is pipe-able and chain-able - you would want to assume that everything returns what you expect. if not, it's probably a design flaw and you should open an issue
   </div>
-  <pre class="ascii small">
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⡀⠀⠀⠀⠀⠀⠀⢀⠀⠀⡀⠀⢀⠀⢀⡀⣤⡢⣤⡤⡀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡄⡄⠐⡀⠈⣀⠀⡠⡠⠀⣢⣆⢌⡾⢙⠺⢽⠾⡋⣻⡷⡫⢵⣭⢦⣴⠦⠀⢠⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⣽⣥⡈⠧⣂⢧⢾⠕⠞⠡⠊⠁⣐⠉⠀⠉⢍⠀⠉⠌⡉⠀⠂⠁⠱⠉⠁⢝⠻⠎⣬⢌⡌⣬⣡⣀⣢⣄⡄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⢸⣿⣿⢿⣾⣯⣑⢄⡂⠀⠄⠂⠀⠀⢀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠄⠐⠀⠀⠀⠀⣄⠭⠂⠈⠜⣩⣿⢝⠃⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⣻⡟⠏⠀⠚⠈⠚⡉⡝⢶⣱⢤⣅⠈⠀⠄⠀⠀⠀⠀⠀⠠⠀⠀⡂⠐⣤⢕⡪⢼⣈⡹⡇⠏⠏⠋⠅⢃⣪⡏⡇⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠺⣻⡄⠀⠀⠀⢠⠌⠃⠐⠉⢡⠱⠧⠝⡯⣮⢶⣴⣤⡆⢐⣣⢅⣮⡟⠦⠍⠉⠀⠁⠐⠀⠀⠀⠄⠐⠡⣽⡸⣎⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢈⡻⣧⠀⠁⠐⠀⠀⠀⠀⠀⠀⠊⠀⠕⢀⡉⠈⡫⠽⡿⡟⠿⠟⠁⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠬⠥⣋⡯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⡀⣾⡍⠕⡀⠀⠀⠀⠄⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠥⣤⢌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠄⢀⠀⢝⢞⣫⡆⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⣽⡶⡄⠐⡀⠀⠀⠀⠀⠀⠀⢀⠀⠄⠀⠀⠀⠄⠁⠇⣷⡆⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡸⢝⣮⠍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢀⠀⢾⣷⠀⠠⡀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠁⡁⠀⠀⣾⡥⠖⠀⠀⠀⠂⠀⠀⠀⠀⠀⠁⠀⡀⠁⠀⠀⠻⢳⣻⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⣞⡙⠨⣀⠠⠄⠀⠂⠀⠀⠀⠈⢀⠀⠀⠀⠀⠀⠤⢚⢢⣟⠀⠀⠀⠀⡐⠀⠀⡀⠀⠀⠀⠀⠁⠈⠌⠊⣯⣮⡏⠡⠂⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⣻⡟⡄⡡⣄⠀⠠⠀⠀⡅⠀⠐⠀⡀⠀⡀⠀⠄⠈⠃⠳⠪⠤⠀⠀⠀⠀⡀⠀⠂⠀⠀⠀⠁⠈⢠⣠⠒⠻⣻⡧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠪⡎⠠⢌⠑⡀⠂⠀⠄⠠⠀⠠⠀⠁⡀⠠⠠⡀⣀⠜⢏⡅⠀⠀⡀⠁⠀⠀⠁⠁⠐⠄⡀⢀⠀⠀⠄⢑⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠼⣻⠧⣣⣀⠐⠨⠁⠕⢈⢀⢀⡁⠀⠈⠠⢀⠀⠐⠜⣽⡗⡤⠀⠂⠀⠠⠀⢂⠠⠀⠁⠀⠀⠔⠀⠑⣨⣿⢯⠋⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⡚⣷⣭⠎⢃⡗⠄⡄⢀⠁⠀⠅⢀⢅⡀⠠⠀⢠⡀⡩⠷⢇⠀⡀⠄⡀⠄⠂⠀⠀⠄⠉⡠⠃⠴⠀⠈⢁⣿⡛⡯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠘⡬⡿⣿⡏⡻⡯⠌⢁⢛⠠⠓⠐⠐⠐⠌⠃⠋⠂⡠⢰⣈⢏⣠⠂⠈⠀⠠⠒⠡⠄⠢⠤⠨⠢⡬⠆⠿⢷⢿⡽⡧⠉⠊⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠺⣷⣺⣗⣿⡶⡎⡅⣣⢎⠠⡅⣢⡖⠴⠬⡈⠂⡨⢡⠾⣣⣢⠀⠀⡹⠄⡄⠄⡇⣰⡖⡊⠔⢹⣄⣿⣭⣵⣿⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠩⣿⣿⣲⣿⣷⣟⣼⠟⣬⢉⡠⣪⢜⣂⣁⠥⠓⠚⡁⢶⣷⣠⠂⡄⡢⣀⡐⠧⢆⣒⡲⡳⡫⢟⡃⢪⡧⣟⡟⣯⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⢺⠟⢿⢟⢻⡗⡮⡿⣲⢷⣆⣏⣇⡧⣄⢖⠾⡷⣿⣤⢳⢷⣣⣦⡜⠗⣭⢂⠩⣹⢿⡲⢎⡧⣕⣖⣓⣽⡿⡖⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠂⠂⠏⠿⢻⣥⡪⢽⣳⣳⣥⡶⣫⣍⢐⣥⣻⣾⡻⣅⢭⡴⢭⣿⠕⣧⡭⣞⣻⣣⣻⢿⠟⠛⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠋⠫⠯⣍⢻⣿⣿⣷⣕⣵⣹⣽⣿⣷⣇⡏⣿⡿⣍⡝⠵⠯⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠠⠁⠋⢣⠓⡍⣫⠹⣿⣿⣷⡿⠯⠺⠁⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⢀⠋⢈⡿⠿⠁⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  </pre>
 
 </div>
 
 **revo in 1 minute**
 ```ruby
+##
+this examples shows the surface syntax and capabilities of revo the programming language
+##
+
+# single-line comments
+
 let a = 10       # mutable
 const b = 20     # immutable
 global c = 30    # module-level, visible across closures
 
 fn add(x, y) x + y
+# above and below are equivalent. all functions are first-class
 const greet = fn(name) "hello, " + name
 
 let t = {1, 2, 3}            # table (mutable collection)
@@ -58,6 +67,24 @@ const (x, y) = point
 match safe_div(10, 2)        # result types + pattern matching
 | (:ok, v)  print(v)
 | (:err, e) print(e)
+
+if :true something()
+# is the same as
+if :true do
+    something()
+end
+# and works the same as
+if :true
+    something()
+else if :false
+    something_else()
+# and is an expr
+
+const a = if :true :ok else :false
+const b = match :true 
+    | :false "a"
+    | :true "b"
+    | _ "c"
 
 "hello" |> print             # pipe operator
 
@@ -73,6 +100,25 @@ const a: number = 10
 const b: number = 20
 fn mul(x: number, y: number) x * y
 print(mul(1, 23))
+
+# the limits of the language, afaik
+const x = comp do
+	let res = io:read():unwrap()
+		|> fn(c) c:upper()
+
+	match res
+	| "HELLO" when io:read():unwrap():len() < 2
+		{}:set_meta({ # can later call __tostring
+            __index = fn(self, k) k * 2,
+            __tostring = fn(self)
+                import("libdebug.so").tostring(self),
+		})
+	| x
+	when do
+		let u = x
+		print(u)
+	end :ok
+end
 ```
 
 the fundamental types are:
@@ -103,7 +149,7 @@ print(a.helper())      # "helped"
 a:mutate()             # colon syntax passes a as first arg (like self)
 ```
 
-structs build on tables — they generate a constructor that type-checks fields at creation time:
+structs build on tables - they generate a constructor that type-checks fields at creation time:
 
 ```ruby
 struct User {
@@ -123,7 +169,7 @@ if you need a copy: `{1, 2, 3}:copy()`. otherwise mutations are shared
 
 named constants, compared by identity. `:ok`, `:err`, `:true`, `:false`, `:nil`
 
-only `:false`, `:nil`, and `0` are falsey — `""` and `{}` are truthy
+only `:false`, `:nil`, and `0` are falsey - `""` and `{}` are truthy
 
 don't create them at runtime. use them to tag tuples:
 
@@ -135,7 +181,7 @@ some(42)           # (:some, 42)
 
 ok?(ok(42))        # :true
 none?((:none,))    # :true
-ok(42):unwrap()    # 42  — panics on :err
+ok(42):unwrap()    # 42  - panics on :err
 ```
 
 revo doesn't have exceptions. errors are just values
@@ -159,7 +205,7 @@ fn classify(a) match a              # match as body
     | (:err, _) 0
 ```
 
-functions are always first-class and always return something — even if that something is `:nil`
+functions are always first-class and always return something - even if that something is `:nil`
 
 closures capture by reference, so mutations are visible across everything sharing that variable:
 
@@ -196,7 +242,7 @@ strings come with methods:
 "hello":find("ll")         # 2, or :missing
 "hello":replace("l", "r")  # "herro"
 "hello":starts_with("he")  # :true
-("abc"):with(1, "X")       # "aXc" — 0-indexed, returns new string
+("abc"):with(1, "X")       # "aXc" - 0-indexed, returns new string
 "hello" + " world"         # concatenation
 "ha" * 3                   # "hahaha"
 ```
@@ -229,7 +275,7 @@ arithmetic and comparison work as you'd expect:
 1 < 2      # :true
 1 == 1     # :true
 1 != 2     # :true
-"a" < "b"  # :true — lexicographic
+"a" < "b"  # :true - lexicographic
 ```
 
 `and`/`or` preserve the actual value instead of collapsing to a boolean, which makes them useful
@@ -238,8 +284,8 @@ for defaults and guards:
 ```ruby
 1 and 2    # 2
 0 or 9     # 9
-0 and 999  # 0 — short-circuit
-1 or 999   # 1 — short-circuit
+0 and 999  # 0 - short-circuit
+1 or 999   # 1 - short-circuit
 not :false # :true
 ```
 
@@ -257,7 +303,7 @@ let y = (x = 42)  # y is 42
 
 ## if
 
-`if` is an expression — it returns the value of whichever branch ran:
+`if` is an expression - it returns the value of whichever branch ran:
 
 ```ruby
 const label = if score >= 90 "A" else "B"
@@ -309,7 +355,7 @@ const tier = match score
     | v when v >= 70 "B"
     | v              "C"
 
-# the main event — result types
+# the main event - result types
 match safe_div(10, 0)
     | (:ok, v)  print(v)
     | (:err, e) print(fmt("error: %v", e))
@@ -363,7 +409,7 @@ t + 5      # 100
 t.missing  # 0
 ```
 
-plain fields resolve before `__index`, and so do metatable methods — which is how `:method()` works without any extra magic:
+plain fields resolve before `__index`, and so do metatable methods - which is how `:method()` works without any extra magic:
 
 ```ruby
 const mt = {get_x = fn(self) self.x}
@@ -380,6 +426,7 @@ fibers are cooperative, not preemptive. the main fiber runs first, the run queue
 ```ruby
 const h = spawn add(20, 22)
 join(h)  # 42
+h:join()  # 42
 ```
 
 channels coordinate fibers. unbuffered (`chan(0)`) blocks the sender until a receiver is ready. buffered blocks only when full:
@@ -391,7 +438,7 @@ const s = spawn fn(c) send(c, 42) (ch)
 recv(ch)  # 42
 join(s)
 
-# buffered — send up to capacity without blocking
+# buffered - send up to capacity without blocking
 const bch = chan(2)
 send(bch, 10)
 send(bch, 32)
@@ -409,7 +456,7 @@ sleep(100)   # wait 100ms
 
 a few modules are available as globals:
 
-`fs` — file and directory access:
+`fs` - file and directory access:
 
 ```ruby
 let f = fs.open("./README.md"):unwrap()
@@ -425,7 +472,7 @@ stat.size  # bytes
 stat.kind  # :file or :dir
 ```
 
-`net` — tcp sockets:
+`net` - tcp sockets:
 
 ```ruby
 # server
@@ -442,9 +489,9 @@ const reply = net.recv(conn)
 net.close(conn)
 ```
 
-`os` — system access (stdin, env, etc.)
+`os` - system access (stdin, env, etc.)
 
-`@eval` — evaluate a string as revo code at runtime:
+`@eval` - evaluate a string as revo code at runtime:
 
 ```ruby
 @eval("print(1 + 2)")  # 3
@@ -452,7 +499,7 @@ net.close(conn)
 
 # imports
 
-`import` loads and caches a module — the same path always returns the same table:
+`import` loads and caches a module - the same path always returns the same table:
 
 ```ruby
 # counter.rv
@@ -463,7 +510,7 @@ let count = 0
 const a = import "counter"
 a.count = 41
 const b = import "counter"
-print(b.count)  # 41 — same cached table
+print(b.count)  # 41, same cached table
 ```
 
 module-level `let`/`const` are private. only the returned value is shared
@@ -481,21 +528,21 @@ print(comp io.read())               # runs only at compile time, never at runtim
 
 # macros
 
-macros are compile-time transformers. they pattern-match syntax and rewrite it — zero runtime cost:
+macros are compile-time transformers. they pattern-match syntax and rewrite it - zero runtime cost:
 
 ```ruby
 # macro `pattern` `template`
-# %e:expr  — any expression
-# %n:ident — an identifier
-# %s:str   — a string literal
+# %e:expr  - any expression
+# %n:ident - an identifier
+# %s:str   - a string literal
 
 const unless! = macro `(%cond:expr %body:expr)` `if %cond :nil else %body`
 unless!(5 < 0, :positive)  # :positive
 
 # repetition groups
-# %GROUP(...)* — zero or more
-# %GROUP(...)+ — one or more
-# %GROUP(...)? — optional
+# %GROUP(...)* - zero or more
+# %GROUP(...)+ - one or more
+# %GROUP(...)? - optional
 
 const sum_all! = macro `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
 sum_all!(10, 15, 17)  # 42

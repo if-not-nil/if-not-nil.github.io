@@ -4,19 +4,29 @@ hideInList: true
 
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
   
-  <div style="flex:1; min-width:250px;">
+  <div style="flex:1; min-width:250px; justify-content: space-between;">
+
+<span style="flex: 1;">
 
 # revo, the programming language
 
-[docs](docs/basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo) | [license](#license)
+[docs](basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo)
 
 <b>revo</b> is a language made for the joy of programming
 
-an expressive, dynamically-typed language that is made to balance of semantic freedom and readability
+for writing code with semantic freedom and readability at the same time
 
-it mixes procedural and functional, compiled and interpreted concepts, and takes advantage of all they provide
+it's a language that can run in a repl, have dynamic types, pattern matching, first-class functions, all while being an AOT-dynamic language
 
-  </div>
+</span>
+
+<span style="flex: 1;">
+    <a class="imp" href="https://codeberg.org/lung/revo">get</a>
+    <span>or</span>
+    <a class="imp" href="https://codeberg.org/lung/revo">try</a>
+</span>
+
+</div>
 
   <pre class="ascii">
 ⣄⠔⠄⡨⣀⣹⣥⣣⡚⣿⣓⣾⣫⣷⠮⡧⣬⣬⣑⢤⠤⡉⣿⡥⣂⢟⣕⡴⠬⠆⠸⡈⡆⠀⠀⠀⡋⠄⠂⠨⡆⠀⠠⠃⡀⠀⠀⠈⢰⣿
@@ -48,128 +58,175 @@ it mixes procedural and functional, compiled and interpreted concepts, and takes
 
 </div>
 
+<div class="lr-container">
+<div>
 
-**everything is an expression** - even assignments
+# tables
+represent everything
+
+used for
+- module exports
+- arrays
+- maps
+
+</div>
+<div>
+
 ```ruby
-let a = let b = 5 # both are 5
-```
-**uniform syntax** - if statements, matches, functions, etc. all can be reasoned about via the same expression sematics
-```ruby
-let s = 10
-let e = 50 * (loop break(2))
-if :true do # a do block groups multiple expressions together but is never required
-    for x in s..e
-        print(x)
-end
-```
-**errors as values** - errors are first-class rather than exceptions
-```ruby
-const res = io:read() # (:ok, "hi") or (:err, :SomeIoError)
-const contents = res:unwrap()
-```
-**pattern matching** - destructure tuple patterns in match or via `let (a, b) = (1, 2)`
-```ruby
-fn double(n: number) match n
-| x when x > 0 and number?(x) ok(x*2)
-| _ err("arg 0 is not a positive number")
-```
-**macros** - comptime code generation
-```ruby
-const ok = macro `(%what:expr)` `(:ok, %what)`
-ok(5) == (:ok, 5)
-```
-**first-class functions** - closures, higher-order functions
-```ruby
-# the two following expressions are the same
-fn a() :true
-const a = fn() :true
-```
-**no nil by default** - use atoms like `:nil`, `:undef` instead. booleans are `:true` and `:false` as well
-```ruby
-const t = {1,2,3}
-t[42] == :undef
-do end == :nil
-```
-**metatables** - oop without oop, sort of like lua
-```ruby
-let me = {name = "me", age = 42}
-set_metatable(me, {
-    __add = fn(self, other) return self.age + other,
-    __mul = fn(self, other) return self[:age] * other # table keys are atoms
+let t = {1, 2, 3, key = "value"}
+let rec = {name = "revo", version = 1}
+rec.name
+t[0]
+
+rec:set_meta({
+    name = fn(self) self.name,
+    set_version = fn(self, v) self.version = v,
 })
-```
 
-### concurrency
-
-- **fibers/coroutines** - lightweight concurrency
-```ruby
-const a = spawn fn() "hi"
-print(join(a))
-```
-- **go-style channels** - csp-based message passing
-```ruby
-const ch = chan()
-
-spawn fn() do
-  send(ch, "hello")
-end
-
-print(ch:recv()) # "hello"
-```
-
-### performance
-
-compiles scripts to bytecode and tries to take full advantage of that 
-```ruby
-# revo -b ./src.rv builds, executes the comp blocks, and bakes them into the final
-# program but does not run anything non-comp
-const name = comp io:read()
-
-# macros are expanded at compile time and are zero-cost
-const println! = macro `(%fmt:str %ARGS(, %arg:expr)*)` `(print(fmt(%fmt %ARGS(, %arg))))`
-println!("hi, %v", name)
-
-# these are runtime for now, but will become comptime when a type system exists
-struct Counter {
-    count: number = 0
-    const inc   = fn(self) do self.count += 1  self.count end
-    const value = fn(self) self.count
+struct Project {
+    name: string
+    version: number = 1
 }
+
+Project{name = "revo"}
 ```
 
-### syntax
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
+# pattern matching
+destructure and branch in place
+
+errors are also handled as values and exceptions are never thrown.
+
+get used to atoms and tuples, they are a beautiful solution to their problems
+
+</div>
+<div>
 
 ```ruby
-# pattern matching
-const res = io:read()
-
-match res
-| (:ok, v) print("ok: ", v)
+match (:ok, 42)
+| (:ok, v)  v
 | (:err, e) panic(e)
-| _ panic("unwrap on non-result value")
+| _ panic()
 
-for x, y in 0..10
-  print(x, y)
-end
+const result = (:ok, 42):unwrap()
 
-let step = 1
-const increment = fn(n) do n + step end
-const result = (loop break 5) + 1 # 5
-
-const value = if condition 5 else 2
+const response = match "hello!"
+| "hello" "hi!"
+| x when (x:len() > 10) ""
+| x when string?(x) x + " to you too!"
+| _ ":("
 ```
 
-## quick start
+</div>
+</div>
 
-### install
+<div class="lr-container">
+<div>
 
+# everything is an expression
+no statements, everything (really) returns a value
+
+
+</div>
+<div>
+
+```ruby
+let x = 10
+let label = if x > 0 "positive" else "zero"
+let a = let b = 5
+
+fn is_true() 5 + 5 == 10
+fn is_true() do # do-end is one too
+    return 5 + 5 == 10
+end
+```
+
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
+# pipes
+clean data flow without nesting
+
+</div>
+<div>
+
+```ruby
+"hello!!"
+  |> string.upper
+  |> string.sub(0, 4)
+  |> fn(s) s + ", world!" 
+  |> print
+```
+
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
+# comp
+execute any (really) expression at compile time
+
+any script can be compiled into bytecode and get any value baked in
+```bash
+revo -b script.rv
+revo script.rvo
+```
+
+</div>
+<div>
+
+```ruby
+const x = io:read() # asks for input at build
+                    # then keeps the result at run
+
+const pat = regex.compile("\s*# TODO: (.*)")
+
+const long = do
+    let t = 0
+    for x in 0..100
+        t += x
+    t
+end
+```
+
+</div>
+</div>
+
+### adjectives
+
+expressive | dynamically-typed | general-purpose | scripting | safe | functional | multi-paradigm | concurrent | bytecode-compiled
+
+# quick start
+
+## install 
+
+### binary
+grab the appropriate version for your os from [the releases page](https://codeberg.org/lung/revo/releases)
+
+```bash
+# make sure this is one of your paths!
+cp ~/Downloads/revo ~/.local/bin/revo
+
+revo -e '"hello" + "world"'
+```
+
+### from source
 the only dependency is [zig](https://ziglang.org/):
 ```bash
 zig build
 ```
 
 the binary will be available at `zig-out/bin/revo` or you can run with `zig build run`
-### basic usage
+### usage
 
 ```bash
 revo script.rv # run script
@@ -179,63 +236,3 @@ revo -b -o output.rvo script   # custom output path
 revo # start repl (not yet stable)
 revo --dis script.rv # bytecode disassembly
 ```
-
-### cli reference
-
-```help
-usage: revo [options] [script [args...]]
-
-options:
-  -e code          run code
-  -i               enter interactive mode after executing
-  -b               compile script to bytecode (.rvo)
-  -o path          output path for -b (default: input with .rvo extension)
-  --dis            show bytecode disassembly instead of running
-  -h, --help       show this help message
-  --version        show version
-
-examples:
-  revo                           start interactive REPL
-  revo script.rv                 run script
-  revo -e "1 + 2"                run inline code
-  revo -e "1 + 2" -i             run inline code and enter REPL
-  revo -b script.rv              compile script to bytecode
-  revo -b -o output.rvo script   compile script with custom output path
-  revo --dis script.rv           show bytecode disassembly
-
-revo uses a modified version of the GPLv3, refer to LICENSE.md
-https://gills.pages.dev/revo/LICENSE.txt; sha256:415d4cce
-```
-
-## development
-
-### building
-
-```bash
-zig build # debug build
-zig build -Doptimize=ReleaseFast # release built
-zig build -Drepl=none # custom repl backend (bestline, readline, libedit, none)
-```
-
-### running tests
-
-```bash
-zig build test --summary all -Dtest_filter="some test name filter"
-```
-
-## license
-
-revo is licensed under a custom, modified GPLv3 license
-see `LICENSE.txt`
-
-## credits
-
-- [bestline](https://github.com/jart/bestline) by Justine Tunney — MIT
-
-**optional repl backends, not vendored but linked dynamically**
-- [libedit](https://thrysoee.dk/editline/) — BSD
-- [GNU readline](https://tiswww.case.edu/php/chet/readline/rltop.html) — GPLv3
-
-## author
-
-created by lung [codeberg](https://codeberg.org/lung)/[github](https://github.com/if-not-nil)
