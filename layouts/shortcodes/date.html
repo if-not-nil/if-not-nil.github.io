@@ -1,0 +1,8 @@
+{{ $d := .Page.Date.Day }}
+{{ $suffix := "th" }}
+{{ if or (eq $d 1) (eq $d 21) (eq $d 31) }}{{ $suffix = "st" }}{{ end }}
+{{ if or (eq $d 2) (eq $d 22) }}{{ $suffix = "nd" }}{{ end }}
+{{ if or (eq $d 3) (eq $d 23) }}{{ $suffix = "rd" }}{{ end }}
+<span class="inline-date">
+  the {{ $d }}{{ $suffix }} of {{ .Page.Date.Format "January" | lower }}, {{ .Page.Date.Format "2006" }}
+</span>

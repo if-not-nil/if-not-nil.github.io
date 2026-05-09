@@ -1,5 +1,5 @@
 ---
-title: embedding
+title: embedding in zig
 ---
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
   

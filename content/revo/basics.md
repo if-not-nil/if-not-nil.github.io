@@ -103,11 +103,11 @@ print(mul(1, 23))
 
 # the limits of the language, afaik
 const x = comp do
-	let res = io:read():unwrap()
+	let res = read():unwrap()
 		|> fn(c) c:upper()
 
 	match res
-	| "HELLO" when io:read():unwrap():len() < 2
+	| "HELLO" when read():unwrap():len() < 2
 		{}:set_meta({ # can later call __tostring
             __index = fn(self, k) k * 2,
             __tostring = fn(self)

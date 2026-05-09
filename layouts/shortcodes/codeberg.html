@@ -1,0 +1,50 @@
+{{ $user := .Get "user" }}
+{{ $repo := .Get "repo" }}
+{{ $url := printf "https://codeberg.org/api/v1/repos/%s/%s" $user $repo }}
+{{ $response := resources.GetRemote $url }}
+{{ $data := $response.Content | unmarshal }}
+<div class="codeberg-card">
+	<div class="codeberg-header">
+		<a href="{{ $data.html_url }}" target="_blank" rel="noopener">{{$user}}/{{$repo}}</a>
+	</div>
+	{{ if $data.description }}
+	<blockquote cite="">
+		<div class="codeberg-desc">{{ $data.description }},</div>
+	</blockquote>
+	{{ end }}
+	...has {{ $data.stars_count }} stars, {{ $data.forks_count }} forks{{ if $data.language }}, and is written in
+	{{ $data.language }}{{ end }}
+</div>
+<style>
+	.codeberg-card {
+		background: var(--rat);
+		padding: 0.75rem;
+		margin: 1rem 0;
+		box-sizing: border-box;
+		color: var(--whiterose);
+	}
+
+	.codeberg-header {
+		margin-bottom: 0.5rem;
+	}
+
+	.codeberg-header a {
+		text-decoration: none;
+		color: var(--periwinkle);
+		font-weight: 900;
+		font-family: var(--font-mono);
+		padding-bottom: 0.25rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.codeberg-header a:hover {
+		background: var(--periwinkle);
+		color: var(--rat);
+	}
+
+	.codeberg-desc {
+		font-size: 0.9rem;
+		margin-bottom: 0.5rem;
+		line-height: 1.3;
+	}
+</style>
