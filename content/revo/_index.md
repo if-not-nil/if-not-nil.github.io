@@ -12,7 +12,7 @@ hideInList: true
 
 [docs](basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo)
 
-<b>revo</b> is a language made for the joy of programming
+<b>revo</b> is a dynamic language made for the joy of programming
 
 for writing readable code without missing out on semantic freedom
 
