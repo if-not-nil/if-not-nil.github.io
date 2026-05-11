@@ -3,33 +3,27 @@ title: 'basics'
 ---
 
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
-  
-  <pre class="ascii small">
-⠀⠀⠀⠄⠀⡀⠀⠀⠀⠀⠀⠀⢀⠀⠀⡀⠀⢀⠀⢀⡀⣤⡢⣤⡤⡀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠈⡄⡄⠐⡀⠈⣀⠀⡠⡠⠀⣢⣆⢌⡾⢙⠺⢽⠾⡋⣻⡷⡫⢵⣭⢦⣴⠦⠀⢠⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⢠⣤⣽⣥⡈⠧⣂⢧⢾⠕⠞⠡⠊⠁⣐⠉⠀⠉⢍⠀⠉⠌⡉⠀⠂⠁⠱⠉⠁⢝⠻⠎⣬⢌⡌⣬⣡⣀⣢⣄⡄⠀⡀
-⠀⢀⢸⣿⣿⢿⣾⣯⣑⢄⡂⠀⠄⠂⠀⠀⢀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠄⠐⠀⠀⠀⠀⣄⠭⠂⠈⠜⣩⣿⢝⠃⠀⠁
-⠀⢀⣻⡟⠏⠀⠚⠈⠚⡉⡝⢶⣱⢤⣅⠈⠀⠄⠀⠀⠀⠀⠀⠠⠀⠀⡂⠐⣤⢕⡪⢼⣈⡹⡇⠏⠏⠋⠅⢃⣪⡏⡇⡍⠀
-⠀⠀⠺⣻⡄⠀⠀⠀⢠⠌⠃⠐⠉⢡⠱⠧⠝⡯⣮⢶⣴⣤⡆⢐⣣⢅⣮⡟⠦⠍⠉⠀⠁⠐⠀⠀⠀⠄⠐⠡⣽⡸⣎⢁⠀
-⠀⢈⡻⣧⠀⠁⠐⠀⠀⠀⠀⠀⠀⠊⠀⠕⢀⡉⠈⡫⠽⡿⡟⠿⠟⠁⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠬⠥⣋⡯⠀⠀
-⠀⡀⣾⡍⠕⡀⠀⠀⠀⠄⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠥⣤⢌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠄⢀⠀⢝⢞⣫⡆⡄⠀
-⠀⠀⣽⡶⡄⠐⡀⠀⠀⠀⠀⠀⠀⢀⠀⠄⠀⠀⠀⠄⠁⠇⣷⡆⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡸⢝⣮⠍⠀⠀
-⢀⠀⢾⣷⠀⠠⡀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠁⡁⠀⠀⣾⡥⠖⠀⠀⠀⠂⠀⠀⠀⠀⠀⠁⠀⡀⠁⠀⠀⠻⢳⣻⢄⠀⠀
-⠀⠀⣞⡙⠨⣀⠠⠄⠀⠂⠀⠀⠀⠈⢀⠀⠀⠀⠀⠀⠤⢚⢢⣟⠀⠀⠀⠀⡐⠀⠀⡀⠀⠀⠀⠀⠁⠈⠌⠊⣯⣮⡏⠡⠂
-⠀⠀⣻⡟⡄⡡⣄⠀⠠⠀⠀⡅⠀⠐⠀⡀⠀⡀⠀⠄⠈⠃⠳⠪⠤⠀⠀⠀⠀⡀⠀⠂⠀⠀⠀⠁⠈⢠⣠⠒⠻⣻⡧⠀⠀
-⠀⠀⠪⡎⠠⢌⠑⡀⠂⠀⠄⠠⠀⠠⠀⠁⡀⠠⠠⡀⣀⠜⢏⡅⠀⠀⡀⠁⠀⠀⠁⠁⠐⠄⡀⢀⠀⠀⠄⢑⣿⣿⣿⡀⠀
-⠀⠀⠼⣻⠧⣣⣀⠐⠨⠁⠕⢈⢀⢀⡁⠀⠈⠠⢀⠀⠐⠜⣽⡗⡤⠀⠂⠀⠠⠀⢂⠠⠀⠁⠀⠀⠔⠀⠑⣨⣿⢯⠋⡅⠀
-⠀⠀⡚⣷⣭⠎⢃⡗⠄⡄⢀⠁⠀⠅⢀⢅⡀⠠⠀⢠⡀⡩⠷⢇⠀⡀⠄⡀⠄⠂⠀⠀⠄⠉⡠⠃⠴⠀⠈⢁⣿⡛⡯⠀⠀
-⠀⠘⡬⡿⣿⡏⡻⡯⠌⢁⢛⠠⠓⠐⠐⠐⠌⠃⠋⠂⡠⢰⣈⢏⣠⠂⠈⠀⠠⠒⠡⠄⠢⠤⠨⠢⡬⠆⠿⢷⢿⡽⡧⠉⠊
-⠀⠀⠺⣷⣺⣗⣿⡶⡎⡅⣣⢎⠠⡅⣢⡖⠴⠬⡈⠂⡨⢡⠾⣣⣢⠀⠀⡹⠄⡄⠄⡇⣰⡖⡊⠔⢹⣄⣿⣭⣵⣿⢷⡀⠀
-⠀⠀⠩⣿⣿⣲⣿⣷⣟⣼⠟⣬⢉⡠⣪⢜⣂⣁⠥⠓⠚⡁⢶⣷⣠⠂⡄⡢⣀⡐⠧⢆⣒⡲⡳⡫⢟⡃⢪⡧⣟⡟⣯⠐⠀
-⠀⠀⢺⠟⢿⢟⢻⡗⡮⡿⣲⢷⣆⣏⣇⡧⣄⢖⠾⡷⣿⣤⢳⢷⣣⣦⡜⠗⣭⢂⠩⣹⢿⡲⢎⡧⣕⣖⣓⣽⡿⡖⡿⠀⠀
-⠀⠀⠀⠀⠈⠉⠂⠂⠏⠿⢻⣥⡪⢽⣳⣳⣥⡶⣫⣍⢐⣥⣻⣾⡻⣅⢭⡴⢭⣿⠕⣧⡭⣞⣻⣣⣻⢿⠟⠛⠙⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠋⠫⠯⣍⢻⣿⣿⣷⣕⣵⣹⣽⣿⣷⣇⡏⣿⡿⣍⡝⠵⠯⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠠⠁⠋⢣⠓⡍⣫⠹⣿⣿⣷⡿⠯⠺⠁⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⢀⠋⢈⡿⠿⠁⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  </pre>
-  <div style="flex:1; min-width:250px;">
+<div>
+
+- [more](#more)
+- [operators](#operators)
+- [control flow](#control-flow)
+   * [if/else](#ifelse)
+   * [loop / while / for](#loop-while-for)
+   * [match](#match)
+- [pipe operator](#pipe-operator)
+- [iteration](#iteration)
+- [errors](#errors)
+   * [orelse](#orelse)
+- [fibers and channels](#fibers-and-channels)
+- [stdlib modules](#stdlib-modules)
+- [imports](#imports)
+- [advanced](#advanced)
+   * [comptime](#comptime)
+   * [macros](#macros)
+   * [metatables](#metatables)
+</div>
+  <div style="margin-left: 2ch; flex:1; min-width:250px;">
 
 # basics
 [docs](docs/basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo) | [license](#license)
@@ -39,323 +33,309 @@ title: 'basics'
 everything is an expression, and everything is pipe-able and chain-able - you would want to assume that everything returns what you expect. if not, it's probably a design flaw and you should open an issue
   </div>
 
+
+
 </div>
 
 **revo in 1 minute**
 ```ruby
-##
-this examples shows the surface syntax and capabilities of revo the programming language
-##
-
-# single-line comments
-
-let a = 10       # mutable
-const b = 20     # immutable
+let a = 10       # mutable variable
+const b = 20     # immutable binding
 global c = 30    # module-level, visible across closures
 
+# functions
 fn add(x, y) x + y
-# above and below are equivalent. all functions are first-class
 const greet = fn(name) "hello, " + name
 
-let t = {1, 2, 3}            # table (mutable collection)
-let h = {name = "revo"}
+# tables (the universal collection type)
+let t = {1, 2, 3}
+let h = {name = "revo", version = 1}
 h.stable = :true
 
-const point = (10, 20)       # tuple (fixed, immutable)
+# tuples - fixed-shape, immutable
+const point = (10, 20)
 const (x, y) = point
 
-match safe_div(10, 2)        # result types + pattern matching
-| (:ok, v)  print(v)
-| (:err, e) print(e)
+# pattern matching + result types
+fn safe_div(a, b)
+    if b == 0 err(:DivByZero)
+    else ok(a / b)
 
-if :true something()
-# is the same as
-if :true do
-    something()
-end
-# and works the same as
-if :true
-    something()
-else if :false
-    something_else()
-# and is an expr
+match safe_div(10, 2)
+    | (:ok, v)  print(v)     # 5
+    | (:err, e) print(e)
 
-const a = if :true :ok else :false
-const b = match :true 
-    | :false "a"
-    | :true "b"
-    | _ "c"
+# pipes
+"hello" |> print
+(1, 2, 3) |> fn(t) map(t, fn(x) x * 2) |> print  # (2, 4, 6)
 
-"hello" |> print             # pipe operator
-
-"asdf"
-|> (fn(s) s * 2)
-|> print
-
-const h = spawn add(20, 22)  # fibers
+# fibers
+const h = spawn add(20, 22)
 join(h)  # 42
-
-# type annotations exist, but are not yet functional
-const a: number = 10
-const b: number = 20
-fn mul(x: number, y: number) x * y
-print(mul(1, 23))
-
-# the limits of the language, afaik
-const x = comp do
-	let res = read():unwrap()
-		|> fn(c) c:upper()
-
-	match res
-	| "HELLO" when read():unwrap():len() < 2
-		{}:set_meta({ # can later call __tostring
-            __index = fn(self, k) k * 2,
-            __tostring = fn(self)
-                import("libdebug.so").tostring(self),
-		})
-	| x
-	when do
-		let u = x
-		print(u)
-	end :ok
-end
 ```
+
+## more
 
 the fundamental types are:
+- numbers - `1, 1.0, -0.14`
+- tables - `{1, 7}, {k = "v", [1 + 4] = "8"}`
+    they have an array part and a hashmap part, and are used to represent any other data structure
+    that is not already a fundamental type (like strings). there are [some builtin methods](./std.md#table)
+    anything that contains more than one item and has to be mutable should be a table.
+    ```ruby
+    let arr = {1, 5, 3}
+    let hashmap = {k = "v"}
+    hashmap.x = "y"
 
-## numbers
+    let a = {
+        inner = 8, # keys are represented as atoms
+        ["inner_str"] = 10, # but can be of any type with the [] syntax
+        mutate = fn(self) self.inner *= 2,
+        helper = fn() "helped",
+    }
+    print(a.inner)
+    print(a["inner_str"])
+    print(a.helper())
+    a:mutate() # the colon syntax makes it equivalent to a.mutate(a)
+    for k in a:keys()
+        print(k)
 
-`1`, `1.0`, `-0.14`. arithmetic works as you'd expect and there's no integer/float distinction at the type level
+    struct User { # a struct for now just makes a fn called User, which returns
+        name: string # the type is checked at creation time
+        age: number = 42
+        const get_age = fn(self) self.age
+    }
+    const me = User({name = "me", age = 99})
+    # when you call a function with one argument, if that arg is a string
+    # or a table literal, you can do so without parenteheses
+    const you = User{name = "you", age = 123}
+    print(you:get_age())
+    ```
+    they are always passed by reference, never copied unless you manually `{1,2,3}:copy()`
+- atoms (a.k.a. symbols, sigils)
+    only to be used to compare against other atoms
 
-## tables
+    are the way to express nil, true, and false
 
-the universal collection. array part, hashmap part, always passed by reference
+    they are not to be created at runtime. very useful to express tagged unions with tuples
 
-```ruby
-let arr = {1, 5, 3}
-let map = {k = "v"}
-map.x = "y"
+    only `:false`, `0`, and `:nil` are falsey - everything else (including `""` and `{}`) is truthy
 
-let a = {
-    inner = 8,
-    ["inner_str"] = 10,       # [] syntax for non-ident keys
-    mutate = fn(self) self.inner *= 2,
-    helper = fn() "helped",
-}
+    for this reason, the language does not have exceptions/errors and uses
+    (:err, :ErrorName) and (:ok, value) together with pattern matching, `?`, `orelse`, `:unwrap()`,
+    and `ok?`/`err?` to handle errors. toplevel `?` panics instead of returning silently. there are
+    helpers to check these:
 
-print(a.inner)         # 8
-print(a["inner_str"])  # 10
-print(a.helper())      # "helped"
-a:mutate()             # colon syntax passes a as first arg (like self)
-```
+    ```ruby
+    ok?((:ok, 42))      # :true
+    err?((:err, :Bad))  # :true
+    ok(42):unwrap()    # 42  (panics on :err)
+    (:err, :bad)?      # panics at toplevel
+    (:err, :bad) orelse 0
+    ```
+- functions
+    a function is very simple. it (technically) is just one expression, to which you can give parameters
 
-structs build on tables - they generate a constructor that type-checks fields at creation time:
+    the syntax only requires for one expression. so how do you make it a real [procedure](https://stackoverflow.com/a/721107)?
 
-```ruby
-struct User {
-    name: string
-    age: number = 42          # default value
-    const get_age = fn(self) self.age
-}
+    `do 1 2 3 end` allows for grouping multiple expressions together. it normally evaluates
+    to just what the last expression was, and for `do 1 2 3 end`, it's 3. you can, however,
+    `do 1 return 2 3 end`, which returns early with 2!
 
-const me = User({name = "me", age = 99})
-const you = User{name = "you"}  # table/string args don't need parens
-print(you:get_age())            # 42
-```
+    ```ruby
+    # these two are equivalent
+    fn hi(a, b) a + b # most idiomatic for one-liners
+    const hi = fn(a, b) a + b
 
-if you need a copy: `{1, 2, 3}:copy()`. otherwise mutations are shared
+    fn hi(a, b) do # most idiomatic for multiline
+        if x < 0 return :none
 
-## atoms
+        let x = a + b
+        some(x)
+    end
+    fn hi(a, b) do let x = a + b return x end # works too
+    fn hi(a, b) match a # ocaml influence
+        | (:some, v) v + b
+        | (:none) :none
+    ```
 
-named constants, compared by identity. `:ok`, `:err`, `:true`, `:false`, `:nil`
+    it is always first-class, no matter how it may appear
 
-only `:false`, `:nil`, and `0` are falsey - `""` and `{}` are truthy
+    it also captures values from the outer scope, like most modern languages
 
-don't create them at runtime. use them to tag tuples:
-
-```ruby
-ok(42)             # (:ok, 42)
-err(:FileNotFound) # (:err, :FileNotFound)
-some(42)           # (:some, 42)
-(:none,)           # the none/nothing value
-
-ok?(ok(42))        # :true
-none?((:none,))    # :true
-ok(42):unwrap()    # 42  - panics on :err
-```
-
-revo doesn't have exceptions. errors are just values
-
-## functions
-
-a function is one expression. for multiple steps, wrap them in `do ... end`:
-
-```ruby
-fn add(a, b) a + b                  # one-liner
-const add = fn(a, b) a + b          # same thing
-
-fn process(a, b) do                 # multiline
-    if a < 0 return :none
-    let x = a + b
-    some(x)
-end
-
-fn classify(a) match a              # match as body
-    | (:ok, v)  v + 1
-    | (:err, _) 0
-```
-
-functions are always first-class and always return something - even if that something is `:nil`
-
-closures capture by reference, so mutations are visible across everything sharing that variable:
-
-```ruby
-fn make_counter() do
-    let x = 0
-    fn() do
+    closures capture by reference (upvalues link to outer variable slots), so mutations are visible
+    to all closures sharing that variable:
+    ```ruby
+    fn make_counter() do
+      let x = 0
+      const inc = fn()
         x = x + 1
         x
+      inc
     end
-end
 
-const counter = make_counter()
-counter()  # 1
-counter()  # 2
-```
+    const counter = make_counter()
+    print(counter()) # 1
+    print(counter()) # 2
+    ```
 
-## strings
+    ```ruby
+    # a function
+    let a = fn() 1 + 2
+    let b = fn() do
+        let result = some_procedure()
+        return result:to_upper()
+    end
 
-double-quoted strings process escape sequences. single-quoted strings are completely literal:
+    let c = fn()
+        another_proc()
+        |> process_result()
 
-```ruby
-"hello\nworld"  # newline
-'hello\nworld'  # literal backslash-n
-```
+    # all functions are anonymous, meaning you can put them anywhere
+    "hello":map(fn(c) c:upper())
+    ```
 
-strings come with methods:
+    also, every function really is a function and never just a procedure.
+    all expressions return something, it's just that sometimes the result is not going to be of
+    much use to you
+    ```ruby
+    let b = {4} # {4}
+    b[0] # 4
+    const x = fn() b[0] += 2 # x()/0
+    x() # 6
+    do end # :nil
+    print() # :ok
+    let a = let b = 5 # both a and b are 5, line returns 5
+    ```
 
-```ruby
-"hello":upper()            # "HELLO"
-"  hi  ":trim()            # "hi"
-"hello":sub(1, 3)          # "ell"
-"a,b,c":split(",")         # {"a", "b", "c"}
-"hello":find("ll")         # 2, or :missing
-"hello":replace("l", "r")  # "herro"
-"hello":starts_with("he")  # :true
-("abc"):with(1, "X")       # "aXc" - 0-indexed, returns new string
-"hello" + " world"         # concatenation
-"ha" * 3                   # "hahaha"
-```
+- strings - `"string"`
+    they're just like any other strings. double-quoted strings process escape sequences, while
+    single-quoted strings are completely literal (no escape processing):
+    ```ruby
+    "hello\nworld" # newline
+    'hello\nworld' # literal backslash-n
+    ```
+    you can also use the `"string":method()` methods:
+    ```ruby
+    "hello":upper()           # "HELLO"
+    "  hi  ":trim()           # "hi"
+    "hello":sub(1, 3)         # "ell"
+    "a,b,c":split(",")        # {"a", "b", "c"}
+    "hello":find("ll")        # 2, or :missing
+    "hello":replace("l", "r") # "herro"
+    "hello":starts_with("he") # :true
+    ("abc"):with(1, "X")      # "aXc" (0-indexed, returns new string)
+    "hello" + " world"        # concatenation
+    "ha" * 3                  # "hahaha"
+    ```
+    found in the [std docs](./std.md#string)
+- tuples
+    arrays which you can't change the length or contents of. super useful for error handling and
+    storing data you know a lot about the shape of. safer and more performant than tables, but do
+    not allow for as much flexibility.
+    ```ruby
+    const t = (1, 2, 3)
+    t[0] # 1
 
-## tuples
+    # destructuring
+    const (x, y) = (10, 20)
 
-fixed-length, immutable, faster than tables. great for shaped data and return values:
+    # functions can return multiple values cleanly
+    const vector_mul = fn(a, b, factor)
+        (a * factor, b * factor)
 
-```ruby
-const t = (1, 2, 3)
-t[0]  # 1
-
-const (x, y) = (10, 20)  # destructuring
-
-fn vector_mul(a, b, factor) (a * factor, b * factor)
-
-const (vx, vy) = vector_mul(4, 6, 2)
-print(vx + vy)  # 20
-```
+    const (vx, vy) = vector_mul(4, 6, 2)
+    print(vx + vy) # 20
+    ```
 
 # operators
 
-arithmetic and comparison work as you'd expect:
-
+standard arithmetic and comparison work as you'd expect:
 ```ruby
 1 + 2 * 3  # 7
 10 / 2     # 5
 -(3 + 4)   # -7
 
-1 < 2      # :true
-1 == 1     # :true
-1 != 2     # :true
-"a" < "b"  # :true - lexicographic
+1 < 2     # :true
+1 == 1    # :true
+1 != 2    # :true
+"a" < "b" # :true, lexicographic
 ```
 
-`and`/`or` preserve the actual value instead of collapsing to a boolean, which makes them useful
-for defaults and guards:
-
+`and`/`or` preserve value semantics rather than collapsing to booleans, which makes them useful
+for default values and short-circuit guards:
 ```ruby
 1 and 2    # 2
 0 or 9     # 9
-0 and 999  # 0 - short-circuit
-1 or 999   # 1 - short-circuit
+0 and 999  # 0 (short-circuit)
+1 or 999   # 1 (short-circuit)
 not :false # :true
 ```
 
-assignment operators work as expected and return the rhs, so you can chain or embed them:
-
+assignment operators exist and work as you'd expect. since assignment is an expression, it
+returns the rhs:
 ```ruby
 let a = 41
-a += 1         # 42
+a += 1 # 42
 a -= 1  a *= 2  a /= 2
 
-let y = (x = 42)  # y is 42
+let y = (x = 42) # y is 42
 ```
 
 # control flow
 
-## if
+## if/else
 
-`if` is an expression - it returns the value of whichever branch ran:
-
+`if` is an expression and returns the value of whichever branch was taken:
 ```ruby
-const label = if score >= 90 "A" else "B"
-
 const a = if 1 == 1
     5
 else
     42
-print(a)  # 5
+print(a) # 5
 ```
 
-## loop, while, for
+## loop / while / for
+
+`loop` creates a loop block. `break` exits it with a value:
 
 ```ruby
-# loop runs forever until break
 const result = loop do
     if x < 10
         x = x + 1
     else
-        break(x)  # break takes a value
+        break(x)
 end
 
-# while is the familiar kind
 let y = 0
 while y < 5 do
     y = y + 1
 end
 
-# 0..n = 0, 1, ..., n-1 (exclusive end)
+# 0..n produces 0, 1, 2, ..., n-1 (inclusive start, exclusive end)
 let sum = 0
 for i in 0..5 do
     sum = sum + i
 end
-print(sum)  # 15
+print(sum) # 15
 ```
 
 ## match
 
-match arms are expressions. use `_` as a wildcard, and `when` for guards:
-
+match arms are expressions. wildcards and guards let you cover complex cases cleanly:
 ```ruby
-const label = match x
+const r = match x
     | 1 "one"
     | 2 "two"
-    | _ "other"
+    | _ "other" # wildcard
 
+# guards with when
 const tier = match score
     | v when v >= 90 "A"
     | v when v >= 70 "B"
     | v              "C"
 
-# the main event - result types
+# really useful for result tuples
 match safe_div(10, 0)
     | (:ok, v)  print(v)
     | (:err, e) print(fmt("error: %v", e))
@@ -363,101 +343,130 @@ match safe_div(10, 0)
 
 # pipe operator
 
-`|>` passes a value as the first argument to the next call. chains read left to right:
-
+pipe passes a value as the first argument to the next function:
 ```ruby
-const double  = fn(x) x * 2
-const add_one = fn(x) x + 1
+fn double(x) x * 2
+fn add_one(x) x + 1
 
-21 |> double      # 42
+21 |> double     # 42
 "hello" |> print
 
-5 |> add_one |> double  # 12
+# chain with intermediate vars
+const val = 5 |> add_one # 6
+val |> double            # 12
 ```
 
 # iteration
 
-`map`, `filter`, `reduce`, `each`, `find`, `all`, and `any` work on strings, tuples, and tables:
-
+`map`, `filter`, `reduce`, `each`, `find`, `all`, and `any` work uniformly on strings, tuples,
+and tables:
 ```ruby
-map((1, 2, 3), fn(x) x * 2)               # (2, 4, 6)
-filter("hello", fn(c) c != "l")            # "heo"
-reduce((1,2,3,4), fn(acc, x) acc + x, 0)  # 10
-each({a=1, b=2}, fn(v) print(v))           # side effects, :ok
-find((1,2,3,4), fn(x) x > 2)              # 3
-all((1,2,3), fn(x) x > 0)                 # :true
-any((1,2,3), fn(x) x > 2)                 # :true
+map((1, 2, 3), fn(x) x * 2)              # (2, 4, 6)
+filter("hello", fn(c) c != "l")           # "heo"
+reduce((1,2,3,4), fn(acc, x) acc + x, 0) # 10
+each({a=1, b=2}, fn(v) print(v))          # side effects, returns :ok
+find((1,2,3,4), fn(x) x > 2)             # 3
+all((1,2,3), fn(x) x > 0)                # :true
+any((1,2,3), fn(x) x > 2)                # :true
 ```
 
-# metatables
+# errors
 
-metatables let you customize table behavior through metamethods:
+revo does not have exceptions and tries to crash only in extreme scenarios
 
+this means, errors are treated as values
+if a function may error, it's likely to return either
+`(:ok, value)`
+... or `(:err, :ErrorName)`
+
+see examples/errors.rv for full examples
+
+# propagation: `?` and `orelse`
+revo has two operators for error handling: `?` for early return and `orelse` for defaults
 ```ruby
-const mt = {
-    __tostring = fn(self) "MyObj",
-    __display  = fn(self) "MyObj",  # used by fmt %v, falls back to __tostring
-    __len      = fn(self) 42,
-    __add      = fn(a, b) 100,
-    __index    = fn(self, key) 0,         # missing field fallback
-    __newindex = fn(self, key, val) nil,  # intercept assignment
-}
-const t = set_metatable({}, mt)
-
-len(t)     # 42
-t + 5      # 100
-t.missing  # 0
+fn load_config(path) do
+	const f = fs.open(path)? # has to succeed
+	const raw = f:read() orelse "<none>" # can fall back
+	parse_json(raw)
+end
 ```
 
-plain fields resolve before `__index`, and so do metatable methods - which is how `:method()` works without any extra magic:
+## the ? operator
+
+`?` propagates errors up the call stack. if an expression is an error (`(:err, ...)`), the function returns immediately with that error. otherwise, the value is unwrapped. at toplevel, the error panics instead of returning silently.
 
 ```ruby
-const mt = {get_x = fn(self) self.x}
-const t = set_metatable({x = 12}, mt)
-t:get_x()  # 12
+fn parse_int(s) match tonumber(s)
+	| (:ok, n) n
+	| (:err, e) return (:err, e)
+end
+
+fn parse_int_short(s) do
+	tonumber(s)?
+end
+
+# in a sequence
+fn parse_version(str) do
+	const parts = str:split(".")
+	const major = tonumber(parts[1])?
+	const minor = tonumber(parts[2])?
+	(:ok, (major, minor))
+end
+```
+
+the toplevel is implicitly a function, so returning an error from it panics too
+
+## orelse
+
+`orelse` assigns a default value when an expression is nil or an error
+
+```ruby
+# fallback to default
+const name = read_file("name.txt") orelse "unknown"
+const x = (:err, :not_found) orelse 0  # x = 0
+const y = nil orelse 0                 # y = 0
+const z = (:ok, 42) orelse 0           # z = 42
 ```
 
 # fibers and channels
 
-fibers are cooperative, not preemptive. the main fiber runs first, the run queue is FIFO
-
-`spawn` starts a new fiber. `join` blocks until it's done and returns the result:
-
+fibers are cooperative (not preemptive). the main fiber runs first and the run queue is FIFO.
+`spawn` takes a function call expression and runs it in a new fiber. `join` blocks until it's done
+and returns the result:
 ```ruby
-const h = spawn add(20, 22)
-join(h)  # 42
-h:join()  # 42
+const h = spawn fn(a, b) a + b (39, 3)
+join(h) # 42
 ```
 
-channels coordinate fibers. unbuffered (`chan(0)`) blocks the sender until a receiver is ready. buffered blocks only when full:
-
+channels coordinate fibers. unbuffered channels (`chan(0)`) block the sender until a receiver
+is ready. buffered channels block only when full:
 ```ruby
 # unbuffered
 const ch = chan(0)
 const s = spawn fn(c) send(c, 42) (ch)
-recv(ch)  # 42
+recv(ch) # 42
 join(s)
 
-# buffered - send up to capacity without blocking
+# buffered
 const bch = chan(2)
 send(bch, 10)
 send(bch, 32)
-recv(bch) + recv(bch)  # 42
+recv(bch) + recv(bch) # 42
 ```
 
-`yield` suspends the current fiber and pushes it to the back of the run queue. `sleep(ms)` parks it without blocking others:
-
+`yield` suspends the current fiber and pushes it back to the run queue. `sleep(ms)` parks it
+without blocking other fibers:
 ```ruby
-yield        # give other fibers a turn
-sleep(100)   # wait 100ms
+do yield end
+sleep(100)
 ```
 
 # stdlib modules
 
-a few modules are available as globals:
+revo ships a small set of helpful globals without imports: essentials like `print`, `read`, `cwd`,
+and `@eval`, plus a few module-style namespaces
 
 `fs` - file and directory access:
-
 ```ruby
 let f = fs.open("./README.md"):unwrap()
 let data = f:read()
@@ -468,17 +477,32 @@ let entries = dir:readdir():unwrap()
 dir:close()
 
 let stat = fs.open("./README.md"):unwrap():stat():unwrap()
-stat.size  # bytes
+stat.size  # file size in bytes
 stat.kind  # :file or :dir
 ```
 
-`net` - tcp sockets:
+`json` - encode and decode json:
+```ruby
+json.encode(("a", "b", "c")):unwrap()  # ["a","b","c"]
+json.decode("{\"a\":1}"):unwrap().a    # 1
+```
 
+`time` - wall-clock and monotonic time:
+```ruby
+time.now()         # current time in ms
+time.now_ns()      # current time in ns
+# monotonic ms
+# you want the monotinic clock for measuring time between two events
+time.monotonic()   
+time.sleep(100)
+```
+
+`net` - tcp sockets:
 ```ruby
 # server
 const listener = net.listen(1337)
-const client   = net.accept(listener)
-const data     = net.recv(client)
+const client = net.accept(listener)
+const data = net.recv(client)
 net.send(client, data)
 net.close(client)
 
@@ -489,69 +513,112 @@ const reply = net.recv(conn)
 net.close(conn)
 ```
 
-`os` - system access (stdin, env, etc.)
+`os` - system access (read from stdin, etc.)
 
 `@eval` - evaluate a string as revo code at runtime:
-
 ```ruby
-@eval("print(1 + 2)")  # 3
+@eval("print(1 + 2)") # 3
 ```
 
 # imports
 
-`import` loads and caches a module - the same path always returns the same table:
-
+`import` loads a module file and caches it - the same path always returns the same table:
 ```ruby
 # counter.rv
 let count = 0
-{count = count}  # last expression is the module's exported value
+{count = count} # whatever the last expression is becomes the module's value
 
 # main.rv
 const a = import "counter"
 a.count = 41
 const b = import "counter"
-print(b.count)  # 41, same cached table
+print(b.count) # 41 (same cached module)
 ```
 
-module-level `let`/`const` are private. only the returned value is shared
+module-level `let`/`const` are private to the module. only the returned value is shared with
+the importer.
 
-# comptime
+# advanced
 
-`comp` runs an expression at compile time and bakes the result into the bytecode:
+## comptime
 
+`comp` evaluates an expression at compile time and replaces it with the constant result in the
+bytecode. compile time happens both when executing a script directly and when running
+`revo build in.rv out.rvo`:
 ```ruby
 const LIMIT = comp (1024 * 1024)
-print(comp ("prefix_" + "suffix"))  # prefix_suffix
-print(comp (1 < 2))                 # :true
-print(comp io.read())               # runs only at compile time, never at runtime
+print(comp ("prefix_" + "suffix")) # prefix_suffix
+print(comp (1 < 2))                # :true
+print(comp read())                 # only runs at compilation time
 ```
 
-# macros
+## macros
 
-macros are compile-time transformers. they pattern-match syntax and rewrite it - zero runtime cost:
-
+macros are compile-time code transformers. they use pattern matching to capture and rearrange
+syntax, which lets you extend the language without any runtime cost:
 ```ruby
-# macro `pattern` `template`
-# %e:expr  - any expression
-# %n:ident - an identifier
-# %s:str   - a string literal
+## macro `pattern` `template`
+## %e:expr   - capture any expression
+## %n:ident  - capture an identifier
+## %s:str    - capture a string literal
 
 const unless! = macro `(%cond:expr %body:expr)` `if %cond :nil else %body`
-unless!(5 < 0, :positive)  # :positive
+unless!(5 < 0, :positive) # :positive
 
-# repetition groups
-# %GROUP(...)* - zero or more
-# %GROUP(...)+ - one or more
-# %GROUP(...)? - optional
+## repetition groups
+## %GROUP(...)* - zero or more
+## %GROUP(...)+ - one or more
+## %GROUP(...)? - optional
 
 const sum_all! = macro `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
-sum_all!(10, 15, 17)  # 42
+sum_all!(10, 15, 17) # 42
 ```
 
-some macros are preloaded:
+some macros come preloaded:
+```ruby
+unless!(:false, 42)                   # 42
+all_true!(1, :true, "t", 1)           # :true
+all_true!(1, :true, "t", 1, :false)   # :false
+```
+
+## metatables
+
+metatables let you customize table behavior via metamethods. set one with `set_meta`:
+```ruby
+const mt = {
+    __tostring = fn(self) "MyObj",
+    __display  = fn(self) "MyObj", # used by fmt %v, falls back to __tostring
+    __len      = fn(self) 42,
+    __add      = fn(a, b) 100,
+    __sub      = fn(a, b) 200,
+    __index    = fn(self, key) 0,        # called when a field is missing
+    __newindex = fn(self, key, val) nil, # intercept assignment
+}
+const t = set_metatable({}, mt)
+
+len(t)    # 42
+t + 5     # 100
+t.missing # 0
+```
+
+plain table fields always resolve before `__index` is called. metatable fields (like methods)
+resolve before `__index` too, which is how `obj:method()` works without any extra magic:
+```ruby
+const mt = {get_x = fn(self) self.x}
+const t = set_metatable({x = 12}, mt)
+t:get_x() # 12
+```
+
+forloops can also iterate over any object that has an `__iter` metamethod set
 
 ```ruby
-unless!(:false, 42)                  # 42
-all_true!(1, :true, "t", 1)          # :true
-all_true!(1, :true, "t", 1, :false)  # :false
+range = set_metatable({start=1, end=10}, {
+  __iter = fn(self) do
+        return fn() do 
+            self.start = self.start + 1
+            self.start <= self.end
+        end
+    end
+})
+for x in range print(x)
 ```

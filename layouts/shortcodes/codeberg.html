@@ -5,7 +5,7 @@
 {{ $data := $response.Content | unmarshal }}
 <div class="codeberg-card">
 	<div class="codeberg-header">
-		<a href="{{ $data.html_url }}" target="_blank" rel="noopener">{{$user}}/{{$repo}}</a>
+		<a href="{{ $data.html_url }}" target="_blank" rel="noopener">{{ $data.html_url }}</a>
 	</div>
 	{{ if $data.description }}
 	<blockquote cite="">

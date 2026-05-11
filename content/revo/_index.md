@@ -104,7 +104,7 @@ nil and booleans are replaced by atoms
 you can't use a value without handling an error
 all crashes are explicit (WIP)
 
-aided massively by pattern matching
+aided massively by pattern matching, `?`, `orelse`, and `:unwrap()`
 
 </div>
 <div>
@@ -114,6 +114,9 @@ aided massively by pattern matching
 #   (:ok, "file-contents")
 #   or (:err, :IoError)
 const f = fs.open({path = "./readme.md"})
+
+# `?` unwraps :ok and panics on :err at top-level
+const f2 = fs.open({path = "./readme.md"})?
 
 # crashes if :err
 const f = fs.open({path = "./readme.md"}):unwrap()
