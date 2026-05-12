@@ -21,8 +21,9 @@ a 1mb toolkit with much focus on ergonomics
 
 <span style="flex: 1;">
     <a class="imp" href="#quick-start">get</a>
-    <!-- <span>or</span> -->
+    <span>or</span>
     <!-- <a class="imp" href="https://codeberg.org/lung/revo">try</a> -->
+    <a class="imp" href="https://discord.gg/XzGWh7TX59">join the discord</a>
 </span>
 
 </div>
