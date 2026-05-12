@@ -220,6 +220,33 @@ let f = match read({path = "./readme.md"})
 <div class="lr-container">
 <div>
 
+# first-class tests
+they're just closures and they fail when you return an error. the `?` postfix operator propagates errors, giving you a pretty simple experience
+
+</div>
+<div>
+
+```ruby
+fn add(a, b) a + b
+
+suite "add" do
+  test "addition" do
+    expect(add(20, 22) == 42)?
+    expect(add(20, 22) != 22)?
+  end
+  
+  test/skip "adds two tables" do
+    expect(add({1,2}, {3, 4}) == {4,6})?
+  end
+end
+```
+
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
 # everything is an expression
 no statements, everything (really) always returns a value
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language }}">
 	{{ partial "head-essential.html" . }}	
+	<title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
 	<link rel='stylesheet' type='text/css' href='/new.css'>
 	<body>
 		{{ partial "header.html" . }}
