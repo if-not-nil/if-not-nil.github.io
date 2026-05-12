@@ -14,19 +14,16 @@ hideInList: true
 
 <b>revo</b> is a dynamic language made for the joy of programming
 
-for writing readable code without missing out on semantic freedom
-
-a batteries-included, expression-first, (really) multi-paradigm, (really) general-purpose programming language
+a 1mb toolkit with much focus on ergonomics
+[introduction with words](./blog/apples)
 
 </span>
 
 <span style="flex: 1;">
-    <a class="imp" href="https://codeberg.org/lung/revo">get</a>
-    <span>or</span>
-    <a class="imp" href="https://codeberg.org/lung/revo">try</a>
+    <a class="imp" href="#quick-start">get</a>
+    <!-- <span>or</span> -->
+    <!-- <a class="imp" href="https://codeberg.org/lung/revo">try</a> -->
 </span>
-
-*many features are going to be bugged before v0.1.0*
 
 </div>
 
@@ -98,6 +95,26 @@ end
 <div class="lr-container">
 <div>
 
+# pipes
+clean data flow without nesting
+
+</div>
+<div>
+
+```ruby
+"hello!!"
+  |> string.upper
+  |> string.sub(0, 4)
+  |> fn(s) s + ", world!" 
+  |> print
+```
+
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
 # errors-as-values
 nil and booleans are replaced by atoms
 
@@ -120,14 +137,6 @@ const f2 = fs.open({path = "./readme.md"})?
 
 # crashes if :err
 const f = fs.open({path = "./readme.md"}):unwrap()
-
-# or match on it yourself
-let f = match read({path = "./readme.md"})
-| (:ok, file) file
-| (:err, error) when error == :FileDNE
-	panic("file does not exist")
-| (error) panic("error")
-| x panic("unknown: ", x)
 ```
 
 </div>
@@ -136,7 +145,7 @@ let f = match read({path = "./readme.md"})
 <div class="lr-container">
 <div>
 
-# procedural macros (WIP)
+# procedural macros
 along with an AST-substituting macro system,
 
 this lets you just get an iterator over the raw ast tokens, run any code to transform them
@@ -150,12 +159,14 @@ proc cmul!(iter) do
   print("inner: ", add3!(10,20,12))
   print("peek: ", iter:peek())
   match iter:peek()
-    | (:number, n) print("is number", n)
-    | (other, n) print(other, n)
-    | x print("not tuple: ", x)
+  | (:number, n) print("is number", n)
+  | (other, n) print(other, n)
+  | x print("not tuple: ", x)
+
   let a = 10 + (iter:next_of(:number))
   let b = iter:next_of(:number)
   let c = iter:next_of(:number)
+
   let acc = 0
   for i in 1..5 do
   	acc += a * b + c
@@ -195,13 +206,12 @@ const response = match "hello!"
 | x when string?(x) x + " to you too!"
 | _ ":("
 
-let f = match fs.open("./readme.md")
+let f = match read({path = "./readme.md"})
 | (:ok, file) file
-| (:err, error) do
-	match error
-	| :FileDNE panic("file does not exist")
-	| x panic("other error: ", x)
-end
+| (:err, error) when error == :FileDNE
+	panic("file does not exist")
+| (error) panic("error")
+| x panic("unknown: ", x)
 ```
 
 </div>
@@ -234,26 +244,6 @@ end
 <div class="lr-container">
 <div>
 
-# pipes
-clean data flow without nesting
-
-</div>
-<div>
-
-```ruby
-"hello!!"
-  |> string.upper
-  |> string.sub(0, 4)
-  |> fn(s) s + ", world!" 
-  |> print
-```
-
-</div>
-</div>
-
-<div class="lr-container">
-<div>
-
 # tables
 represent everything
 
@@ -277,47 +267,42 @@ rec:set_meta({
 })
 
 struct Project {
-    name: string
-    version: number = 1
+    name: string,
+    version: number = 0,
+    fn is_beta(self) self.version == 0,
 }
 
-Project{name = "revo"}
+let p =Project{name = "revo"}
+assert(p:is_beta())
 ```
 
 </div>
 </div>
-
-### adjectives
-
-expressive | dynamically-typed | general-purpose | scripting | safe | functional | multi-paradigm | concurrent | bytecode-compiled
 
 # quick start
 
-### binary
-grab the appropriate version for your os from [the releases page](https://codeberg.org/lung/revo/releases)
-
+the only dependency is [zig](https://ziglang.org/) version 0.16.0:
 ```bash
-# make sure this is one of your paths!
-cp ~/Downloads/revo ~/.local/bin/revo
+cd /tmp
+git clone https://codeberg.org/lung/revo
+zig build -Doptimize=ReleaseFast # static build with vendored 
+./zig-out/bin/revo -e 'print("hello " + "world")'
 
-revo -e '"hello" + "world"'
+# then, put that binary in your path
+cp ./zig-out/bin/revo ~/.local/bin/revo
 ```
 
-### from source
-the only dependency is [zig](https://ziglang.org/):
-```bash
-zig build -Doptimize=ReleaseFast
-```
-
-the binary will be available at `zig-out/bin/revo` or you can run with `zig build run`
-### usage
+## usage
 please check `revo -h` first
 
 ```bash
-revo script.rv # run script
-revo -e "1 + 2" # inline code
-revo -b script.rv              # creates script.rvo
+revo script.rv   # run script
+revo             # start repl
+revo -e "1 + 2"  # inline code
+
+revo -b script.rv              # script.rv -> script.rvo
 revo -b -o output.rvo script   # custom output path
-revo # start repl (not yet stable)
-revo --dis script.rv # bytecode disassembly
+revo --bench1 script.rv        # benchmarks script.rv
+revo --test script.rv          # runs with test blocks
+revo --dis script.rv           # bytecode disassembly
 ```

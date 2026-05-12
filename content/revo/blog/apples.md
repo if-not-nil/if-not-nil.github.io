@@ -32,9 +32,8 @@ title: 'revo, the programming language'
   </div>
 </div>
 
+> software that doesn't hate you
 [-> what it looks like](#what-that-looks-like-in-practice)
-
----
 
 many cool and interesting ideas go unimplemented. we have enough compute to build ourselves something we've always wanted, but we often prefer to invent ourselves pragmatics
 
@@ -159,14 +158,13 @@ struct Version {
     fn to_string(self) fmt("%v.%v", self.major, self.minor)
 }
 
-# tests are NYI
-test "semver works" do
-    const v = Version.of_string("1.2"):unwrap()
-    assert!(not v:is_beta())
-
-    const v2 = Version.of_string("0.2"):unwrap()
-    assert!(v2:is_beta())
-    assert!(v2:to_string() == "0.2")
+suite "semver" do
+    test "parses" do
+        const v = Version.of_string("1.2"):unwrap()
+        expect!(v.major == 1)
+        expect!(v.minor == 2)
+    end
+    test ""
 end
 
 let c = chan()
