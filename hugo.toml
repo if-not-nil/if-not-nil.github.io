@@ -8,6 +8,14 @@ enableRobotsTXT = "true"
   for = "/**.wasm"
   [server.headers.values]
     Content-Type = "application/wasm"
+[[server.headers]]
+  for = "/static/**"
+  [server.headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[server.headers]]
+  for = "/fonts/**"
+  [server.headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [markup.goldmark.renderer]
 	hardWraps = true

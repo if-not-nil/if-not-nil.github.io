@@ -108,6 +108,14 @@ clean data flow without nesting
   |> string.sub(0, 4)
   |> fn(s) s + ", world!" 
   |> print
+
+a = (:err, :DiskFull)
+    |>~ fn(v) fmt("handled %v", v)
+    |> assert_eq("handled (:err, :DiskFull)")
+
+a = (:ok, 5)
+    |>~ fn(v) "never-runs"
+    |> assert_eq((:ok, 5))
 ```
 
 </div>
