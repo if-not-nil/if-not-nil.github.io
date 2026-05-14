@@ -35,7 +35,7 @@ title: 'revo, the programming language'
 > software that doesn't hate you
 [-> what it looks like](#what-that-looks-like-in-practice)
 
-many cool and interesting ideas go unimplemented. we have enough compute to build ourselves something we've always wanted, but we often prefer to invent ourselves pragmatics
+many cool and interesting ideas go unimplemented. we have enough compute to build ourselves something we've always wanted at the cost of performance, but we often prefer to pay that same price to make something generally disliked, and then to patch holes in it
 
 lua has been my favourite language for a bit, and i could not for the life of me figure out why that is. it's precisely the fact that it's not "the best" at anything that made it confusing.
 
@@ -49,18 +49,17 @@ few projects today are Python, Go, or C++. largely because those aren't necessar
 
 in go, you can make any piece of software and have a blast while doing so - because the people who are developing the language are best friends with those making the lsp, the best http implementation, the image processer and the build/test systems
 
-everyone loves to hate on notch’s decision to use java for minecraft, but really, the game wouldn't exist today if had he started in c++. java is a dynamic (yes), garbage-collected, bytecode language with a rich standard library. it's cross-platform by default. it lets you ignore the details because they really don't matter for your usecase and, again, just build the damn thing. you can decompile a java program to mod it or literally make classes at runtime
+everyone loves to hate on notch’s decision to use java for minecraft, but really, the game wouldn't exist today if had he started in c++. java is a dynamic (yes, at runtime), garbage-collected, bytecode language with a rich standard library. it's cross-platform by default. it lets you ignore the details because they really don't matter for your usecase and, again, just build the damn thing. you can decompile a java program to mod it or literally make classes at runtime
 
-and only then, 17 years later, when the decision is already proven, when everybody has already enjoyed the same jar file on configurations you haven't even heard of, with less untraceable bugs to deal with at the cost of running at 400fps instead of 700, move from opengl to vulkan
+and only then, 17 years later, when the decision is already proven, when everybody has already enjoyed the same jar file on configurations unheard of, with less untraceable bugs to deal with at the cost of running at 400fps instead of 700, move from opengl to vulkan
 
-you can just prove so many things
+you can just prove so many ideas, quickly
 
-so java is the best programming language! well, not for everybody, but it was objectively the best for notch
+so java is the best language! well, not for everybody, but it served notch's project and community the best
 
-a model general-purpose is good more often because it isn't hostile toward any specific use case. it gets you a hearty soup with a side dish. it makes more sense to make *a luajit*, *the std/http*, *the game engine*, *the gopls* as first-party bits of the ecosystem because there are already people who want to make them and they are only going to die with the language itself
+a model general-purpose is good more often because it isn't hostile toward any specific use case. it gets you a hearty soup with a side dish. it makes more sense to make *a luajit*, *the `std/http`*, *the game engine*, *the gopls* as first-party bits of the ecosystem because there are already people who want to make them and they are only going to die with the language itself
 
 what i'm saying is, **don't start a webdev project in rust**
-and js-outside-of-browser is omitted intentionally
 
 ---
 
@@ -70,35 +69,73 @@ and Odin has inspired me a lot. they know you want to user raylib, so they just 
 
 this also very much applies to the little things about zig. it's llvm, so it makes sense to just let you cross-compile. you can always type in `zig std` and have a full manual in your browser. i'd even go offline on purpose and only orient on that. and that's the bit about making use of all you got, if something is in the language, is very compact or easy to implement, just do it. don't make me worry about 50 json implementations with 50 different apis. if the stdlib exists, it should be a handful of obvious globals: `fs`, `net`, `json`, `time`, and the string/table helpers. you have them so quit being greedy and let me have them too
 
-the real power, though, is balancing the whole "batteries-included"ness with semantic freedom. when something is written in a painful language, today that just means people will maintain it with ai. i want people to have both the artisanal and result-oriented loops go on
+the real power, though, is balancing the whole "batteries-included"ness with semantic freedom.
+when something is written in an unbalanced language, today that just means people will maintain it with ai. i want people to have both the artisanal and result-oriented loops go on
 
 it shouldn't make you write good code by making it difficult to write any code
 
----
+ok, so what is an unbalanced language?
 
-## simplicity as subtraction
+<div style="display:flex; gap:1rem; flex-wrap:wrap;">
+  <div style="flex:1">
 
-the good thing about doing the base part completely from scratch is that you get to think out concrete models which everything else will be based upon later. without accumulating 30-40 years of debt. not many of us get to pick a native language
+# dogmatism
+is a space, and to describe a language's design is to put where you stand on it.
 
-this is what i think simplicity really is about
+that position is a set of sums of the values of those decisions
 
-> perfection is not when theres nothing left to add but when there's nothing left to take away
+in software, the tree starts at a decision to create that software to make and ends even beyond Lovelace's findings
 
-but what do you consider an addition? if you can't print tables, sorry, that's an addition: people will just do it on their own out of necessity. and they're not just gonna get together do it once either
+nobody can set hard binaries on general decisions, and all you can do is pick a position inbetween, e.g.:
+go is both "more static" than lisp, but "more dynamic" than haskell, it blurs the line by having the `any` type
+, rust is purposefully not the safest possible language, because taking away `unsafe` not takes away but narrows the limits of other sliders - control, applicability (via ffi), and performance
+  </div>
+  <pre>
+
+```txt
+...
+- have modules?
+ - [yes] pulled from?
+  - [web and local]
+   - store local/global?
+    - [yes] cache per-user/per-system?
+    - [no] ...
+   - store compiled?
+    - ...
+  - [local only] ...
+  - [web only(?)] ...
+  - [ai generated on the fly(?)] ...
+  - ...
+ - [no] ...
+...
+```
+  </pre>
+</div>
+any fundamental decision a project makes lies in evaluating how to best adjust those sliders
+
+some values are clearly better than others - having a standard LSP, a standard package manager, potentially lifts the skill ceiling and tooling complexity (both depending on their respective trees), but the difference is negligible in comparison to the added benefits
+, any radical difference between ideas is a difference of choice at the top of the tree. any experiment is making the best choices along picking
+
+and to have a well-defined language is to get to the bottom of those trees
+
+carelessly yanking those sliders is what throws off the ever so important balance,
+which is why javascript-with-ecosystem is considered so complex
+
+# linguistics
+intersect deeply
 
 **i could never let go of the fact that perl was created by a linguist**
 
-i like natural languages a lot. i had to adopt three languages as native and i have to do a fourth one. i've always loved moving words around, putting them into structures that rhyme. and some extra special structures could be sorta incoherent but interesting, counting syllables to make it all flow just a little nicer. making sentences that don't look like they compile. but they do
+i like natural languages a lot. i had to adopt three languages as native and now i have to do a fourth one. i've always loved moving words around, putting them into structures that rhyme. and some extra special structures could be sorta incoherent but interesting, counting syllables to make it all flow just a little nicer. making sentences that don't look like they compile. but they do
 
 and we're all doing that unconciously. isn't it beautiful? things just cascade and imply eachother naturally
-
----
 
 any language has prose and poetry. they all have structure and melody, flow and rhyme, arms and legs, and etc.
 
 and i love the well-defined c and lua. while both being the fastest in their respective categories,
 
-`while (*t++ = *s++) ;;` is incoherent to someone who doesn't speak C, but natural once you get to know it
+`while (*t++ = *s++) ;;` is incoherent to someone who doesn't speak C, but natural in it and its' sister- and children- languages once you get to know it
+in analogy, Typescript to Javascript is what legalese english is to common english
 
 and for lua, especially, much of the beauty comes from understanding something like this:
 
@@ -122,21 +159,43 @@ local res = switch{
 
 what makes every bit of this possible? what does it even do and how would you implement this yourself?
 
-but notice that this is not the lua code you're used to reading. this is because it doesn't force you to do it, it's just fine without it. it already gives you a good set of procedural fundamentals which you can, without internet access, just mess around with and find out. off that, i believe that the more clear, **non-overlapping** goals your fundamentals achieve, the simpler your language becomes, the less the user has a need to allocate a table for a switch statement
+but notice that this is not the lua code you're used to reading. this is because it doesn't force you to do it, it's just fine without it. it already gives you a good set of procedural fundamentals which you can, without internet access, just mess around with and find out.
 
-c++ however evokes a different reaction. its hated not because code like this is required, but because the ceiling is unreasonably high and wide
+--- 
+## in English, the word "run" has over 645 meanings, while there is no common word for "the day after tomorrow"
+in C, the type `void*` has infinite meanings, but there is no universally implemented `defer` keyword
 
-you always want to reach for the stars, jump for the doorframe, but it's 20 feet high and full of splinters. i am 7 years old and impatient. why is it so high. i just wanna hit it without waiting ten years to grow three foot. i don't wanna sand my hands for 20 years to climb it because nothing else wants me to do that. i can just do other things
+Toki Pona will have you verbosely describe words equivalent to one chinese logograph, every time, until "God be with ye" turns into "goodbye"
+
+i believe that the more clear, **non-overlapping** goals your fundamentals achieve, the simpler your language becomes, the less the user has a need to allocate a table for a switch statement
+
+the less meanings you assign to `static`, the clearer small bits of code become
+
+# addition as subtraction
+
+the good thing about doing the base part completely from scratch is that you get to think out concrete models which everything else will be based upon later. without accumulating 30-40 years of debt. none of us got the choice to pick esperanto as our native language
+
+this is what i think simplicity really is about
+
+> perfection is not when theres nothing left to add but when there's nothing left to take away
+
+but what do you consider an addition? if you can't print tables, sorry, that's an addition: people will just do it on their own out of necessity. and they're not just gonna get together do it once either
+
+this gets worse than having to install a second (after your distrubution's) package manager - consider C ecosystem's meta-meta-build systems, lack of standard deferred cleanup until C29, and the non-existing namespacing
+all of these have been fought tooth and nail to add
+
+and it's too late: win32 will always have a `HGDIOBJ` type, you will need multiple build- and meta-build- systems installed on your machine for 20 more years. just a massive headache for everyone involved
+
+```txt
+# TODO section on readability
+shape recognition, pattern matching, semantic freedom, significance of syntax highlighting and how do-end vs no do-end shape all above and replaces and functional-ness, argument for lua's long "function" keyword, argument against multiple same-level fn defs (in overrides and pattern matching)
+```
 
 ---
 
 ## where this comes from
 
-i've had these ideas forever. and we've all had ideas, but not all of us are lucky enough to be an unemployed first-year student
-
-so upon digging up my 2000-line stack-based vm prototype in C, i'd decided it'd be a great idea to go offline for a bit and make a register-based version of that in zig
-
-the core idea is simple: make the small set of decisions that reduce accidental complexity, then give people the freedom to build whatever they want on top. this idea came after having much fun programming [a lua library](https://github.com/if-not-nil/soup)
+this is effectively [a lua library](https://github.com/if-not-nil/soup)'s sibling, because modifying the Lua VM to use fibers, atoms and tuples, and making the associated decisions, is rebuilding the whole thing
 
 ---
 
@@ -232,9 +291,9 @@ let (1 + 2) 5 + 1
 
 **take advantage of every decision thoroughly**
 
-if you're dynamic just make the best of it rather than pretending to be static. you're missing out otherwise
+if you're dynamic, just make the best of it rather than pretending to be static. you're missing out otherwise
 
-that gives you safety for free, which you can then trade for ergonomics. if you already decided to have tuples, tables and atoms, you really don't need a runtime type system. just something to satisfy the programmer's need for it
+that gives you safety for free, which you can then trade for ergonomics. if you already decided to have tuples, tables and atoms, you turn down the need a runtime type system. something to satisfy the programmer's need for it
 
 which is how you have tagged unions and structs! structs are just wrappers over tables. and all tagged unions are just tuples and atoms
 
@@ -285,13 +344,7 @@ const x =
 
 yeah maybe this is stupid. but isn't it cool? the fact you can still read it
 
-and this applies to everything. dogmatism only works when you have 5 seconds to make a decision, but beyond that, you need to move as far away from it as possible. a ready model is never a one-size-fits-all, no matter how hard you try to apply it. nature doesn't do binaries
-
-you should strive to disagree and argue in good faith, because that's what really makes the world a better place. you should try not to just invent the incandescent lamp again because it's the only thing in the world and "if it ain't broke, don't fix it"
-
-projects like that end up breaking it or putting band-aids over it - ocaml has an o in its name; go, the proudly procedural language, ended up adding generics, generic-functions-which-return-generic-functions and inheritance. and i love them! they address real issues and make it better! but that still proves purity doesn't work
-
-and if it did, you would only have to know haskell
+and this applies to everything
 
 ---
 
@@ -315,16 +368,6 @@ once you do, they're really nice
 of course, it's best with Zig, but it's comparably easy to make and use C code that gives you regular-looking functions. it's trivial to just compile the library as `liberevo.a` and put it somewhere along with a header as an embedded language
 
 there are some caveats of course (this doesn't yet work on wasm and the c api does not cover the 100%), but they are a matter of time spent. contributions always welcome!
-
----
-
-## future
-
-am i planning on making modules file-based or directory-based? odin's creator, gingerbill, made really convincing arguments
-
-but my favourite approach to package management has always been just having people put their whole module into a single file, and then me copypasting it, straight from the browser into my text editor, into the `vendor/` directory. there's a lot of satisfaction in just `const json = do ## pasted json.rv here ## end`
-
-do i just replace half the syntax with macros?
 
 ---
 
@@ -356,7 +399,7 @@ cutting down the length of something is, of course, not usually important by its
 
 you will often see C++ code which allocates small objects and destroys them right after they stop being used. and \[de\]allocation, like many other syscalls, is one of the most expensive operations you can do
 
-this is my biggest problem with OOP, the fact that you're only encouraged to use one way of managing memory (and never told about others). i also believe that's why many use rust, because fighting to allocate and free many small objects separately looks like the only way to do things. which, combined with the fact you're expected to track all lifetimes by hand, is why manual memory management is presented as so daunting.
+this is my biggest problem with OOP, the fact that you're only encouraged to use one way of managing memory (and never told about others). i also believe that's why many use rust is so attractive to those who learned C++ by 90s books, because fighting to allocate and free many small objects separately (which you have already established to be the only way to manage memory), seems much more attractive. which, combined with the fact you're expected to track all lifetimes by hand, is why manual memory management is presented as so daunting
 
 but it doesn't have to be this way!
 
