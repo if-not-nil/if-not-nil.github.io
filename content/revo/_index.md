@@ -10,7 +10,7 @@ hideInList: true
 
 # revo, the programming language
 
-[docs](basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo)
+[docs](basics) | [github](https://github.com/if-not-nil/revo)
 
 <b>revo</b> is a dynamic language made for the joy of programming
 
@@ -319,9 +319,11 @@ assert(p:is_beta())
 # quick start
 
 the only dependency is [zig](https://ziglang.org/) version 0.16.0:
+the repository is also [available on codeberg](https://codeberg.org/lung/revo)
+
 ```bash
 cd /tmp
-git clone https://codeberg.org/lung/revo
+git clone https://github.com/if-not-nil/revo
 zig build -Doptimize=ReleaseFast # static build with vendored 
 ./zig-out/bin/revo -e 'print("hello " + "world")'
 

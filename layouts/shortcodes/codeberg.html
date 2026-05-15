@@ -5,14 +5,14 @@
 {{ $data := $response.Content | unmarshal }}
 <div class="codeberg-card">
 	<div class="codeberg-header">
-		<a href="{{ $data.html_url }}" target="_blank" rel="noopener">{{ $data.html_url }}</a>
+		<a href="{{ $data.html_url }}" target="_blank" rel="noopener">codeberg.org/{{ $user }}/{{ $repo }}</a>
 	</div>
 	{{ if $data.description }}
 	<blockquote cite="">
 		<div class="codeberg-desc">{{ $data.description }},</div>
 	</blockquote>
 	{{ end }}
-	...has {{ $data.stars_count }} stars, {{ $data.forks_count }} forks{{ if $data.language }}, and is written in
+	...has {{ $data.stars_count }} stars{{ if $data.language }}, and is written in
 	{{ $data.language }}{{ end }}
 </div>
 <style>

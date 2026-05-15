@@ -86,8 +86,8 @@ body {
 		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	--font-mono: 'Maple Mono NL NF', 'Ubuntu Mono', 'Fira Mono', 'Noto Sans Mono', monospace;
 	font-family: var(--font-sans);
-	background: #0e1316;
-	color: #d3c4aa;
+	background: #0e1212;
+	color: #f3e4ca;
 	margin: 0;
 	min-height: 100vh;
 	/* font-size: 1.05rem; */
