@@ -34,7 +34,6 @@
 	--base0F: #a16946;
 }
 
-
 blockquote {
 	background: var(--rat);
 	font-style: italic;
@@ -108,6 +107,8 @@ p code {
 	background: var(--rat);
 	width: 100%;
 	box-sizing: border-box;
+	font-family: monospace;
+	font-size: 1.2em;
 }
 
 .sidebar ul {
@@ -127,6 +128,11 @@ p code {
 .sidebar a {
 	text-decoration: none;
 	color: var(--pinkrose);
+}
+
+.sidebar a.active {
+	font-weight: bolder;
+	text-decoration: none;
 }
 
 .content {

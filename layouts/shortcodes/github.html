@@ -11,13 +11,15 @@
 	</div>
 
 	{{ if $data.description }}
-	<blockquote cite="">
+	<!-- <blockquote cite=""> -->
+	<i>
 		<div class="github-desc">{{ $data.description }},</div>
-	</blockquote>
+	</i>
+	<!-- </blockquote> -->
 	{{ end }}
 
-	...has {{ $data.stargazers_count }} stars{{ if $data.language }}, and is written in
-	{{ $data.language }}{{ end }}
+	<!-- ...has {{ $data.stargazers_count }} stars{{ if $data.language }}, and is written in -->
+	<!-- {{ $data.language }}{{ end }} -->
 </div>
 
 <style>

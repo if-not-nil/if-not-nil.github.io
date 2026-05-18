@@ -26,52 +26,61 @@ title: 'basics'
   <div style="margin-left: 2ch; flex:1; min-width:250px;">
 
 # basics
-[docs](docs/basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo) | [license](#license)
-
-> thinking of this as either a rewritten lisp, a weird lua, or a weird javascript might help a lot and the semantics do match a bit!
-
-everything is an expression, and everything is pipe-able and chain-able - you would want to assume that everything returns what you expect. if not, it's probably a design flaw and you should open an issue
-  </div>
-
-
-
-</div>
 
 **revo in 1 minute**
 ```ruby
-let a = 10       # mutable variable
-const b = 20     # immutable binding
-global c = 30    # module-level, visible across closures
+# bindings
+let a = 10
+const b = 20
+global c = 30
 
-# functions
+# functions + tables
 fn add(x, y) x + y
-const greet = fn(name) "hello, " + name
+const user = {
+  name = "revo",
+  points = add(a, b),
+  bump = fn(self) self.points += 1,
+}
+fn user:name(self) 
 
-# tables (the universal collection type)
-let t = {1, 2, 3}
-let h = {name = "revo", version = 1}
-h.stable = :true
+# pipes 
+"asdf"
+  |> _:upper() "ASDF"
+  |> _:sub(1, 2) # "SD"
+  |> assert_eq("sd") # "SD"
+  |> _ + "f" # "SDF"
+  |> inspect # "SDF"
+  |> print # :ok
 
-# tuples - fixed-shape, immutable
-const point = (10, 20)
-const (x, y) = point
+# makes a closure
+const u1 = user |> fn(u) u:bump()
+# makes a lexical scope
+const u2 = user |> _:bump()
+assert_eq(u1.points, u2.points)
 
-# pattern matching + result types
-fn safe_div(a, b)
-    if b == 0 err(:DivByZero)
-    else ok(a / b)
+#
+# result values + propagation/fallback
+#
 
-match safe_div(10, 2)
-    | (:ok, v)  print(v)     # 5
-    | (:err, e) print(e)
+# will unwrap the value, returning from this function otherwise
+# when at the toplevel, panics
+const n = tonumber("42")? 
+const fallback = tonumber("nope") orelse 0
 
-# pipes
-"hello" |> print
-(1, 2, 3) |> fn(t) map(t, fn(x) x * 2) |> print  # (2, 4, 6)
+# tuples + destructuring
+const tagged = (:ok, (u2.points + n + fallback, u2.name))
+const (tag, payload) = tagged
+const (total, name) = payload
+
+# match
+const state = match total
+  | v when v >= 84 :high
+  | _ :low
 
 # fibers
 const h = spawn add(20, 22)
-join(h)  # 42
+
+print((tag, total, name, state, join(h)))
 ```
 
 ## more
@@ -342,18 +351,67 @@ match safe_div(10, 0)
 ```
 
 # pipe operator
-
-pipe passes a value as the first argument to the next function:
+pipe passes a value as the first argument to the next function or match expression:
 ```ruby
 fn double(x) x * 2
-fn add_one(x) x + 1
+fn and_one(x) x + 1
+fn and_both(x, a, b) x + a + b
 
 21 |> double     # 42
 "hello" |> print
 
 # chain with intermediate vars
-const val = 5 |> add_one # 6
+const val = 5 |> and_one # 6
+const val = 5 |> and_both(1, 2) # 8
 val |> double            # 12
+
+# you can call a method with the : syntax
+"hello" |> :upper # "HELLO"
+"hello" |> :sub(1,2) # "el"
+
+# polymorphism, with match!
+fn poly(x)
+  x
+  |> match 
+  | x when number?(x) "num"
+  | x when string?(x) "str"
+
+assert_eq(poly("asdf"), "str")
+assert_eq(poly(42), "num")
+
+# and ad-hoc polymorphism
+fn morph(a: any) tostring(a)
+struct Foo {
+  age: number = 67,
+  fn morph(self) fmt("a %d-yr old", self.age),
+}
+struct Bar {
+  name: string = "molly",
+  fn morph(self) fmt("someone named %s", self.name),
+}
+
+let x = foo_or_bar_or_garbage()
+# calls own, like Foo/Bar.morph(x), x:morph() (but really x.morph(x))
+x |> :morph
+```
+
+they apply to most of the language, since everything will likely return something useful 
+```ruby
+const res = (2 + 2)
+  |> assert_eq(4) 
+  # assert has nothing useful to return, so it should return the value you passed in
+  |> inspect # will print and return back the value
+  |> tostring # tostring will never error
+```
+
+pipes pair well with `?`, `orelse`, and `match` for error handling:
+```ruby
+const n = tonumber("41") orelse 0
+n |> fn(x) x + 1 |> assert_eq(42)
+
+match tonumber("nope")
+  | (:ok, v)  v |> fn(x) x + 1
+  | (:err, _) 0
 ```
 
 # iteration
@@ -504,7 +562,7 @@ sleep(100)
 # stdlib modules
 
 revo ships a small set of helpful globals without imports: essentials like `print`, `read`, `cwd`,
-and `@eval`, plus a few module-style namespaces
+and `revo.eval`, plus a few module-style namespaces
 
 `fs` - file and directory access:
 ```ruby
@@ -555,9 +613,9 @@ net.close(conn)
 
 `os` - system access (read from stdin, etc.)
 
-`@eval` - evaluate a string as revo code at runtime:
+`revo.eval` - evaluate a string as revo code at runtime:
 ```ruby
-@eval("print(1 + 2)") # 3
+revo.eval("print(1 + 2)") # 3
 ```
 
 # imports
