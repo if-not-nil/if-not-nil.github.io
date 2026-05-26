@@ -169,9 +169,9 @@ proc cmul!(iter) do
   print("inner: ", add3!(10,20,12))
   print("peek: ", iter:peek())
   match iter:peek()
-  | (:number, n) print("is number", n)
-  | (other, n) print(other, n)
-  | x print("not tuple: ", x)
+  | (:number, n) => print("is number", n)
+  | (other, n)   => print(other, n)
+  | x            => print("not tuple: ", x)
 
   let a = 10 + (iter:next_of(:number))
   let b = iter:next_of(:number)
@@ -204,24 +204,24 @@ you will be using atoms and tuples, they are beautiful solutions to their proble
 
 ```ruby
 match (:ok, 42)
-| (:ok, v)  v
-| (:err, e) panic(e)
-| _ panic()
+| (:ok, v)  => v
+| (:err, e) => panic(e)
+| _         => panic()
 
 const result = (:ok, 42):unwrap()
 
 const response = match "hello!"
 | "hello" "hi!"
-| x when (x:len() > 10) ""
-| x when string?(x) x + " to you too!"
-| _ ":("
+| x when (x:len() > 10) => ""
+| x when string?(x)     => x + " to you too!"
+| _                     => ":("
 
 let f = match read({path = "./readme.md"})
-| (:ok, file) file
+| (:ok, file) => file
 | (:err, error) when error == :FileDNE
-	panic("file does not exist")
-| (error) panic("error")
-| x panic("unknown: ", x)
+	=> panic("file does not exist")
+| (error) => panic("error")
+| x => panic("unknown: ", x)
 ```
 
 </div>
@@ -311,6 +311,42 @@ struct Project {
 
 let p =Project{name = "revo"}
 assert(p:is_beta())
+```
+
+</div>
+</div>
+
+<div class="lr-container">
+<div>
+
+# convenient typing
+the type system is optional, but very well-integrated
+
+untyped code works just fine, but
+
+typed code is faster and gets optimized better (and ensures code correctness at compile-time!)
+most of your code is going to be inferred automatically
+</div>
+<div>
+
+```ruby
+type Result =
+    (:ok, any)
+  | (:err, atom)
+
+
+struct User {
+  name: string = "me",
+  age: int = 21,
+
+  fn get_age(self) -> Result
+    (:ok, self.age),
+}
+
+# type is inferred
+let user = User{}
+
+print(user:get_age())
 ```
 
 </div>

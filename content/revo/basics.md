@@ -25,8 +25,6 @@ title: 'basics'
 </div>
   <div style="margin-left: 2ch; flex:1; min-width:250px;">
 
-# basics
-
 **revo in 1 minute**
 ```ruby
 # bindings
@@ -74,8 +72,8 @@ const (total, name) = payload
 
 # match
 const state = match total
-  | v when v >= 84 :high
-  | _ :low
+  | v when v >= 84 => :high
+  | _ => :low
 
 # fibers
 const h = spawn add(20, 22)
@@ -164,8 +162,8 @@ the fundamental types are:
     end
     fn hi(a, b) do let x = a + b return x end # works too
     fn hi(a, b) match a # ocaml influence
-        | (:some, v) v + b
-        | (:none) :none
+        | (:some, v) => v + b
+        | (:none)    => :none
     ```
 
     it is always first-class, no matter how it may appear
@@ -334,20 +332,20 @@ print(sum) # 15
 match arms are expressions. wildcards and guards let you cover complex cases cleanly:
 ```ruby
 const r = match x
-    | 1 "one"
-    | 2 "two"
-    | _ "other" # wildcard
+    | 1 => "one"
+    | 2 => "two"
+    | _ => "other" # wildcard
 
 # guards with when
 const tier = match score
-    | v when v >= 90 "A"
-    | v when v >= 70 "B"
-    | v              "C"
+    | v when v >= 90 => "A"
+    | v when v >= 70 => "B"
+    | v              => "C"
 
 # really useful for result tuples
 match safe_div(10, 0)
-    | (:ok, v)  print(v)
-    | (:err, e) print(fmt("error: %v", e))
+    | (:ok, v)  => print(v)
+    | (:err, e) => print(fmt("error: %v", e))
 ```
 
 # pipe operator
@@ -373,8 +371,8 @@ val |> double            # 12
 fn poly(x)
   x
   |> match 
-  | x when number?(x) "num"
-  | x when string?(x) "str"
+  | x when number?(x) => "num"
+  | x when string?(x) => "str"
 
 assert_eq(poly("asdf"), "str")
 assert_eq(poly(42), "num")
@@ -410,8 +408,8 @@ const n = tonumber("41") orelse 0
 n |> fn(x) x + 1 |> assert_eq(42)
 
 match tonumber("nope")
-  | (:ok, v)  v |> fn(x) x + 1
-  | (:err, _) 0
+  | (:ok, v)  => v |> fn(x) x + 1
+  | (:err, _) => 0
 ```
 
 # iteration
@@ -455,8 +453,8 @@ end
 
 ```ruby
 fn parse_int(s) match tonumber(s)
-	| (:ok, n) n
-	| (:err, e) return (:err, e)
+	| (:ok, n)  => n
+	| (:err, e) => return (:err, e)
 end
 
 fn parse_int_short(s) do
