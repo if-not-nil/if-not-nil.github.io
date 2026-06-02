@@ -9,7 +9,7 @@ title: 'basics'
 - [operators](#operators)
 - [control flow](#control-flow)
    * [if/else](#ifelse)
-   * [loop / while / for](#loop-while-for)
+   * [loops](#loops)
    * [match](#match)
 - [pipe operator](#pipe-operator)
 - [iteration](#iteration)
@@ -304,7 +304,7 @@ else
 print(a) # 5
 ```
 
-## loop / while / for
+## loops
 
 `loop` creates a loop block. `break` exits it with a value:
 
