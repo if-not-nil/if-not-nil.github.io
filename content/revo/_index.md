@@ -230,33 +230,6 @@ let f = match read({path = "./readme.md"})
 <div class="lr-container">
 <div>
 
-# first-class tests
-they're just closures and they fail when you return an error. the `?` postfix operator propagates errors, giving you a pretty simple experience
-
-</div>
-<div>
-
-```ruby
-fn add(a, b) a + b
-
-suite "add" do
-  test "addition" do
-    expect(add(20, 22) == 42)?
-    expect(add(20, 22) != 22)?
-  end
-  
-  test/skip "adds two tables" do
-    expect(add({1,2}, {3, 4}) == {4,6})?
-  end
-end
-```
-
-</div>
-</div>
-
-<div class="lr-container">
-<div>
-
 # everything is an expression
 no statements, everything (really) always returns a value
 
@@ -277,6 +250,32 @@ end
 </div>
 </div>
 
+<div class="lr-container">
+<div>
+
+# fibers
+i made all your blocking code become non-blocking by just adding a spawn before it
+
+</div>
+<div>
+
+```ruby
+fn serve(peer, message) do
+  peer:send(message)?
+end
+
+while :true do
+  # accept the next connection; if none is ready, this fiber parks until the
+  # runtime sees a connection on the listening socket.
+  let conn = server:accept()?
+  # the only thing you have to do to make it async is to add `spawn` here! 
+  spawn serve(conn, port - 1)
+end
+
+```
+
+</div>
+</div>
 
 <div class="lr-container">
 <div>
@@ -352,6 +351,34 @@ print(user:get_age())
 </div>
 </div>
 
+<div class="lr-container">
+<div>
+
+# first-class tests
+they're just closures and they fail when you return an error. the `?` postfix operator propagates errors, giving you a pretty simple experience
+
+</div>
+<div>
+
+```ruby
+fn add(a, b) a + b
+
+suite "add" do
+  test "addition" do
+    expect(add(20, 22) == 42)?
+    expect(add(20, 22) != 22)?
+  end
+  
+  test/skip "adds two tables" do
+    expect(add({1,2}, {3, 4}) == {4,6})?
+  end
+end
+```
+
+</div>
+</div>
+
+
 # quick start
 
 the only dependency is [zig](https://ziglang.org/) version 0.16.0:
@@ -381,3 +408,6 @@ revo --bench1 script.rv        # benchmarks script.rv
 revo --test script.rv          # runs with test blocks
 revo --dis script.rv           # bytecode disassembly
 ```
+
+## lsp
+see [./lsp](./lsp)
