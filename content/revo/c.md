@@ -1,18 +1,16 @@
 ---
-title: two-way c<->revo interop
+title: two-way c interop
 ---
 
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
   
 <div style="flex:1; min-width:250px;">
 
-# loading c functions
+# two-way c<->revo interop
 [docs](docs/basics) | [codeberg](https://codeberg.org/lung/revo) | [github (mirror)](https://github.com/if-not-nil/revo) | [license](#license)
 
 > c is the only language that has everything a computer can do implemented in it
-
-everything is an expression, and everything is pipe-able and chain-able - you would want to assume that everything returns what you expect. if not, it's probably a design flaw and you should open an issue
-  </div>
+</div>
 
 <pre class="ascii small">
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⣠⢤⡤⡤⠤⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀
