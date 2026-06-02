@@ -39,11 +39,13 @@ const user = {
   points = add(a, b),
   bump = fn(self) self.points += 1,
 }
-fn user:name(self) 
+
+# colon syntax in function call means "first arg is left-hand-side"
+assert(user:name() == user.name(user))
 
 # pipes 
 "asdf"
-  |> _:upper() "ASDF"
+  |> _:upper() # "ASDF"
   |> _:sub(1, 2) # "SD"
   |> assert_eq("sd") # "SD"
   |> _ + "f" # "SDF"
@@ -80,8 +82,6 @@ const h = spawn add(20, 22)
 
 print((tag, total, name, state, join(h)))
 ```
-</div>
-</div>
 
 ## more
 
@@ -132,12 +132,12 @@ the fundamental types are:
 
     for this reason, the language does not have exceptions/errors and uses
     (:err, :ErrorName) and (:ok, value) together with pattern matching, `?`, `orelse`, `:unwrap()`,
-    and `ok?`/`err?` to handle errors. toplevel `?` panics instead of returning silently. there are
+    and `ok?!`/`err?!` to handle errors. toplevel `?` panics instead of returning silently. there are
     helpers to check these:
 
     ```ruby
-    ok?((:ok, 42))      # :true
-    err?((:err, :Bad))  # :true
+    ok?!((:ok, 42))      # :true
+    err?!((:err, :Bad))  # :true
     ok(42):unwrap()    # 42  (panics on :err)
     (:err, :bad)?      # panics at toplevel
     (:err, :bad) orelse 0
@@ -172,7 +172,7 @@ the fundamental types are:
 
     it also captures values from the outer scope, like most modern languages
 
-    closures capture by reference (upvalues link to outer variable slots), so mutations are visible
+    closures capture outer values by reference, so mutations are visible
     to all closures sharing that variable:
     ```ruby
     fn make_counter() do
@@ -660,7 +660,7 @@ syntax, which lets you extend the language without any runtime cost:
 ## %n:ident  - capture an identifier
 ## %s:str    - capture a string literal
 
-const unless! = macro `(%cond:expr %body:expr)` `if %cond :nil else %body`
+macro unless! `(%cond:expr %body:expr)` `if %cond :nil else %body`
 unless!(5 < 0, :positive) # :positive
 
 ## repetition groups
@@ -668,7 +668,7 @@ unless!(5 < 0, :positive) # :positive
 ## %GROUP(...)+ - one or more
 ## %GROUP(...)? - optional
 
-const sum_all! = macro `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
+macro sum_all! `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
 sum_all!(10, 15, 17) # 42
 ```
 

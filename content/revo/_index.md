@@ -14,7 +14,7 @@ hideInList: true
 
 <b>revo</b> is a dynamic language made for the joy of programming
 
-a 1mb toolkit with much focus on ergonomics
+a 1mb toolkit with a ton of focus on ergonomics
 [introduction with words](./blog/apples)
 
 </span>
@@ -58,46 +58,14 @@ a 1mb toolkit with much focus on ergonomics
 
 </div>
 
-<div class="lr-container">
-<div>
-
-# comp
-execute any (really) expression at compile time
-
-any script can be compiled into bytecode and get any value baked in
-```bash
-revo -b script.rv
-revo script.rvo
-```
-
-the compile-time VM does not differ from the runtime one
-
-</div>
-<div>
-
-```ruby
-# asks for input at build
-# then keeps the result at run
-const x = comp read() 
-
-const pat = regex.compile("\s*# TODO: (.*)")
-
-const long = do
-    let t = 0
-    for x in 0..100
-        t += x
-    t
-end
-```
-
-</div>
-</div>
 
 <div class="lr-container">
 <div>
 
 # pipes
 clean data flow without nesting
+
+things flow from top to bottom
 
 </div>
 <div>
@@ -107,7 +75,21 @@ clean data flow without nesting
   |> string.upper
   |> string.sub(0, 4)
   |> fn(s) s + ", world!" 
+  |> inspect
+
+# or with placeholders,
+"hello!!"
+  |> _:upper() # obj:method() == obj.method(obj)
+  |> _:sub(0, 4)
+  |> do
+    # you can even put any expression here
+    #   even do-end blocks
+    _ + ", world!"
+  end
   |> print
+
+# this is the same, but look at the order of operations
+print(log("hello":upper():sub(0, 4) + ", world!"))
 ```
 
 </div>
@@ -138,15 +120,67 @@ const f2 = fs.open({path = "./readme.md"})?
 
 # crashes if :err
 const f = fs.open({path = "./readme.md"}):unwrap()
+```
 
-# special error pipes
-(:err, :DiskFull)
-  |>~ fn(v) fmt("handled %v", v)
-  |> assert_eq("handled (:err, :DiskFull)")
+</div>
+</div>
 
-(:err, :DiskFull)
-  |>~ fn(v) fmt("handled %v", v)
-  |> assert_eq("handled (:err, :DiskFull)")
+<div class="lr-container">
+<div>
+
+# everything is an expression
+no statements, everything (really) always returns a value
+...but the code still looks procedural
+
+</div>
+<div>
+
+```ruby
+let x = 10 # this line evaluates to 10
+let label = if x > 0 "positive" else "zero"
+let a = let b = 5 # this whole line evaluates to 5
+
+fn is_true() 5 + 5 == 10
+# both x and is_true are the same function
+const x = fn is_true() do # do-end is one too
+    # return and break are special
+    return 5 + 5 == 10
+end
+```
+
+</div>
+</div>
+
+
+<div class="lr-container">
+<div>
+
+# comp
+execute any (really) expression at compile time
+
+any script can be compiled into bytecode and get any value baked in
+```bash
+revo -b script.rv
+revo script.rvo
+```
+
+the compile-time VM does not differ from the runtime one
+
+</div>
+<div>
+
+```ruby
+# asks for a ling of input at build-time
+# then keeps the result at run-time
+const x = comp read() 
+
+const long = do
+    let t = 0
+    for x in 0..100
+        t += x
+    t # similar to rust's {},
+      #   revo do-end blocks return the last value
+end
 ```
 
 </div>
@@ -207,11 +241,13 @@ match (:ok, 42)
 | (:ok, v)  => v
 | (:err, e) => panic(e)
 | _         => panic()
-
-const result = (:ok, 42):unwrap()
+| _         => panic()
+# _ is wildcard, when nothing else matched
+# if you want to grab the actual value
+# , just put any binding name there
 
 const response = match "hello!"
-| "hello" "hi!"
+| "hello!"              => "hi!"
 | x when (x:len() > 10) => ""
 | x when string?(x)     => x + " to you too!"
 | _                     => ":("
@@ -222,29 +258,6 @@ let f = match read({path = "./readme.md"})
 	=> panic("file does not exist")
 | (error) => panic("error")
 | x => panic("unknown: ", x)
-```
-
-</div>
-</div>
-
-<div class="lr-container">
-<div>
-
-# everything is an expression
-no statements, everything (really) always returns a value
-
-</div>
-<div>
-
-```ruby
-let x = 10
-let label = if x > 0 "positive" else "zero"
-let a = let b = 5
-
-fn is_true() 5 + 5 == 10
-fn is_true() do # do-end is one too
-    return 5 + 5 == 10
-end
 ```
 
 </div>
@@ -297,19 +310,22 @@ let rec = {name = "revo", version = 1}
 rec.name
 t[0]
 
-rec:set_meta({
+let mt = {
     name = fn(self) self.name,
     set_version = fn(self, v) self.version = v,
-})
-
-struct Project {
-    name: string,
-    version: number = 0,
-    fn is_beta(self) self.version == 0,
+    DELTA = 0.0,
 }
 
-let p =Project{name = "revo"}
-assert(p:is_beta())
+# a metatable is just a "table overlay"
+# which you can slap onto other tables
+set_metatable(rec, mt)
+let rec = {name = "revo", version = 2}
+set_metatable(rec2, mt)
+# name does not exist in rec or rec2,
+# but you can still call them
+assert_eq(rec:version(), 1)
+assert_eq(rec2:version(), 2)
+assert_eq(rec.DELTA, rec2.DELTA)
 ```
 
 </div>
