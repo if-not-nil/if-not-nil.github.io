@@ -1,0 +1,3 @@
+{{ $sym := .Get 0 }}
+{{ $href := printf "https://github.com/if-not-nil/revo/search?q=%s&type=code" ($sym) }}
+<a href="{{ $href }}" class="ref"><span class="ref-prefix">ref:</span><code class="ref-sym">{{ $sym }}</code></a>

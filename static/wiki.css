@@ -8,6 +8,7 @@
 	--contrastier: #ad4844;
 	--leaf: #3b463d;
 	--leaf2: #454e4e;
+	--leaf2: #759f8f;
 	--creamrose: #efede4;
 	--table: #352f29;
 	--purple: #513889;
@@ -276,4 +277,39 @@ code {
 
 .lr-container>div {
 	min-width: 0;
+}
+
+/* ref shortcode */
+a.ref,
+a.ref:visited {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3ch;
+    text-decoration: none;
+    color: var(--leaf2);
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: color 0.1s;
+}
+
+a.ref:hover {
+    color: var(--periwinkle);
+    background: none;
+    text-decoration: none;
+}
+
+a.ref .ref-prefix {
+    opacity: 0.5;
+    font-style: normal;
+    font-size: 0.9em;
+    letter-spacing: 0.02em;
+}
+
+a.ref .ref-sym {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
 }
