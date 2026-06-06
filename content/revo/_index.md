@@ -394,8 +394,11 @@ end
 </div>
 </div>
 
-
 # quick start
+
+you can get the latest release from (the github releases page)[https://github.com/if-not-nil/revo/releases]
+
+## from source
 
 the only dependency is [zig](https://ziglang.org/) version 0.16.0:
 the repository is also [available on codeberg](https://codeberg.org/lung/revo)
@@ -410,7 +413,7 @@ zig build -Doptimize=ReleaseFast # static build with vendored
 cp ./zig-out/bin/revo ~/.local/bin/revo
 ```
 
-## usage
+# usage
 please check `revo -h` first
 
 ```bash
@@ -425,5 +428,8 @@ revo --test script.rv          # runs with test blocks
 revo --dis script.rv           # bytecode disassembly
 ```
 
-## lsp
-see [./lsp](./lsp)
+# lsp
+
+release builds bundle the LSP, `revo --lsp` starts it
+debug builds skip it by default
+see [./lsp](./lsp) for setup and feature details
