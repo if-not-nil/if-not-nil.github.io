@@ -687,8 +687,6 @@ const mt = {
     __tostring = fn(self) "MyObj",
     __display  = fn(self) "MyObj", # used by fmt %v, falls back to __tostring
     __len      = fn(self) 42,
-    __add      = fn(a, b) 100,
-    __sub      = fn(a, b) 200,
     __index    = fn(self, key) 0,        # called when a field is missing
     __newindex = fn(self, key, val) nil, # intercept assignment
 }

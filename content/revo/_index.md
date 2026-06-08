@@ -405,7 +405,7 @@ the repository is also [available on codeberg](https://codeberg.org/lung/revo)
 
 ```bash
 cd /tmp
-git clone https://github.com/if-not-nil/revo
+git clone https://github.com/if-not-nil/revo --recursive && cd revo
 zig build -Doptimize=ReleaseFast # static build with vendored 
 ./zig-out/bin/revo -e 'print("hello " + "world")'
 
