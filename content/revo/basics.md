@@ -72,6 +72,13 @@ const tagged = (:ok, (u2.points + n + fallback, u2.name))
 const (tag, payload) = tagged
 const (total, name) = payload
 
+# destructuring: a, b = ... unpacks a tuple at the top level
+const (five, ten) = (5, 10)
+(five, ten) = (5, 10)
+
+const six, seven = (6, 7)
+six, seven = (6, 7)
+
 # match
 const state = match total
   | v when v >= 84 => :high
@@ -108,6 +115,11 @@ the fundamental types are:
     a:mutate() # the colon syntax makes it equivalent to a.mutate(a)
     for k in a:keys()
         print(k)
+
+    a:push(4, 5, 6)       # variadic append
+    a:rawget("inner")     # bypasses __index metamethod
+    a:rawset("inner", 99) # bypasses __newindex metamethod
+    a:set_meta({})        # replace the metatable
 
     struct User { # a struct for now just makes a fn called User, which returns
         name: string # the type is checked at creation time
@@ -167,7 +179,15 @@ the fundamental types are:
         | (:some, v) => v + b
         | (:none)    => :none
     ```
+    
+    parameters can be marked optional with `?`. when omitted, they default to `:no`:
+    ```ruby
+    fn greet(name, ?greeting) greeting orelse "hello"
 
+    greet("alice", "hi")  # "hi"
+    greet("bob")          # "hello"  (greeting is :no, orelse goes off)
+    ```
+    
     it is always first-class, no matter how it may appear
 
     it also captures values from the outer scope, like most modern languages
@@ -224,6 +244,11 @@ the fundamental types are:
     "hello\nworld" # newline
     'hello\nworld' # literal backslash-n
     ```
+    backtick strings `` ` `` are for macro patterns; they're parsed as raw text with
+    capture placeholders:
+    ```ruby
+    macro unless! `(%cond:expr %body:expr)` `if %cond :nil else %body`
+    ```
     you can also use the `"string":method()` methods:
     ```ruby
     "hello":upper()           # "HELLO"
@@ -233,7 +258,13 @@ the fundamental types are:
     "hello":find("ll")        # 2, or :missing
     "hello":replace("l", "r") # "herro"
     "hello":starts_with("he") # :true
+    "hello":ends_with("lo")   # :true
+    "hello":contains?("ll")   # :true
+    "hello":index_of("ll")    # 2 or :nil
+    "hello":reverse()         # "olleh"
     ("abc"):with(1, "X")      # "aXc" (0-indexed, returns new string)
+    string_join({"a", "b"}, ",") # "a,b"
+    string.join({"a", "b"}, ",") # "a,b"  (module method)
     "hello" + " world"        # concatenation
     "ha" * 3                  # "hahaha"
     ```
@@ -327,6 +358,11 @@ for i in 0..5 do
     sum = sum + i
 end
 print(sum) # 15
+
+# three-part range: start..step..end
+for i in 0..2..10 do
+    sum = sum + i
+end # 0, 2, 4, 6, 8
 ```
 
 ## match
@@ -351,7 +387,7 @@ match safe_div(10, 0)
 ```
 
 # pipe operator
-pipe passes a value as the first argument to the next function or match expression:
+pipe passes a value as the first argument to the next expression:
 ```ruby
 fn double(x) x * 2
 fn and_one(x) x + 1
@@ -372,9 +408,9 @@ val |> double            # 12
 # polymorphism, with match!
 fn poly(x)
   x
-  |> match 
-  | x when number?(x) => "num"
-  | x when string?(x) => "str"
+  |> match _ 
+     | x when number?(x) => "num"
+     | x when string?(x) => "str"
 
 assert_eq(poly("asdf"), "str")
 assert_eq(poly(42), "num")
@@ -585,13 +621,27 @@ json.encode(("a", "b", "c")):unwrap()  # ["a","b","c"]
 json.decode("{\"a\":1}"):unwrap().a    # 1
 ```
 
+`math` - numeric helpers:
+```ruby
+math.abs(-3)      # 3
+math.floor(3.7)   # 3
+math.ceil(3.2)    # 4
+math.sqrt(9)      # 3
+math.pow(2, 10)   # 1024
+math.min(3, 7)    # 3
+math.max(3, 7)    # 7
+math.sin(0)       # 0.0
+math.cos(0)       # 1.0
+math.pi           # 3.141592653589793
+```
+
 `time` - wall-clock and monotonic time:
 ```ruby
-time.now()         # current time in ms
-time.now_ns()      # current time in ns
-# monotonic ms
-# you want the monotinic clock for measuring time between two events
-time.monotonic()   
+time.now()              # current time in ms
+time.now_ns()           # current time in ns
+# monotonic ms starts at program execution
+time.monotonic()        # monotonic ms
+time.monotonic_ns()     # monotonic ns
 time.sleep(100)
 ```
 
@@ -612,6 +662,22 @@ net.close(conn)
 ```
 
 `os` - system access (read from stdin, etc.)
+
+`system` - run a subprocess and return its output:
+```ruby
+system({"echo", "hello"}) # ("hello\n", "")
+```
+
+`fmt` - string formatting with `%v`, `%d`, `%s`, `%?`:
+```ruby
+fmt("hello %v", :world)   # "hello :world"
+fmt("%d + %d = %d", 1, 2, 3) # "1 + 2 = 3"
+```
+
+`debug` - inspect the current vm state:
+```ruby
+debug()  # table with fiber_id, pc, stack, frames, and register info
+```
 
 `revo.eval` - evaluate a string as revo code at runtime:
 ```ruby
@@ -672,11 +738,13 @@ macro sum_all! `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
 sum_all!(10, 15, 17) # 42
 ```
 
-some macros come preloaded:
+some macros come preloaded from the runtime:
 ```ruby
-unless!(:false, 42)                   # 42
-all_true!(1, :true, "t", 1)           # :true
-all_true!(1, :true, "t", 1, :false)   # :false
+ok?!((:ok, 42))            # :true
+err?!((:err, :Bad))        # :true
+some?!((:some, 42))        # :true
+none!?(:none)              # :true
+print!("hello %v", :world) # printf-style: prints "hello :world"
 ```
 
 ## metatables
