@@ -182,10 +182,10 @@ the fundamental types are:
     
     parameters can be marked optional with `?`. when omitted, they default to `:no`:
     ```ruby
-    fn greet(name, ?greeting) greeting orelse "hello"
+    fn greet(name, ?greeting) greeting or "hello"
 
     greet("alice", "hi")  # "hi"
-    greet("bob")          # "hello"  (greeting is :no, orelse goes off)
+    greet("bob")          # "hello"  (greeting is :no, `or` goes off)
     ```
     
     it is always first-class, no matter how it may appear
