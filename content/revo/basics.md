@@ -17,7 +17,7 @@ title: 'basics'
    * [orelse](#orelse)
 - [fibers and channels](#fibers-and-channels)
 - [stdlib modules](#stdlib-modules)
-- [imports](#imports)
+- [modules](#modules)
 - [advanced](#advanced)
    * [comptime](#comptime)
    * [macros](#macros)
@@ -684,23 +684,111 @@ debug()  # table with fiber_id, pc, stack, frames, and register info
 revo.eval("print(1 + 2)") # 3
 ```
 
-# imports
+# modules
 
-`import` loads a module file and caches it - the same path always returns the same table:
+import resolves a string path to a table of public declarations
+
 ```ruby
-# counter.rv
-let count = 0
-{count = count} # whatever the last expression is becomes the module's value
-
-# main.rv
-const a = import "counter"
-a.count = 41
-const b = import "counter"
-print(b.count) # 41 (same cached module)
+## ./helper.rv ##
+pub fn help() do
+    print("helped")
+end
 ```
 
-module-level `let`/`const` are private to the module. only the returned value is shared with
-the importer.
+```ruby
+## ./main.rv ##
+import "./helper"  # relative: module_dir only
+import "json"      # bare: project_root -> package_path
+import "lib/csv"   # bare (with /): same as bare — no module_dir check
+
+helper.help() # helped
+```
+
+{{< ref "fn resolveImportPath(raw_path" >}}
+
+each candidate dir tries `name`, `name.rv`, `name/init.rv`
+
+{{< ref "NativeResult.other" >}}
+
+```ruby
+import "nope"  # panic: module not found at main.rv:1:1
+```
+
+cached by absolute path + mtime. change the file, re-import reloads
+cycles caught via `loading_stack` before they hang
+
+```ruby
+import "config" # compile and cache
+import "config" # stamp match: instant
+```
+
+<details>
+<summary>for nerds</summary>
+
+{{< ref "fn moduleStamp" >}}
+{{< ref "loading_stack" >}}
+
+**preload**
+ast walk before expansion extracts macros from imports:
+
+```ruby
+import "macros"
+macros.repeat!(print("hi")) # macro extracted at preload time
+```
+
+{{< ref "fn preloadImports(vm" >}}
+{{< ref "fn resolveModuleFile(vm" >}}
+
+**wrapModule**
+`module_scope = true` wraps root ast with exports:
+
+```ruby
+|# source                  |# after wrapModule
+|1 pub const x = 1         |1 const @exports = {}
+|1 pub fn add(a, b) a + b  |2 const x = 1
+|3                         |3 @exports[:x] = x
+|4                         |4 fn add(a, b) a + b
+|5                         |5 @exports[:add] = add
+|6                         |6 @exports
+```
+
+{{< ref "fn wrapModule" >}}
+
+**compiler**
+`import_stmt` is a first-class node, not sugar
+compiles to: `load_global import, const "path", call 1, reg_dupe, bind_local`.
+`const x = import "path"` double-binds if names differ.
+
+{{< ref ".import_stmt => |is| {" >}}
+{{< ref "if (b.value.expr == .import_stmt and b.target.expr == .ident) {" >}}
+
+**project detection**
+`Project.detect` walks ancestors for `lib.json`/`exe.json`
+sets `project_root`, appends `"paths"` to `package_path`. in script mode,
+simple bare names fail unless a package_path template matches
+
+{{< ref "Project.detect" >}}
+{{< ref "vm.project_root" >}}
+{{< ref "vm.package_path" >}}
+
+**module_dir**
+set to importing file's dir, restored after
+relative paths (`./`, `../`) check it. all bare names skip it
+
+{{< ref "vm.module_dir" >}}
+
+**runtime**
+native `import()` fn at `std/root.zig`
+
+{{< ref "pub fn import(args" >}}
+{{< ref "fn runImportedModule(vm" >}}
+
+`.so`/`.dylib` resolved paths load as C shared libraries via ffi.
+
+```ruby
+import "sqlite3" # loads sqlite3.dylib if resolution finds it
+```
+</details>
 
 # advanced
 
@@ -716,29 +804,163 @@ print(comp (1 < 2))                # :true
 print(comp read())                 # only runs at compilation time
 ```
 
-## macros
+## macro
 
-macros are compile-time code transformers. they use pattern matching to capture and rearrange
-syntax, which lets you extend the language without any runtime cost:
+macros are compile-time code transformers. they can rewrite syntax into any
+other syntax, letting you extend the language without runtime cost. there are
+two kinds: pattern macros and procedural macros
+
+{{< ref "pub const Expr" >}}
+
+### pattern macros (macro!)
+
+pattern macros match a template and produce a replacement. they use backtick
+patterns with typed captures:
+
 ```ruby
-## macro `pattern` `template`
-## %e:expr   - capture any expression
-## %n:ident  - capture an identifier
-## %s:str    - capture a string literal
-
 macro unless! `(%cond:expr %body:expr)` `if %cond :nil else %body`
 unless!(5 < 0, :positive) # :positive
+```
 
-## repetition groups
-## %GROUP(...)* - zero or more
-## %GROUP(...)+ - one or more
-## %GROUP(...)? - optional
+capture types:
+- `%e:expr` - any expression
+- `%n:ident` - an identifier
+- `%s:str` - a string literal
 
+repetition groups match sequences:
+
+```ruby
 macro sum_all! `(%first:expr %REST(%item:expr)*)` `%first %REST(+ %item)`
 sum_all!(10, 15, 17) # 42
 ```
+- `%GROUP(...)*` - zero or more
+- `%GROUP(...)+` - one or more
+- `%GROUP(...)?` - optional
 
-some macros come preloaded from the runtime:
+### procedural macros (proc!)
+
+proc macros run arbitrary revo code at compile time. they receive an iterator
+of ast nodes and return a new ast node:
+
+{{< ref "pub fn parseProc(" >}}
+```ruby
+proc add3!(iter) do
+  let a = iter:next()
+  let b = iter:next()
+  let c = iter:next()
+  {(:binary, :add, (:binary, :add, a, b), c)}
+end
+
+print(add3!(10, 20, 12)) # 42
+```
+
+the iterator methods:
+{{< ref "pub fn MacroIter" >}}
+- `iter:next()` - consume and return the next ast node
+- `iter:next_of(:type)` - next node, asserted to be a specific type
+- `iter:peek()` - look ahead without consuming
+
+the return value is always a table wrapping a single ast node: `{node}`
+
+### ast data format
+
+the ast is encoded as tagged tuples -- the same format everywhere (proc macros,
+quasiquoting, and revo.parse)
+
+they always match up with the `Expr` struct:
+
+{{< ref "pub const Expr = union(enum)" >}}
+
+building nodes manually works directly with the tuple format:
+
+```ruby
+proc print!(iter) do
+  let fmt = iter:next_of(:string)
+  let args = {fmt}
+  while iter:peek() != :nil do
+    args:push(iter:next())
+  end
+  {(:call, (:ident, "print"), {(:call, (:ident, "fmt"), args, :false)}, :false)}
+end
+
+print!("hello %v", :world) # "hello :world"
+```
+
+### quasiquoting (`` ` ``)
+
+backtick-quoted expressions build ast data at runtime. `%name` splices in a
+variable's value:
+
+```ruby
+let a = 20
+let b = 22
+let r = `(:add, %a, %b)`
+r == (:tuple, ((:hash, "add"), 20, 22)) # :true
+```
+
+numbers and atoms quote directly:
+```ruby
+let r = `42`
+r == (:number, 42) # :true
+
+let r = `:hello`
+r == (:hash, "hello") # :true
+```
+
+tables and tuples nest:
+```ruby
+let v = 42
+let r = `{key = %v}`
+r == (:table, (((:ident, "key"), :false, (:number, 42)),))
+```
+
+combined with a proc macro:
+```ruby
+proc unless!(iter) do
+  let cond = iter:next()
+  let body = iter:next()
+  {`(:if_expr, %cond, %body, (:nil,))`}
+end
+```
+
+### gensym
+
+`gensym()` givesy ou a unique interned string each call. use it to generate
+fresh names that won't clash with user code:
+
+{{< ref "pub fn gensym(" >}}
+```ruby
+const a = gensym()
+const b = gensym()
+a != b # :true
+```
+
+essential for macro hygiene! create a gensym'd variable inside a quasiquote
+to avoid capture:
+
+{{< ref "var gensym_counter" >}}
+```ruby
+proc swap!(iter) do
+  let tmp = gensym()
+  let a = iter:next()
+  let b = iter:next()
+  {`(do
+      let %tmp = %a
+      %a = %b
+      %b = %tmp
+    end)`}
+end
+
+let x = 1
+let y = 2
+swap!(x, y)
+print(x, y) # 2, 1
+```
+
+### preloaded macros
+
+these come with the runtime:
+
 ```ruby
 ok?!((:ok, 42))            # :true
 err?!((:err, :Bad))        # :true
