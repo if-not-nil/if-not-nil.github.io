@@ -48,7 +48,7 @@ assert(user:name() == user.name(user))
   |> _:upper() # "ASDF"
   |> _:sub(1, 2) # "SD"
   |> assert_eq("sd") # "SD"
-  |> _ + "f" # "SDF"
+  |> _ ~ "f" # "SDF"
   |> inspect # "SDF"
   |> print # :ok
 
@@ -265,7 +265,7 @@ the fundamental types are:
     ("abc"):with(1, "X")      # "aXc" (0-indexed, returns new string)
     string_join({"a", "b"}, ",") # "a,b"
     string.join({"a", "b"}, ",") # "a,b"  (module method)
-    "hello" + " world"        # concatenation
+    "hello" ~ " world"        # concatenation
     "ha" * 3                  # "hahaha"
     ```
     found in the [std docs](./std.md#string)
@@ -320,6 +320,23 @@ a += 1 # 42
 a -= 1  a *= 2  a /= 2
 
 let y = (x = 42) # y is 42
+```
+
+`~` concatenates values into strings!!! polymorphic with fast paths for strings, numbers, and tuples:
+```ruby
+"hello" ~ " world"   # "hello world"
+42 ~ " is the " ~ "answer" # "42 is the answer"
+(1, 2) ~ " items"    # "(1, 2) items"
+:hello ~ " there"    # ":hello there" (via display writer)
+"" ~ "hi"            # "hi" (empty shortcut, no alloc)
+```
+
+custom types can opt in via `__tostring` or `__concat`:
+```ruby
+const t = set_metatable({x = 5}, {
+    __tostring = fn(self) "custom",
+})
+t ~ "!"  # "custom!"
 ```
 
 # control flow
@@ -799,7 +816,7 @@ bytecode. compile time happens both when executing a script directly and when ru
 `revo build in.rv out.rvo`:
 ```ruby
 const LIMIT = comp (1024 * 1024)
-print(comp ("prefix_" + "suffix")) # prefix_suffix
+print(comp ("prefix_" ~ "suffix")) # prefix_suffix
 print(comp (1 < 2))                # :true
 print(comp read())                 # only runs at compilation time
 ```
