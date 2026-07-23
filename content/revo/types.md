@@ -5,6 +5,12 @@ title: 'type system'
 
 the compiler infers them, tracks them, and uses them to pick fast paths.
 they fall back to `any` when they can't be inferred.
+
+11 variants in `TypeInfo` (src/lang/compiler/types.zig:10): `bool`, `int`, `float`, `string`, `atom` (named byte sequence), `tuple` (array of types), `@"union"` (array of `UnionVariant`), `table` (key type + value type), `struct_type` (name), `function` (signature), `any` (wildcard), `type_var` (generic param name).
+
+{{< ref "pub const UnionVariant = struct {" >}}
+`UnionVariant` has `name: []const u8` (tag, empty for unnamed) and `types: []const TypeInfo` (payload). unnamed variant `int` -> `{name="", types=[int]}`; named variant `:ok(v)` → `{name=":ok", types=[v]}`; atom-only `:nil` → `{name=":nil", types=[]}`
+
 {{< ref "pub const TypeInfo" >}}
 {{< ref "pub fn inferExprType(" >}}
 {{< ref "pub fn inferBinaryOp(" >}}
@@ -72,17 +78,17 @@ when no return type is written, the compiler auto-injects `-> bool`
 {{< ref "pub fn canCoerce(" >}}
 
 **can**
-- any -> itself
-- any <-> `any`
+- same type
+- any <-> anything
 - int -> float
 - `:true`/`:false` -> bool
-- union -> any of its variants
+- atom matching a union's atom-only variant
+- union: accepts if any variant accepts the value
+- value is a union: coerces if every variant fits the target
+- function subtyping: contravariant in params, covariant in return
 
 **can't**
 - float -> int
-
-**covariant/contravariant**
-- function -> function
 
 {{< ref "// function subtyping:" >}}
 
@@ -97,8 +103,24 @@ const feed = fn(a: Animal) -> Dog do :dog end
 const walk = fn(d: Dog) -> Animal do d end
 ```
 
-function types use standard subtyping: contravariant in params,
-covariant in return. `any` function matches everything
+## expression syntax
+
+parsed by `type_parser.zig`. `parseTypeString(ctx, str)` for annotation strings, `evalTypeExpr(ctx, te)` for AST nodes
+
+| syntax | resolves to |
+|---|---|
+| `int` | name lookup → `type_name_map`, alias, or `struct_type` |
+| `:nil` | `atom(":nil")` |
+| `int?` | `int \| :nil` (optional sugar) |
+| `int \| string` | union |
+| `(int, string)` | tuple |
+| `fn(int) -> bool` | function signature |
+| `table<int>` | table with value type `int` |
+| `table<string, int>` | table with key `string`, value `int` |
+| `!int` | `:ok(int) \| :err(any)` (error union sugar) |
+| `T...` | variadic marker, stripped before parse, type becomes `T` |
+
+built-in names (types.zig:313): `int`, `float`, `num`, `number`, `string`, `bool`, `any`, `nil`, `tuple`, `table`, `function`, `atom`, `never`, `parked`
 
 ## struct
 
@@ -190,7 +212,7 @@ else
 end
 ```
 
-supported predicates: `number?`, `string?`, `bool?`, `table?`
+supported predicates: `number?`, `string?`, `bool?`, `table?`, `atom?`, `function?`, `tuple?`, `struct?`, `type?`, `foreign?`
 
 ### type hint scoping
 
@@ -252,6 +274,29 @@ the VM uses this pool for:
 - field assignment type checking
 - method dispatch
 - struct offset resolution
+
+## foreign
+
+`foreign` wraps a raw pointer as a value. the pointer is stored inline
+
+```ruby
+type(foreign_ptr)  # => :foreign
+foreign?(val)      # check at runtime
+```
+
+foreign values compare by pointer identity. use metatables for field
+access, method dispatch, or `__tostring`:
+
+```ruby
+const obj = foreign.new(some_ptr)
+obj:setmetatable({ __index = { greet = fn(self) "hello" } })
+obj:greet()  # => "hello"
+```
+
+foreign has no destructor; the caller manages the pointer's lifetime
+for gc-tracked resources, wrap the pointer in a struct or table instead
+
+{{< ref "Data.new.foreign(" >}}
 
 ## semantic checker (pre-pass)
 

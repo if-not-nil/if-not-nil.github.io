@@ -133,7 +133,7 @@ the tag tells you what kind of value it is:
 ```c
 typedef enum {
     revo_number, revo_string, revo_atom, revo_function,
-    revo_table, revo_tuple,
+    revo_table, revo_tuple, revo_foreign,
 } RevoType;
 ```
 
@@ -175,6 +175,18 @@ built-in atoms have guaranteed ids in the `RevoAtom` enum:
 `ra_nil`, `ra_true`, `ra_false`, `ra_ok`, `ra_err`, `ra_some`,
 `ra_none`, `ra_undef`, `ra_missing`, `ra_no_result`, `ra_range`
 {{< ref "pub const RevoAtom" >}}
+
+## foreign
+
+wrap and unwrap raw `void*` pointers. the caller manages the pointer's lifetime
+
+```c
+RevoData v = revo_foreign_new(ptr);   // wrap
+void *p = revo_foreign_ptr(v);         // unwrap, null if not foreign
+```
+
+{{< ref "pub fn revo_foreign_new(" >}}
+{{< ref "pub fn revo_foreign_ptr(" >}}
 
 ## strings
 
@@ -289,14 +301,15 @@ const RevoBinding revo_bindings[] = {
 
 **data conversion**
 
-| revo type      | c tag         | c value            |
-|----------------|---------------|--------------------|
-| `42` (number)  | `revo_number` | bitcast of f64     |
-| `"hi"` (string)| `revo_string` | interned string id |
-| `:atom`        | `revo_atom`   | atom id            |
-| `fn()`         | `revo_function`| function id       |
-| `{}` (table)   | `revo_table`  | table id           |
-| `(1, 2)`(tuple)| `revo_tuple`  | tuple id           |
+| revo type      | c tag          | c value              |
+|----------------|----------------|----------------------|
+| `42` (number)  | `revo_number`  | bitcast of f64       |
+| `"hi"` (string)| `revo_string`  | interned string id   |
+| `:atom`        | `revo_atom`    | atom id              |
+| `fn()`         | `revo_function`| function id          |
+| `{}` (table)   | `revo_table`   | table id             |
+| `(1, 2)`(tuple)| `revo_tuple`   | tuple id             |
+| `foreign ptr`  | `revo_foreign` | raw pointer          |
 
 strings must be interned before returning:
 

@@ -57,7 +57,7 @@ string_of({97, 98}) => "ab"
 joins table elements into string with separator
 
 ### - `table:len() -> number`
-returns length of table array part
+returns total entry count (array + map)
 
 ### - `string:upper() -> string`
 converts string to uppercase
@@ -182,7 +182,7 @@ removes duplicate elements
 sums numeric elements
 
 ### - `table:len() -> number`
-returns length of table array part
+returns total entry count (array + map)
 
 ### - `table + other: table -> table`
 merges two tables (union)

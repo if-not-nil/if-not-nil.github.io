@@ -331,7 +331,7 @@ let y = (x = 42) # y is 42
 "" ~ "hi"            # "hi" (empty shortcut, no alloc)
 ```
 
-custom types can opt in via `__tostring` or `__concat`:
+custom types can opt in via `__tostring`:
 ```ruby
 const t = set_metatable({x = 5}, {
     __tostring = fn(self) "custom",
@@ -716,15 +716,13 @@ end
 ## ./main.rv ##
 import "./helper"  # relative: module_dir only
 import "json"      # bare: project_root -> package_path
-import "lib/csv"   # bare (with /): same as bare — no module_dir check
 
 helper.help() # helped
 ```
 
-{{< ref "fn resolveImportPath(raw_path" >}}
-
 each candidate dir tries `name`, `name.rv`, `name/init.rv`
 
+{{< ref "fn resolveImportPath(raw_path" >}}
 {{< ref "NativeResult.other" >}}
 
 ```ruby
@@ -1000,7 +998,6 @@ const mt = {
 const t = set_metatable({}, mt)
 
 len(t)    # 42
-t + 5     # 100
 t.missing # 0
 ```
 

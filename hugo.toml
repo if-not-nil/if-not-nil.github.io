@@ -21,6 +21,9 @@ enableRobotsTXT = "true"
 	hardWraps = true
 	unsafe = true
 
+[security]
+  allowContent = ['.+']
+
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
