@@ -5,9 +5,9 @@ enableRobotsTXT = "true"
 
 [server]
 [[server.headers]]
-  for = "/**.wasm"
+  for = "/repl.js"
   [server.headers.values]
-    Content-Type = "application/wasm"
+    Content-Type = "text/javascript"
 [[server.headers]]
   for = "/static/**"
   [server.headers.values]

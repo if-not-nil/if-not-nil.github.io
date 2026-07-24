@@ -1,5 +1,5 @@
 ---
-title: 'core docs'
+title: 'standard library'
 ---
 
 <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
@@ -50,8 +50,8 @@ please note that the docgen script, used to generate this, is not yet done and i
 
 ### - `string_of(code: number | tuple) -> string`
 creates string from ASCII code(s)
-string_of(97) => "a"
-string_of({97, 98}) => "ab"
+string_of(97) > "a"
+string_of({97, 98}) > "ab"
 
 ### - `string.join(table: table, sep: string) -> string`
 joins table elements into string with separator
@@ -96,11 +96,11 @@ index is 0-based
 
 ### - `string:table() -> table`
 converts string to table of characters
-"asdf":table() => {"a", "s", "d", "f"}
+"asdf":table() > {"a", "s", "d", "f"}
 
 ### - `string:ascii() -> number`
 returns ASCII code of first character
-"a":ascii() => 97
+"a":ascii() > 97
 
 ### - `table:contains(value) -> bool`
 checks if table contains value
@@ -116,9 +116,6 @@ concatenates two strings
 
 ### - `string * n: number -> string`
 repeats string n times
-
-### - `string:tostring() -> string`
-returns string as-is (identity for tostring)
 
 ---
 # table
@@ -187,7 +184,7 @@ returns total entry count (array + map)
 ### - `table + other: table -> table`
 merges two tables (union)
 
-### - `table:tostring() -> string`
+### - `table:string() -> string`
 converts table to display string
 
 ### - `table:__debug() -> string`
@@ -199,62 +196,62 @@ converts table to debug string
 ### - `map(collection: string|tuple|table, fn: function) -> string|tuple|table`
 transforms each element by applying function
 
-```ruby
-map("hello", fn(c) = c:upper())
-map((1,2,3), fn(x) = x * 2)
-map({a=1, b=2}, fn(v) = v + 10)
-```
+{{< repl >}}
+  map("hello", fn(c) c:upper())
+  map((1,2,3), fn(x) x * 2)
+  map({a=1, b=2}, fn(v) v + 10)
+{{< /repl >}}
 
 ### - `filter(collection: string|tuple|table, fn: function) -> string|tuple|table`
 keeps only elements where function returns true
 
-```ruby
-filter("hello", fn(c) = c != "l")
-filter((1,2,3,4), fn(x) = x > 2)
-filter({a=1, b=2}, fn(v) = v > 1)
-```
+{{< repl >}}
+  filter("hello", fn(c) c != "l")
+  filter((1,2,3,4), fn(x) x > 2)
+  filter({a=1, b=2}, fn(v) v > 1)
+{{< /repl >}}
 
 ### - `reduce(collection: string|tuple|table, fn: function, init: any) -> any`
 folds/accumulates elements using function and initial value
 
-```ruby
-reduce((1,2,3,4), fn(acc, x) = acc + x, 0)
-reduce("hello", fn(acc, c) = acc + 1, 0)
-reduce({a=1, b=2}, fn(acc, v) = acc + v, 0)
-```
+{{< repl >}}
+  reduce((1,2,3,4), fn(acc, x) acc + x, 0)
+  reduce("hello", fn(acc, c) acc + 1, 0)
+  reduce({a=1, b=2}, fn(acc, v) acc + v, 0)
+{{< /repl >}}
 
 ### - `each(collection: string|tuple|table, fn: function) -> atom`
 iterates over elements, calling function for side effects, returns :ok
 
-```ruby
-each("hello", fn(c) = print(c))
-each((1,2,3), fn(x) = print(x))
-each({a=1, b=2}, fn(v) = print(v))
-```
+{{< repl >}}
+  each("hello", fn(c) print(c))
+  each((1,2,3), fn(x) print(x))
+  each({a=1, b=2}, fn(v) print(v))
+{{< /repl >}}
 
 ### - `find(collection: string|tuple|table, fn: function) -> any`
 returns first element where function returns true, or :missing if not found
 
-```ruby
-find("hello", fn(c) = c == "l")
-find((1,2,3,4), fn(x) = x > 2)
-find({a=1, b=2}, fn(v) = v > 1)
-```
+{{< repl >}}
+  find("hello", fn(c) c == "l")
+  find((1,2,3,4), fn(x) x > 2)
+  find({a=1, b=2}, fn(v) v > 1)
+{{< /repl >}}
 
 ### - `all(collection: string|tuple|table, fn: function) -> boolean`
 returns true if function returns true for all elements
 
-```ruby
-all((1,2,3), fn(x) = x > 0)
-all("hello", fn(c) = c != " ")
-all({a=1, b=2}, fn(v) = v > 0)
-```
+{{< repl >}}
+  # all((1,2,3), fn(x) x > 0)   # not yet implemented
+  # all("hello", fn(c) c != " ")
+  # all({a=1, b=2}, fn(v) v > 0)
+{{< /repl >}}
 
 ### - `any(collection: string|tuple|table, fn: function) -> boolean`
 returns true if function returns true for any element
 
-```ruby
-any((1,2,3), fn(x) = x > 2)
-any("hello", fn(c) = c == "l")
-any({a=1, b=2}, fn(v) = v > 1)
-```
+{{< repl >}}
+  # any((1,2,3), fn(x) x > 2)   # not yet implemented
+  # any("hello", fn(c) c == "l")
+  # any({a=1, b=2}, fn(v) v > 1)
+{{< /repl >}}

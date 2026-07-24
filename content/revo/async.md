@@ -1,5 +1,5 @@
 ---
-title: 'async runtime'
+title: 'the async runtime'
 ---
 
 # async runtime
@@ -15,26 +15,28 @@ this lets you spawn hundreds of fibers without threads, callbacks or other nasty
 
 a fiber is just a lightweight task the scheduler managws. you spawn them like this:
 
-```ruby
-fn client() do
-  const s = net:connect("localhost", 5000)?
-  s:send("hello")?
-  const msg = s:recv({})?
-  inspect(msg)
-end
-
-fn server() do
-  const listener = net:listen(5000)?
-  while true do
-    const client = listener:accept()?
-    const msg = client:recv({})?
-    client:send(msg)?
+{{< repl >}}
+  fn client() do
+    const s = (net.connect("localhost", 5000))?
+    s:send("hello")?
+    const msg = s:recv({})?
+    inspect(msg)
   end
-end
 
-spawn client()
-spawn server()
-```
+  fn server() do
+    const listener = (net.listen(5000))?
+    let accepted = 0
+    while accepted < 3 do
+      const client = listener:accept()?
+      const msg = client:recv({})?
+      client:send(msg)?
+      accepted = accepted + 1
+    end
+  end
+
+  spawn client()
+  spawn server()
+{{< /repl >}}
 
 when `s:send()` would block, that fiber parks. the scheduler runs server fiber instead. once data is ready, the client fiber resumes with the result
 
@@ -43,63 +45,67 @@ when `s:send()` would block, that fiber parks. the scheduler runs server fiber i
 run it, open another terminal, type `nc localhost 6767` and you'll have yourself a shell
 you can then open infinity more terminals and run the same command and have them be handled at once
 
-```ruby
-const server = net.listen(6767)?
-print!("serving on localhost:%d...", server.port)
+{{< repl >}}
+  const server = (net.listen(6767))?
+  print!("serving on localhost:%d...", server.port)
 
-fn serve(peer) do
-  let counter = 0
-  print!("new peer %v", peer)
+  fn serve(peer) do
+    let counter = 0
+    let iterations = 0
+    print!("new peer %v", peer)
 
-  while :true do
-    # send a prompt; if the socket is not writable yet, this fiber parks here
-    # and resumes after the runtime gets a writable event for this fd
-    peer:send("$ ")
+    while iterations < 5 do
+      # send a prompt; if the socket is not writable yet, this fiber parks here
+      # and resumes after the runtime gets a writable event for this fd
+      peer:send("$ ")?
     
-    # wait for one full line; read_line keeps appending chunks until it sees "\n"
-    # other modes are read_some (as much as you can, this is the default) and read_all (until EOF)
-    match peer:recv({ mode = :read_line })
-    | (:ok, "x") do
-      # send a final message, then close the socket so future IO becomes
-      # SocketClosed instead of reusing a dead fd
-      peer:send("goodbye\n")?
-      peer:close()?
-      return :exited
-    end
-    | (:ok, "ping") do
-        counter = counter + 1
-        # send the current counter back to the client
-        peer:send("pong " + tostring(counter) + "\n")?
-    end
-    | (:ok, line) do
-        # echo any other line back to the same peer
-        peer:send(line + "\n")?
-    end
-    | (:err, :SocketClosed) do
-      # the other side hung up, so just close our handle and stop this fiber
-      peer:close()?
-      return :client_closed
-    end
-    | (:err, reason) do
-      print!("recv failed: %s \n", tostring(reason))
-      # close here too: once recv fails, the socket is no longer useful
-      peer:close()?
-      # this is not an error but a status, which is why we use snake_case instead of PascalCase
-      return :recv_failed
+      # wait for one full line; read_line keeps appending chunks until it sees "\n"
+      # other modes are read_some (as much as you can, this is the default) and read_all (until EOF)
+      match peer:recv({ mode = :read_line })
+      | (:ok, "x") => do
+        # send a final message, then close the socket so future IO becomes
+        # SocketClosed instead of reusing a dead fd
+        peer:send("goodbye\n")?
+        peer:close()?
+        return :exited
+      end
+      | (:ok, "ping") => do
+          counter = counter + 1
+          # send the current counter back to the client
+          peer:send("pong " + string(counter) + "\n")?
+      end
+      | (:ok, line) => do
+          # echo any other line back to the same peer
+          peer:send(line + "\n")?
+      end
+      | (:err, :SocketClosed) => do
+        # the other side hung up, so just close our handle and stop this fiber
+        peer:close()?
+        return :client_closed
+      end
+      | (:err, reason) => do
+        print!("recv failed: %s \n", string(reason))
+        # close here too: once recv fails, the socket is no longer useful
+        peer:close()?
+        # this is not an error but a status, which is why we use snake_case instead of PascalCase
+        return :recv_failed
+      end
+      iterations = iterations + 1
     end
   end
-end
 
-while :true do
-  # accept the next connection; if none is ready, this fiber parks until the
-  # runtime sees a connection on the listening socket.
-  let conn = server:accept()?
-  # the only thing you have to do to make it async is to add `spawn` here! 
-  # to make the server itself async,
-  # all you have to do is just move the while loop into a closure and spawn that
-  spawn serve(conn)
-end
-```
+  let accepted = 0
+  while accepted < 3 do
+    # accept the next connection; if none is ready, this fiber parks until the
+    # runtime sees a connection on the listening socket.
+    let conn = server:accept()?
+    # the only thing you have to do to make it async is to add `spawn` here! 
+    # to make the server itself async,
+    # all you have to do is just move the while loop into a closure and spawn that
+    spawn serve(conn)
+    accepted = accepted + 1
+  end
+{{< /repl >}}
 
 ## the scheduler
 the coolest thing here is that async ops operate on generic tokens. that means, you can plug in
@@ -176,10 +182,10 @@ the default backend (`src/runtime/async_backend_posix.zig`) spins up worker thre
 
 ## socket:send(data)
 
-```ruby
-const socket = net:connect("example.com", 80)?
-const result = socket:send("hello")?
-```
+{{< repl >}}
+  const socket = (net.connect("example.com", 80))?
+  const result = socket:send("hello")?
+{{< /repl >}}
 
 - `send_fn` called
 - `SendWaitToken` allocated with message ID and offset
@@ -191,10 +197,10 @@ const result = socket:send("hello")?
 
 ## socket:recv(opts)
 
-```ruby
-const socket = net:connect("example.com", 80)?
-const msg = socket:recv({ max_bytes = 1024 })?
-```
+{{< repl >}}
+  const socket = (net.connect("example.com", 80))?
+  const msg = socket:recv({ max_bytes = 1024 })?
+{{< /repl >}}
 
 - `recv_fn` called with options (read_some/read_line/read_all, max_bytes, delimiter)
 - `RecvWaitToken` allocated
@@ -206,10 +212,10 @@ const msg = socket:recv({ max_bytes = 1024 })?
 
 ## socket:accept()
 
-```ruby
-const listener = net:listen(8080)?
-const client = listener:accept()?
-```
+{{< repl >}}
+  const listener = (net.listen(8080))?
+  const client = listener:accept()?
+{{< /repl >}}
 
 - `accept_fn` checks socket is a server
 - if backend, job queued

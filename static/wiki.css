@@ -35,6 +35,11 @@
 	--base0F: #a16946;
 }
 
+article ul li::marker {
+	content: "~ ";
+	font-family: monospace;
+}
+
 blockquote {
 	background: var(--rat);
 	font-style: italic;
@@ -81,10 +86,12 @@ html {
 }
 
 body {
-	--font-sans: 'Segoe UI', 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
-		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,
+	--font-sans:
+		"Segoe UI", "Noto Sans Mono", -apple-system, BlinkMacSystemFont, Roboto,
+		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,
 		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	--font-mono: 'Maple Mono NL NF', 'Ubuntu Mono', 'Fira Mono', 'Noto Sans Mono', monospace;
+	--font-mono:
+		"Maple Mono NL NF", "Ubuntu Mono", "Fira Mono", "Noto Sans Mono", monospace;
 	font-family: var(--font-sans);
 	background: #0e1212;
 	color: #f3e4ca;
@@ -99,7 +106,6 @@ p code {
 	padding: 0.2ch 0.5ch;
 	font-size: 0.95em;
 }
-
 
 .sidebar {
 	padding: 1em;
@@ -136,6 +142,10 @@ p code {
 	text-decoration: none;
 }
 
+.sidebar-vim {
+	display: none;
+}
+
 .content {
 	padding: 2rem;
 	width: 100%;
@@ -156,6 +166,31 @@ p code {
 		max-height: none;
 		flex-shrink: 0;
 		padding: 1em;
+	}
+
+	.sidebar-vim {
+		display: block;
+		margin-top: 1em;
+		font: inherit;
+		font-size: 0.85em;
+		cursor: pointer;
+		background: var(--base02);
+		color: var(--base05);
+		border: 1px solid var(--base03);
+		border-radius: 3px;
+		padding: 0.3em 0.6em;
+		transition: background 0.15s, color 0.15s;
+	}
+
+	.sidebar-vim:hover {
+		background: var(--base03);
+		color: var(--base07);
+	}
+
+	.sidebar-vim.active-toggle {
+		border-color: var(--periwinkle);
+		color: var(--periwinkle);
+		background: var(--base01);
 	}
 
 	.content {
@@ -180,7 +215,7 @@ a:hover {
 pre,
 code,
 summary {
-	font-family: 'Maple Mono NL NF', 'Ubuntu Mono', 'Fira Mono', 'Noto Sans Mono', monospace;
+	font-family: "Maple Mono NL NF", "Ubuntu Mono", "Fira Mono", "Noto Sans Mono", monospace;
 }
 
 summary {
@@ -208,6 +243,19 @@ a.imp:hover {
 	font-weight: 900;
 	color: var(--rat);
 	background-color: var(--contrastier);
+}
+
+
+a.green,
+a.green:visited {
+	font-weight: 900;
+	color: var(--base0B);
+}
+
+a.green:hover {
+	font-weight: 900;
+	color: var(--rat);
+	background-color: var(--base0B);
 }
 
 .lr-container {
@@ -255,12 +303,10 @@ pre.chroma {
 	background: var(--rat) !important;
 }
 
-
 pre.chroma,
 .highlight pre {
 	background: var(--rat) !important;
 }
-
 
 .chroma {
 	background: transparent !important;
@@ -282,34 +328,110 @@ code {
 /* ref shortcode */
 a.ref,
 a.ref:visited {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.3ch;
-    text-decoration: none;
-    color: var(--leaf2);
-    font-family: var(--font-mono);
-    font-size: 0.82em;
-    vertical-align: middle;
-    white-space: nowrap;
-    transition: color 0.1s;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.3ch;
+	text-decoration: none;
+	color: var(--leaf2);
+	font-family: var(--font-mono);
+	font-size: 0.82em;
+	vertical-align: middle;
+	white-space: nowrap;
+	transition: color 0.1s;
 }
 
 a.ref:hover {
-    color: var(--periwinkle);
-    background: none;
-    text-decoration: none;
+	color: var(--periwinkle);
+	background: none;
+	text-decoration: none;
 }
 
 a.ref .ref-prefix {
-    opacity: 0.5;
-    font-style: normal;
-    font-size: 0.9em;
-    letter-spacing: 0.02em;
+	opacity: 0.5;
+	font-style: normal;
+	font-size: 0.9em;
 }
 
 a.ref .ref-sym {
-    background: transparent;
-    color: inherit;
-    padding: 0;
-    font-size: inherit;
+	background: transparent;
+	color: inherit;
+	padding: 0;
+	font-size: inherit;
+}
+
+.repl {
+	border: 1px solid #62605921;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.repl .repl-editor-wrap {
+	position: relative;
+}
+
+.repl .cm-editor {
+	background: var(--rat);
+}
+
+.repl .cm-editor .cm-gutters {
+	display: none;
+}
+
+.repl .cm-vim-panel {
+	display: none;
+}
+
+.repl .cm-scroller {
+	overflow: visible;
+}
+
+.repl .repl-run {
+	position: absolute;
+	top: 0.4rem;
+	right: 0.4rem;
+	z-index: 10;
+	font: inherit;
+	font-size: 0.67rem;
+	cursor: pointer;
+	background: var(--base02);
+	color: var(--base07);
+	border: none;
+	border-radius: 3px;
+	padding: 0.15rem 0.5rem;
+	opacity: 0.7;
+	transition: opacity 0.15s;
+}
+
+.repl .repl-run:hover {
+	opacity: 1;
+}
+
+.repl .repl-run:disabled {
+	opacity: 0.3;
+	cursor: default;
+}
+
+.repl .repl-output {
+	margin: 0;
+	padding: 0.5em 1em;
+	font-size: 0.85rem;
+	background: var(--rat);
+	color: var(--whiterose);
+	border-top: 1px solid #62605969;
+}
+
+.repl .repl-output.repl-ok {
+	color: #8bc34a;
+}
+
+.repl .repl-output.repl-err {
+	color: #ef5350;
+}
+
+.repl .repl-output .repl-stdio {
+	color: var(--whiterose);
+}
+
+h1 h2 h3 h4 {
+	font-family: var(--font-mono);
 }

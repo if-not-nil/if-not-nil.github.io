@@ -11,6 +11,29 @@
 	</title>
 	<link rel="icon" href="/favicon.ico" type="image/gif">
 	<link rel='stylesheet' type='text/css' href='/wiki.css'>
+	<script type="importmap">
+	{
+		"imports": {
+			"codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6/dist/index.js",
+			"@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6/dist/index.js",
+			"@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6/dist/index.js",
+			"@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6/dist/index.js",
+			"@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6/dist/index.js",
+			"@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6/dist/index.js",
+			"@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6/dist/index.js",
+			"@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6/dist/index.js",
+			"@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6/dist/index.js",
+			"@replit/codemirror-vim": "https://cdn.jsdelivr.net/npm/@replit/codemirror-vim@6/dist/index.js",
+			"@codemirror/lang-json": "https://cdn.jsdelivr.net/npm/@codemirror/lang-json@6/dist/index.js",
+			"@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1/dist/index.js",
+			"@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1/dist/index.js",
+			"style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4/src/style-mod.js",
+			"w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2/index.js",
+			"@marijn/find-cluster-break": "https://cdn.jsdelivr.net/npm/@marijn/find-cluster-break@1/src/index.js",
+			"crelt": "https://cdn.jsdelivr.net/npm/crelt@1/index.js"
+		}
+	}
+	</script>
 </head>
 
 <body>
@@ -52,13 +75,14 @@
 			</li>
 			{{ end }}
 		</ul>
+		<button id="vim-toggle" class="sidebar-vim">vim</button>
 	</nav>
 	<main class="content">
 		{{ block "main" . }}{{ end }}
 	</main>
 </body>
+<script type="module" src="/repl.js"></script>
 <script>
-
 	document.querySelectorAll("code-editor").forEach(el => {
 		customElements.upgrade(el);
 	});

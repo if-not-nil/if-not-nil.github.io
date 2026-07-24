@@ -1,0 +1,9 @@
+{{- $code := .Inner | chomp -}}
+<div class="repl">
+  <div class="repl-editor-wrap">
+    <div class="repl-editor"></div>
+    <button class="repl-run" hidden>run</button>
+  </div>
+  <script type="text/plain" class="repl-source">{{ $code }}</script>
+  <pre class="repl-output" hidden></pre>
+</div>

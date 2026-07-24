@@ -14,16 +14,17 @@ hideInList: true
 
 <b>revo</b> is a dynamic language made for the joy of programming
 
-a 1mb toolkit with a ton of focus on ergonomics
-[introduction with words](./blog/apples)
+<span style="flex: 1;">
+    <a class="imp" href="#quick-start">get</a>,
+    <a class="green" href="ide">try in your browser</a>,
+    <!-- <a class="imp" href="https://codeberg.org/lung/revo">try</a> -->
+    <a href="https://discord.gg/XzGWh7TX59">join the discord</a>
+    <br>
+
+or read the [introduction with words](./blog/apples)
 
 </span>
 
-<span style="flex: 1;">
-    <a class="imp" href="#quick-start">get</a>
-    <span>or</span>
-    <!-- <a class="imp" href="https://codeberg.org/lung/revo">try</a> -->
-    <a class="imp" href="https://discord.gg/XzGWh7TX59">join the discord</a>
 </span>
 
 </div>
@@ -70,11 +71,11 @@ things flow from top to bottom
 </div>
 <div>
 
-```ruby
+{{< repl >}}
 "hello!!"
-  |> string.upper
+  |> string.upper()
   |> string.sub(0, 4)
-  |> fn(s) s + ", world!" 
+  |> fn(s) s ~ ", world!" 
   |> inspect
 
 # or with placeholders,
@@ -84,13 +85,13 @@ things flow from top to bottom
   |> do
     # you can even put any expression here
     #   even do-end blocks
-    _ + ", world!"
+    _ ~ ", world!"
   end
   |> print
 
-# this is the same, but look at the order of operations
-print(log("hello":upper():sub(0, 4) + ", world!"))
-```
+# and the infix version of this
+print("hello":upper():sub(0, 4) ~ ", world!")
+{{< /repl >}}
 
 </div>
 </div>
@@ -109,18 +110,18 @@ aided massively by pattern matching, `?`, `orelse`, and `:unwrap()`
 </div>
 <div>
 
-```ruby
-# f might be
-#   (:ok, "file-contents")
-#   or (:err, :IoError)
-const f = fs.open({path = "./readme.md"})
+{{< repl >}}
+  # f might be
+  #   (:ok, "file-contents")
+  #   or (:err, :IoError)
+  const f = fs.open("./readme.md")
 
-# `?` unwraps :ok and panics on :err at top-level
-const f2 = fs.open({path = "./readme.md"})?
+  # `?` unwraps :ok and panics on :err at top-level
+  const f2 = fs.open("./readme.md")?
 
-# crashes if :err
-const f = fs.open({path = "./readme.md"}):unwrap()
-```
+  # crashes if :err
+  const f = fs.open("./readme.md"):unwrap()
+{{< /repl >}}
 
 </div>
 </div>
@@ -135,18 +136,18 @@ no statements, everything (really) always returns a value
 </div>
 <div>
 
-```ruby
-let x = 10 # this line evaluates to 10
-let label = if x > 0 "positive" else "zero"
-let a = let b = 5 # this whole line evaluates to 5
+{{< repl >}}
+  let x = 10 # this line evaluates to 10
+  let label = if x > 0 "positive" else "zero"
+  let a = let b = 5 # this whole line evaluates to 5
 
-fn is_true() 5 + 5 == 10
-# both x and is_true are the same function
-const x = fn is_true() do # do-end is one too
-    # return and break are special
-    return 5 + 5 == 10
-end
-```
+  fn is_true() 5 + 5 == 10
+  # both x and is_true are the same function
+  const x = fn is_true() do # do-end is one too
+      # return and break are special
+      return 5 + 5 == 10
+  end
+{{< /repl >}}
 
 </div>
 </div>
@@ -169,19 +170,19 @@ the compile-time VM does not differ from the runtime one
 </div>
 <div>
 
-```ruby
-# asks for a ling of input at build-time
-# then keeps the result at run-time
-const x = comp read() 
+{{< repl >}}
+  # asks for a ling of input at build-time
+  # then keeps the result at run-time
+  const x = comp (1+2) 
 
-const long = do
-    let t = 0
-    for x in 0..100
-        t += x
-    t # similar to rust's {},
-      #   revo do-end blocks return the last value
-end
-```
+  const long = do
+      let t = 0
+      for x in 0..100
+          t += x
+      t # similar to rust's {},
+        #   revo do-end blocks return the last value
+  end
+{{< /repl >}}
 
 </div>
 </div>
@@ -197,30 +198,30 @@ this lets you just get an iterator over the raw ast tokens, run any code to tran
 </div>
 <div>
 
-```ruby
-# > num, num, num -> Sigma^4_n=1(a * b + c)
-proc cmul!(iter) do
-  print("inner: ", add3!(10,20,12))
-  print("peek: ", iter:peek())
-  match iter:peek()
-  | (:number, n) => print("is number", n)
-  | (other, n)   => print(other, n)
-  | x            => print("not tuple: ", x)
+{{< repl >}}
+  # > num, num, num -> Sigma^4_n=1(a * b + c)
+  proc cmul!(iter) do
+    # print("inner: ", add3!(10,20,12))
+    print("peek: ", iter:peek())
+    match iter:peek()
+    | (:number, n) => print("is number", n)
+    | (other, n)   => print(other, n)
+    | x            => print("not tuple: ", x)
 
-  let a = 10 + (iter:next_of(:number))
-  let b = iter:next_of(:number)
-  let c = iter:next_of(:number)
+    let a = 10 + (iter:next_of(:number))
+    let b = iter:next_of(:number)
+    let c = iter:next_of(:number)
 
-  let acc = 0
-  for i in 1..5 do
-  	acc += a * b + c
+    let acc = 0
+    for i in 1..5 do
+    	acc += a * b + c
+    end
+
+    {(:number, acc)}
   end
 
-  {(:number, acc)}
-end
-
-print(cmul!(10,20,30))
-```
+  print(cmul!(10,20,30))
+{{< /repl >}}
 
 </div>
 </div>
@@ -236,29 +237,29 @@ you will be using atoms and tuples, they are beautiful solutions to their proble
 </div>
 <div>
 
-```ruby
-match (:ok, 42)
-| (:ok, v)  => v
-| (:err, e) => panic(e)
-| _         => panic()
-| _         => panic()
-# _ is wildcard, when nothing else matched
-# if you want to grab the actual value
-# , just put any binding name there
+{{< repl >}}
+  match (:ok, 42)
+  | (:ok, v)  => v
+  | (:err, e) => panic(e)
+  | _         => panic()
+  | _         => panic()
+  # _ is wildcard, when nothing else matched
+  # if you want to grab the actual value
+  # , just put any binding name there
 
-const response = match "hello!"
-| "hello!"              => "hi!"
-| x when (x:len() > 10) => ""
-| x when string?(x)     => x + " to you too!"
-| _                     => ":("
+  const response = match "hello!"
+  | "hello!"              => "hi!"
+  | x when (x:len() > 10) => ""
+  | x when string?(x)     => x + " to you too!"
+  | _                     => ":("
 
-let f = match read({path = "./readme.md"})
-| (:ok, file) => file
-| (:err, error) when error == :FileDNE
-	=> panic("file does not exist")
-| (error) => panic("error")
-| x => panic("unknown: ", x)
-```
+  let f = match read({path = "./readme.md"})
+  | (:ok, file) => file
+  | (:err, error) when error == :FileDNE
+  	=> panic("file does not exist")
+  | (error) => panic("error")
+  | x => panic("unknown: ", x)
+{{< /repl >}}
 
 </div>
 </div>
@@ -272,20 +273,23 @@ i made all your blocking code become non-blocking by just adding a spawn before 
 </div>
 <div>
 
-```ruby
-fn serve(peer, message) do
-  peer:send(message)?
-end
+{{< repl >}}
+  fn serve(peer, message) do
+    peer:send(message)?
+  end
 
-while :true do
-  # accept the next connection; if none is ready, this fiber parks until the
-  # runtime sees a connection on the listening socket.
-  let conn = server:accept()?
-  # the only thing you have to do to make it async is to add `spawn` here! 
-  spawn serve(conn, port - 1)
-end
+  const server = (net.listen(6767))?
+  let accepted = 0
+  while accepted < 3 do
+    # accept the next connection; if none is ready, this fiber parks until the
+    # runtime sees a connection on the listening socket.
+    let conn = server:accept()?
+    # the only thing you have to do to make it async is to add `spawn` here! 
+    spawn serve(conn, "hello")
+    accepted = accepted + 1
+  end
 
-```
+{{< /repl >}}
 
 </div>
 </div>
@@ -304,29 +308,29 @@ used for
 </div>
 <div>
 
-```ruby
-let t = {1, 2, 3, key = "value"}
-let rec = {name = "revo", version = 1}
-rec.name
-t[0]
+{{< repl >}}
+  let t = {1, 2, 3, key = "value"}
+  let rec = {version = 1}
+  rec.name
+  t[0]
 
-let mt = {
-    name = fn(self) self.name,
-    set_version = fn(self, v) self.version = v,
-    DELTA = 0.0,
-}
+  let mt = {
+      name = fn(self) "revo",
+      set_version = fn(self, v) self.version = v,
+      DELTA = 0.0,
+  }
 
-# a metatable is just a "table overlay"
-# which you can slap onto other tables
-set_metatable(rec, mt)
-let rec = {name = "revo", version = 2}
-set_metatable(rec2, mt)
-# name does not exist in rec or rec2,
-# but you can still call them
-assert_eq(rec:version(), 1)
-assert_eq(rec2:version(), 2)
-assert_eq(rec.DELTA, rec2.DELTA)
-```
+  # a metatable is just a "table overlay"
+  # which you can slap onto other tables
+  set_metatable(rec, mt)
+  let rec2 = {version = 2}
+  set_metatable(rec2, mt)
+  # name does not exist in rec or rec2,
+  # but you can still call them
+  assert_eq(rec:name(), "revo")
+  assert_eq(rec2:name(), "revo")
+  assert_eq(rec.DELTA, rec2.DELTA)
+{{< /repl >}}
 
 </div>
 </div>
@@ -344,25 +348,25 @@ most of your code is going to be inferred automatically
 </div>
 <div>
 
-```ruby
-type Result =
-    (:ok, any)
-  | (:err, atom)
+{{< repl >}}
+  type Result =
+      (:ok, any)
+    | (:err, atom)
 
 
-struct User {
-  name: string = "me",
-  age: int = 21,
+  struct User {
+    name: string = "me",
+    age: int = 21,
 
-  fn get_age(self) -> Result
-    (:ok, self.age),
-}
+    fn get_age(self) -> Result
+      (:ok, self.age),
+  }
 
-# type is inferred
-let user = User{}
+  # type is inferred
+  let user = User{}
 
-print(user:get_age())
-```
+  print(user:get_age())
+{{< /repl >}}
 
 </div>
 </div>
@@ -376,31 +380,31 @@ they're just closures and they fail when you return an error. the `?` postfix op
 </div>
 <div>
 
-```ruby
-fn add(a, b) a + b
+{{< repl >}}
+  fn add(a, b) a + b
 
-suite "add" do
-  test "addition" do
-    expect(add(20, 22) == 42)?
-    expect(add(20, 22) != 22)?
-  end
+  suite "add" do
+    test "addition" do
+      expect(add(20, 22) == 42)?
+      expect(add(20, 22) != 22)?
+    end
   
-  test/skip "adds two tables" do
-    expect(add({1,2}, {3, 4}) == {4,6})?
+    test/skip "adds two tables" do
+      expect(add({1,2}, {3, 4}) == {4,6})?
+    end
   end
-end
-```
+{{< /repl >}}
 
 </div>
 </div>
 
 # quick start
 
-you can get the latest release from (the github releases page)[https://github.com/if-not-nil/revo/releases]
+you can get the latest release from [the github releases page](https://github.com/if-not-nil/revo/releases)
 
 ## from source
 
-the only dependency is [zig](https://ziglang.org/) version 0.16.0:
+the only dependency is [zig](https://ziglang.org/) (version specified in the repo):
 the repository is also [available on codeberg](https://codeberg.org/lung/revo)
 
 ```bash

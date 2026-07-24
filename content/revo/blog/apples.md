@@ -141,7 +141,7 @@ rust is purposefully not the safest possible language, because taking away `unsa
   - [web only(?)] ...
   - [ai generated on the fly(?)] ...
   - ...
- - [no] ...
+  - [no] ...
 ...
 ```
   </pre>
@@ -243,62 +243,63 @@ this is effectively [a lua library](https://github.com/if-not-nil/soup)'s siblin
 
 the bare minimum for a function is a signature and a body
 
-```ruby
-fn(x) x * 2
-```
+{{< repl >}}
+  fn(x) x * 2
+{{< /repl >}}
 
 often, you want it to execute multiple expressions. a do-end block is not specific to loops or functions - it's a generic piece of syntax that binds multiple expressions together and evaluates to its last expression
 
-```ruby
-fn(x) do
-  let a = x * 2
-  a
-end
+{{< repl >}}
+  fn(x) do
+    let a = x * 2
+    a
+  end
 
-# or, return explicitly
-fn(x) do
-  if x == 0 return 0
-  let a = x * 2
-  return a
-end
-```
+  # or, return explicitly
+  fn(x) do
+    if x == 0 return 0
+    let a = x * 2
+    return a
+  end
+{{< /repl >}}
 
 then, you sometimes need to bind it
 
-```ruby
-const double = fn(x) x * 2
+{{< repl >}}
+  const double = fn(x) x * 2
 
-# or the sugared version
-fn double(x) x * 2
+  # or the sugared version
+  fn double(x) x * 2
 
-let tbl = {}
-fn tbl.double(x) x * 2
-```
+  let tbl = {}
+  fn tbl.double(x) x * 2
+{{< /repl >}}
 
 that's it. they're separate pieces of the language with no special cases. and since all functions are anonymous:
 
-```ruby
-"hello" |> inspect
-21 |> double
-```
+{{< repl >}}
+  fn double(x) x * 2
+  "hello" |> inspect
+  21 |> double
+{{< /repl >}}
 
 multiline strings do not really need to exist either. a newline is skipped, so:
 
-```ruby
-"a b
-c"
-```
+{{< repl >}}
+  "a b
+  c"
+{{< /repl >}}
 
 is perfectly valid, and:
 
-```ruby
-do
-  let a = """
-  hello
-  world
-  """
-end
-```
+{{< repl >}}
+  do
+    let a = """
+    hello
+    world
+    """
+  end
+{{< /repl >}}
 
 just trims leading whitespace
 
@@ -310,17 +311,17 @@ returning values by default is surprisingly effective in keeping flow composable
 
 and what does it hurt you to return something actually useful? `:nil` or `:ok` costs just as much as anything else - you already do this when returning proper http status codes
 
-```ruby
-(let a = 41) == 41
-(a += 1) == 42
-(do 1 2 3 end) == 3
+{{< repl >}}
+  (let a = 41) == 41
+  (a += 1) == 42
+  (do 1 2 3 end) == 3
 
-let b = while :true do
-  if a >= 50 break
-  a += 1
-end
-b == 50
-```
+  let b = while :true do
+    if a >= 50 break(a)
+    a += 1
+  end
+  b == 50
+{{< /repl >}}
 
 and that means we can build on that! so, every piece of control flow can be reasoned about through just expressions and bindings
 
@@ -328,36 +329,30 @@ and that means we can build on that! so, every piece of control flow can be reas
 
 pass values forward like unix pipes. they compose with error handling too
 
-```ruby
-tonumber("42")
-  |> bind(fn(n) n + 1)  # only runs if ok
-  |> or_else(fn(err) 0) # only runs if err
-  |> assert_eq(42)
-```
-
 ## pattern matching
 
 match against any shape
 
-```ruby
-match result
-  | (:ok, v) when v > 0 "positive"
-  | (:ok, v)            "zero or negative"
-  | (:err, :notfound)   "not found"
-  | (:err, e)           fmt("error: %v", e)
-```
+{{< repl >}}
+  let result = (:ok, 42)
+  match result
+    | (:ok, v) when v > 0 => "positive"
+    | (:ok, v)            => "zero or negative"
+    | (:err, :notfound)   => "not found"
+    | (:err, e)           => fmt("error: %v", e)
+{{< /repl >}}
 
 ## errors as values
 
 no exceptions hiding in your code. i use `(:ok, value)` and `(:err, reason)` tuples with pattern matching. the `?` operator propagates errors up, `orelse` gives defaults
 
-```ruby
-fn load_config(path) do
-  const f = fs.open(path)?
-  const raw = f:read() orelse "<none>"
-  parse_json(raw)?
-end
-```
+{{< repl >}}
+  fn load_config(path) do
+    const f = fs.open(path)?
+    const raw = f:read() orelse "<none>"
+    parse_json(raw)?
+  end
+{{< /repl >}}
 
 ## no unnecessary edge cases
 
@@ -365,72 +360,76 @@ everything can be written in one line and all whitespace is equal. i even made s
 
 this is the same for all control flow and is what i really love about c
 
-```ruby
-"hello" |> print
+{{< repl >}}
+  "hello" |> print
 
-fn double(x) x * 2
-21 |> double
+  fn double(x) x * 2
+  21 |> double
 
-const (x, y) = (10, 20)
-```
+  const (x, y) = (10, 20)
+{{< /repl >}}
 
 i really tried to make it glaringly obvious when special syntax occurs
 
-# async concurrency without threads
+# simple concurrency
 
 your blocking code is actually async
 
 revo runs fibers cooperatively! when a fiber hits i/o, it parks; the scheduler runs another ready fiber. when i/o completes, the fiber wakes up. this does not require threads - though the posix backend can spawn worker threads under the hood to handle 41k requests/second
 
-```ruby
-fn serve(peer) do
-  while :true do
-    peer:send("$ ")
-    match peer:recv({ mode = :read_line })
-    | (:ok, "exit") do
-        peer:send("goodbye\n")?
-        peer:close()?
-        return :nil
-      end
-    | (:ok, "ping") do
-        peer:send("pong\n")?
-      end
-    | (:ok, line) do
-        peer:send(line + "\n")?
-      end
-    | (:err, :socketclosed) do
-        peer:close()?
-        return :nil
-      end
-    | (:err, reason) do
-        print!("recv failed: %s", tostring(reason))
-        peer:close()?
-        return :nil
-      end
+{{< repl >}}
+  fn serve(peer) do
+    let iterations = 0
+    while iterations < 5 do
+      peer:send("$ ")?
+      match peer:recv({ mode = :read_line })
+      | (:ok, "exit") => do
+          peer:send("goodbye\n")?
+          peer:close()?
+          return :nil
+        end
+      | (:ok, "ping") => do
+          peer:send("pong\n")?
+        end
+      | (:ok, line) => do
+          peer:send(line + "\n")?
+        end
+      | (:err, :socketclosed) => do
+          peer:close()?
+          return :nil
+        end
+      | (:err, reason) => do
+          print!("recv failed: %s", string(reason))
+          peer:close()?
+          return :nil
+        end
+      iterations = iterations + 1
+    end
   end
-end
 
-const server = net.listen(6767)?
-while :true do
-  let conn = server:accept()?
-  spawn serve(conn)
-end
-```
+  const server = (net.listen(6767))?
+  let accepted = 0
+  while accepted < 3 do
+    let conn = server:accept()?
+    spawn serve(conn)
+    accepted = accepted + 1
+  end
+{{< /repl >}}
 
 that `spawn` call is all you need to run infinite clients; they all work with no callbacks, no await keywords, no thread pool config
 
 channels coordinate fibers. send and recv block cleanly - when one side isn't ready, it parks without blocking others
 
-```ruby
-const ch = chan(4)
-spawn fn() do
-  for i in 0..4
-    send(ch, i * i)
-end
+{{< repl >}}
+  const ch = chan(4)
+  spawn fn() do
+    for i in 0..4
+      send(ch, i * i)
+  end
 
-for _ in 0..4
-  print(recv(ch))
-```
+  for _ in 0..4
+    print(recv(ch))
+{{< /repl >}}
 
 ## a rich standard library
 
@@ -438,21 +437,20 @@ you should always have the best http client and server just there. because other
 
 people will write everything they can in the language they like, because that's the best way to actually finish it. and there's no shame in giving them the means to do that
 
-```ruby
-const config = 
-  fs.open("config.json")?
-  |> fn(f) f:read()?
-  |> json.decode()?
+{{< repl >}}
+  const f = (fs.open("config.json"))?
+  const raw = (f:read())?
+  const config = (json.decode(raw))?
 
-const co = spawn fn() do
-  const conn = net.connect(config.host, config.port)?
-  const resp = net.send(conn, "hello")?
-  net.close(conn)?
-  return resp
-end
+  const co = spawn fn() do
+    const conn = (net.connect(config.host, config.port))?
+    const resp = conn:send("hello")?
+    conn:close()?
+    return resp
+  end
 
-const result = join(co)
-```
+  const result = join(co)
+{{< /repl >}}
 
 while more complex packages, like generic game engines and web frameworks should at least exist as second-party
 
@@ -462,16 +460,16 @@ fixed-shape, immutable data! the advantage is not as much safety as it is predic
 
 this is what really makes error handling predictable and allows for gradual typing, once someone experienced enough feels like implementing that
 
-```ruby
-const point = (10, 20)
-const (x, y) = point
+{{< repl >}}
+  const point = (10, 20)
+  const (x, y) = point
 
-fn vector_mul(a, b, factor) do
-  (a * factor, b * factor)
-end
+  fn vector_mul(a, b, factor) do
+    (a * factor, b * factor)
+  end
 
-const (vx, vy) = vector_mul(4, 6, 2)
-```
+  const (vx, vy) = vector_mul(4, 6, 2)
+{{< /repl >}}
 
 so take a look for yourself! any contributions are welcome, the project has been a massive effort to keep sane. help it get where it wants to get. thanks for telling a friend!
 
@@ -500,44 +498,44 @@ executable in c
 ## macros
 
 proc macros are really cool:
-```ruby
-proc print!(iter) do
-  let fmt = iter:next_of(:string)
-  let args = {}
-  let i = 0
-  args[i] = (:string, fmt)
-  i += 1
-  while iter:peek() != :nil do
-    args[i] = iter:next()
+{{< repl >}}
+  proc print!(iter) do
+    let fmt = iter:next_of(:string)
+    let args = {}
+    let i = 0
+    args[i] = (:string, fmt)
     i += 1
+    while iter:peek() != :nil do
+      args[i] = iter:next()
+      i += 1
+    end
+    {(:call, (:ident, "print"), {(:call, (:ident, "fmt"), args, :false)}, :false)}
   end
-  {(:call, (:ident, "print"), {(:call, (:ident, "fmt"), args, :false)}, :false)}
-end
 
-print!("hello, %v!", "world")
-```
+  print!("hello, %v!", "world")
+{{< /repl >}}
 i made them require valid AST and parens so that they wouldn't turn your codebase into DSL, but i might
 actually just let you have the whole build pipeline in them, if it doesn't end up being a horrible idea
 
 normal macros exist, too! they're much simpler and operate on normal AST
 ,,,very alike rust's macro_rules
 
-```ruby
-macro `(%fmt:str %ARGS(, %arg:expr)*)` `(print(fmt(%fmt %ARGS(, %arg))))`
-```
+{{< repl >}}
+  macro printf! `(%fmt:str %ARGS(, %arg:expr)*)` `(print(fmt(%fmt %ARGS(, %arg))))`
+{{< /repl >}}
 
 ## optional static typing
 
-```ruby
-type Status = :done|:in_progress|:cancelled
+{{< repl >}}
+  type Status = :done|:in_progress|:cancelled
 
-fn get_status() -> Result
-    :done
+  fn get_status() -> Result
+      :done  # ERROR: :done is not a Result tuple
 
-# question mark implies `-> bool`
-fn is_done?(status)
-    status == done
-```
+  # question mark implies `-> bool`
+  fn is_done?(status)
+      status == done
+{{< /repl >}}
 i've loved godot's optional typing to pieces, and this the end goal here is to have that and more
 
 what's different is the first-classness of it
@@ -546,40 +544,40 @@ dynamic code works just fine, but becomes faster and safer when typed. the progr
 on a type error, and type information is inferred when possible. even if you write fully dynamic code,
 you still get some of that safety, entirely for free
 
-```ruby
-struct User {
-  name: string = "me",
-  age: number = 222,
+{{< repl >}}
+  struct User {
+    name: string = "me",
+    age: number = 222,
   
-  fn get_age(self) self.age
-}
+    fn get_age(self) self.age
+  }
 
-const u = User{}
-print(u:get_age())
-```
+  const u = User{}
+  print(u:get_age())
+{{< /repl >}}
 
 ## first-class tests
 
 when you run a file with `--test`, something happens
-```ruby
-test "asdf" do
-  print("will only get printed with a --test flag")
-end
+{{< repl >}}
+  test "asdf" do
+    print("will only get printed with a --test flag")
+  end
 
-print('this always gets printed')
+  print('this always gets printed')
 
-suite "tests" do
-    const message = "this will not get declared without the --test flag"
+  suite "tests" do
+      const message = "this will not get declared without the --test flag"
 
-    test "asdf" do
-      print(message)
-    end
+      test "asdf" do
+        print(message)
+      end
 
-    test/skip "future feature" do
-      print(message)
-    end
-end
-```
+      test/skip "future feature" do
+        print(message)
+      end
+  end
+{{< /repl >}}
 because what i've always loved to do is to describe a complex function with tests first, and only 
 then think of how i would satisfy them
 
@@ -591,18 +589,18 @@ then think of how i would satisfy them
 the `comp` block will get executed at build time, meaning you can use this for configuration!
 or even a build system!
 
-```ruby
-const x = comp read()
+{{< repl >}}
+  const x = comp (1+2)
 
-const y = comp do
-    let acc = 0
-    for x in 1..1000 do
-        acc += x
-    end
-end
-# both execute once at build time, and then everyhing is baked into the .rvo file
-# they execute before any other execution even has an opportunity to run at all
-```
+  const y = comp do
+      let acc = 0
+      for x in 1..1000 do
+          acc += x
+      end
+  end
+  # both execute once at build time, and then everyhing is baked into the .rvo file
+  # they execute before any other execution even has an opportunity to run at all
+{{< /repl >}}
 
 ## tooling
 

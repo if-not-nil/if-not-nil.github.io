@@ -1,11 +1,12 @@
 import { EditorView, basicSetup } from 'codemirror'
 import { EditorState, Compartment, Prec } from '@codemirror/state'
 import { keymap } from '@codemirror/view'
-import { StreamLanguage, indentUnit } from '@codemirror/language'
+import { indentUnit } from '@codemirror/language'
 import { indentWithTab } from '@codemirror/commands'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { vim } from '@replit/codemirror-vim'
 import { Revo } from '../../revo.js'
+import { revoLang } from '../cm-shared.js'
 
 const SAMPLE = `
 ##
@@ -41,7 +42,7 @@ print(msg)
 # this is optionally typed. code with types is generally faster and safer
 let foo: string = "hi"
 fn process(a: int, b: int) -> string
-  tostring(a + b)
+  string(a + b)
 
 # and generics
 fn twice[T](what: T) -> T
@@ -254,114 +255,6 @@ async function doRun(code) {
 		setResult('internal error: ' + err.message, false)
 	}
 }
-
-const revoLang = StreamLanguage.define({
-	startState() {
-		return {
-			inBlockComment: false,
-			inTripleString: false,
-			inBacktick: false,
-		}
-	},
-	token(stream, state) {
-		// block comment ## ... ##
-		if (state.inBlockComment) {
-			if (stream.match(/^.*?##/)) {
-				state.inBlockComment = false
-				return 'comment'
-			}
-			stream.skipToEnd()
-			return 'comment'
-		}
-
-		// triple-quoted string """ ... """
-		if (state.inTripleString) {
-			if (stream.match(/^.*?"""/)) {
-				state.inTripleString = false
-				return 'string'
-			}
-			stream.skipToEnd()
-			return 'string'
-		}
-
-		// backtick string `...`
-		if (state.inBacktick) {
-			if (stream.match(/^[^`]*`/)) {
-				state.inBacktick = false
-				return 'string'
-			}
-			stream.skipToEnd()
-			return 'string'
-		}
-
-		if (stream.eatSpace()) return null
-
-		if (stream.match(/^##/)) {
-			state.inBlockComment = true
-			return 'comment'
-		}
-		if (stream.match(/^#/)) {
-			stream.skipToEnd()
-			return 'comment'
-		}
-
-		if (stream.match(/^"""/)) {
-			state.inTripleString = true
-			return 'string'
-		}
-
-		// double-quoted string
-		if (stream.match(/^"([^"\\]|\\.)*"?/)) return 'string'
-
-		// single-quoted string
-		if (stream.match(/^'([^'\\]|\\.)*'?/)) return 'string'
-
-		if (stream.match(/^`/)) {
-			state.inBacktick = true
-			return 'string'
-		}
-
-		// atoms :name, :name?, :name!
-		if (stream.match(/^:[a-zA-Z_]\w*[?!]?/)) return 'atom'
-
-		// numbers ints, floats, exponents
-		if (stream.match(/^\d+(\.\d+)?([eE][+-]?\d+)?/)) return 'number'
-
-		// ident/kw
-		const kw = stream.match(/^[a-zA-Z_]\w*[?!]?/)
-		if (kw) {
-			const word = kw[0]
-			const keywords = new Set([
-				'let', 'fn', 'const', 'global', 'if', 'else', 'match',
-				'when', 'do', 'end', 'for', 'in', 'while', 'loop',
-				'break', 'return', 'spawn', 'join', 'yield', 'sleep',
-				'test', 'suite', 'expect', 'skip', 'struct',
-				'macro', 'import', 'proc', 'pub', 'comp',
-				'and', 'or', 'not', 'orelse',
-			])
-			if (keywords.has(word)) return 'keyword'
-			if (word.endsWith('?') || word.endsWith('!')) return 'builtin'
-			return null
-		}
-
-		// operators multi-char first, so they aren't split up
-		if (stream.match(/^\|>/)) return 'operator'
-		if (stream.match(/^\.\./)) return 'operator'
-		if (stream.match(/^=>/)) return 'operator'
-		if (stream.match(/^->/)) return 'operator'
-		if (stream.match(/^[+\-*/%=!<>&|^~?]+/)) return 'operator'
-
-		if ('()[]{}'.includes(stream.peek())) {
-			stream.next()
-			return 'bracket'
-		}
-		if (stream.match(/^,/)) return 'separator'
-
-		// fallback always consume a character so the tokenizer can't stall
-		stream.next()
-		return null
-	},
-})
 
 // Prec.highest is required here, otherwise vim mode (and basicSetup's own
 // keymaps) get first crack at the keydown and Mod-Enter never reaches us
