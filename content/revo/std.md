@@ -50,7 +50,8 @@ please note that the docgen script, used to generate this, is not yet done and i
 fmt(format: string, args: any...) -> string # variadic
 ```
 
-format string with %v, %d, %? specifiers
+format string with %v, %d, %?, %p specifiers. string literals also support
+`{expr}`, `{expr:?}`, and `{expr:p}` interpolation.
 
 ```rb
 len(value: any) -> number|:nil
@@ -1471,5 +1472,3 @@ returns true if function returns true for any element
    any?((1,2,3), fn(x) = x > 2)
    any?("hello", fn(c) = c == "l")
    any?({a=1, b=2}, fn(v) = v > 1)
-
-

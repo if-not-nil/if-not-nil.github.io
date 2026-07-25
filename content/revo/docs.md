@@ -63,6 +63,9 @@ title: 'docs'
   const b = 20
   global c = 30
 
+  const who = "world"
+  print("hello, {who}!")
+
   # functions + tables
   fn add(x, y) x + y
   const user = {
@@ -998,7 +1001,16 @@ and `revo.eval`, plus a few module-style namespaces
   system({"echo", "hello"}) # ("hello\n", "")
 {{< /repl >}}
 
-`fmt` - string formatting with `%v`, `%d`, `%s`, `%?`:
+strings interpolate expressions with `{}`. normal interpolation uses display formatting;
+use `:?` for debug formatting or `:p` for pretty formatting:
+{{< repl >}}
+  const name = "world"
+  "hello {name}!"
+  "value = {name:?}"
+  "answer = {42:p}"
+{{< /repl >}}
+
+use `{{` and `}}` for literal braces. `fmt` remains useful for dynamic format strings:
 {{< repl >}}
   fmt("hello %v", :world)   # "hello :world"
   fmt("%d + %d = %d", 1, 2, 3) # "1 + 2 = 3"
