@@ -50,8 +50,8 @@ please note that the docgen script, used to generate this, is not yet done and i
 fmt(format: string, args: any...) -> string # variadic
 ```
 
-format string with %v, %d, %?, %p specifiers. string literals also support
-`{expr}`, `{expr:?}`, and `{expr:p}` interpolation.
+format string with %v, %d, %?, %p specifiers
+string literals also support `{expr}`, `{expr:?}`, and `{expr:p}` interpolation
 
 ```rb
 len(value: any) -> number|:nil
@@ -280,6 +280,36 @@ returns true if function returns true for any element
    any?((1,2,3), fn(x) = x > 2)
    any?("hello", fn(c) = c == "l")
    any?({a=1, b=2}, fn(v) = v > 1)
+
+```rb
+compile(pattern: string) -> table
+```
+
+compile a regex pattern into a reusable handle
+
+```rb
+is_match(regex: table | string, haystack: string) -> bool
+```
+
+test if regex matches anywhere in haystack; pass a string for one-shot compile
+
+```rb
+find(regex: table | string, haystack: string) -> string | :nil
+```
+
+return first match or nil; pass a string for one-shot compile
+
+```rb
+find_all(regex: table | string, haystack: string) -> function
+```
+
+return an iterator over all matches; pass a string for one-shot compile
+
+```rb
+free(regex: table) -> :nil
+```
+
+free a compiled regex handle
 
 ```rb
 c_use(path: string) -> :nil
@@ -605,6 +635,39 @@ listen(port: number, backlog: number?) -> !table/atom # variadic
 ```
 
 listens for incoming connections on the given port, returns server socket
+
+
+### re
+
+```rb
+compile(pattern: string) -> table
+```
+
+compile a regex pattern into a reusable handle
+
+```rb
+is_match(regex: table | string, haystack: string) -> bool
+```
+
+test if regex matches anywhere in haystack; pass a string for one-shot compile
+
+```rb
+find(regex: table | string, haystack: string) -> string | :nil
+```
+
+return first match or nil; pass a string for one-shot compile
+
+```rb
+find_all(regex: table | string, haystack: string) -> function
+```
+
+return an iterator over all matches; pass a string for one-shot compile
+
+```rb
+free(regex: table) -> :nil
+```
+
+free a compiled regex handle
 
 
 ### revo
@@ -1472,3 +1535,5 @@ returns true if function returns true for any element
    any?((1,2,3), fn(x) = x > 2)
    any?("hello", fn(c) = c == "l")
    any?({a=1, b=2}, fn(v) = v > 1)
+
+
