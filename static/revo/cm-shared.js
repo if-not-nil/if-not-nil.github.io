@@ -71,7 +71,7 @@ export const revoLang = StreamLanguage.define({
 			const keywords = new Set([
 				'let', 'fn', 'const', 'global', 'if', 'else', 'match',
 				'when', 'do', 'end', 'for', 'in', 'while', 'loop',
-				'break', 'return', 'spawn', 'join', 'yield', 'sleep',
+				'break', 'continue', 'return', 'spawn', 'join', 'yield', 'sleep',
 				'test', 'suite', 'expect', 'skip', 'struct',
 				'macro', 'import', 'proc', 'pub', 'comp',
 				'and', 'or', 'not', 'orelse',

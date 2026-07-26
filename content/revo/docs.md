@@ -575,7 +575,7 @@ custom types can opt in via `__tostring`:
 
 ## loops
 
-`loop` creates a loop block. `break` exits it with a value:
+`loop` creates a loop block. `break` exits it with a value, `continue` skips to the next iteration:
 
 {{< repl >}}
   let x = 0
@@ -586,6 +586,52 @@ custom types can opt in via `__tostring`:
           break(x)
   end
 
+  # skip odd numbers
+  let odds = 0
+  for i in 0..6 do
+      if i % 2 == 0 continue
+      odds = odds + i
+  end
+  print(odds) # 9 (1 + 3 + 5)
+{{< /repl >}}
+
+### labeled loops
+
+loops and do-blocks can carry a label (like `loop/a`, `for/a`, `while/a`, `do/a`)
+`break/a` exits the named block with the value you give it; `continue/a` restarts the named loop
+
+{{< repl >}}
+  # break out of an outer loop from inside a nested one
+  let r = 0
+  loop/outer do
+      for i in 0..5 do
+          if i == 3 break/outer(r)
+          r = r + 1
+      end
+  end
+  print(r) # 3 (iterations i=0,1,2 before break)
+
+  # skip to the next iteration of the outer loop
+  let s = 0
+  let i = 0
+  while/a i < 5 do
+      i = i + 1
+      if i == 3 continue/a
+      s = s + i
+  end
+  print(s) # 12 (1 + 2 + 4 + 5)
+
+  # labeled do-blocks act as one-shot loops you can break from
+  let v = do/b
+      let x = 21
+      break/b(x * 2)
+  end
+  print(v) # 42
+{{< /repl >}}
+
+### while and for
+
+{{< repl >}}
   let y = 0
   while y < 5 do
       y = y + 1
