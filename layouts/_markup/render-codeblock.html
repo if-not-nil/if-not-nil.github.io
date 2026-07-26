@@ -1,0 +1,12 @@
+{{- if eq .Type "revo" -}}
+<div class="repl">
+  <div class="repl-editor-wrap">
+    <div class="repl-editor"></div>
+    <button class="repl-run" hidden>run</button>
+  </div>
+  <script type="text/plain" class="repl-source">{{ .Inner | chomp | safeHTML }}</script>
+  <pre class="repl-output" hidden></pre>
+</div>
+{{- else -}}
+<pre><code class="language-{{ .Type }}">{{ .Inner | htmlEscape }}</code></pre>
+{{- end -}}

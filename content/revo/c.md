@@ -321,15 +321,15 @@ uint64_t id = revo_intern(vm, (uint64_t)(uintptr_t)msg, 5);
 
 **loading from revo**
 
-{{< repl >}}
-  const c = import "extension.so"
-  c.greet "world"
-  # => 42
+```revo
+const c = import "extension.so"
+c.greet "world"
+# => 42
 
-  # or into global scope:
-  c_use "extension.so"
-  greet "world"
-{{< /repl >}}
+# or into global scope:
+c_use "extension.so"
+greet "world"
+```
 
 use `const c` when the module is the primary interface, `c_use` for
 convenience helpers

@@ -179,7 +179,7 @@ gensym() -> string
 
 returns a unique interned string for use as an identifier
 
-```rb
+```revo
 # in a proc macro: generate a fresh identifier to avoid name capture
 proc swap!(iter) do
   let tmp = gensym()

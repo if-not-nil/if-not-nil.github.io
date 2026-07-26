@@ -243,13 +243,13 @@ this is effectively [a lua library](https://github.com/if-not-nil/soup)'s siblin
 
 the bare minimum for a function is a signature and a body
 
-{{< repl >}}
+```revo
   fn(x) x * 2
-{{< /repl >}}
+```
 
 often, you want it to execute multiple expressions. a do-end block is not specific to loops or functions - it's a generic piece of syntax that binds multiple expressions together and evaluates to its last expression
 
-{{< repl >}}
+```revo
   fn(x) do
     let a = x * 2
     a
@@ -261,11 +261,11 @@ often, you want it to execute multiple expressions. a do-end block is not specif
     let a = x * 2
     return a
   end
-{{< /repl >}}
+```
 
 then, you sometimes need to bind it
 
-{{< repl >}}
+```revo
   const double = fn(x) x * 2
 
   # or the sugared version
@@ -273,33 +273,33 @@ then, you sometimes need to bind it
 
   let tbl = {}
   fn tbl.double(x) x * 2
-{{< /repl >}}
+```
 
 that's it. they're separate pieces of the language with no special cases. and since all functions are anonymous:
 
-{{< repl >}}
+```revo
   fn double(x) x * 2
   "hello" |> inspect
   21 |> double
-{{< /repl >}}
+```
 
 multiline strings do not really need to exist either. a newline is skipped, so:
 
-{{< repl >}}
+```revo
   "a b
   c"
-{{< /repl >}}
+```
 
 is perfectly valid, and:
 
-{{< repl >}}
+```revo
   do
     let a = """
     hello
     world
     """
   end
-{{< /repl >}}
+```
 
 just trims leading whitespace
 
@@ -311,7 +311,7 @@ returning values by default is surprisingly effective in keeping flow composable
 
 and what does it hurt you to return something actually useful? `:nil` or `:ok` costs just as much as anything else - you already do this when returning proper http status codes
 
-{{< repl >}}
+```revo
   (let a = 41) == 41
   (a += 1) == 42
   (do 1 2 3 end) == 3
@@ -321,7 +321,7 @@ and what does it hurt you to return something actually useful? `:nil` or `:ok` c
     a += 1
   end
   b == 50
-{{< /repl >}}
+```
 
 and that means we can build on that! so, every piece of control flow can be reasoned about through just expressions and bindings
 
@@ -333,26 +333,26 @@ pass values forward like unix pipes. they compose with error handling too
 
 match against any shape
 
-{{< repl >}}
+```revo
   let result = (:ok, 42)
   match result
     | (:ok, v) when v > 0 => "positive"
     | (:ok, v)            => "zero or negative"
     | (:err, :notfound)   => "not found"
     | (:err, e)           => fmt("error: %v", e)
-{{< /repl >}}
+```
 
 ## errors as values
 
 no exceptions hiding in your code. i use `(:ok, value)` and `(:err, reason)` tuples with pattern matching. the `?` operator propagates errors up, `orelse` gives defaults
 
-{{< repl >}}
+```revo
   fn load_config(path) do
     const f = fs.open(path)?
     const raw = f:read() orelse "<none>"
     parse_json(raw)?
   end
-{{< /repl >}}
+```
 
 ## no unnecessary edge cases
 
@@ -360,14 +360,14 @@ everything can be written in one line and all whitespace is equal. i even made s
 
 this is the same for all control flow and is what i really love about c
 
-{{< repl >}}
+```revo
   "hello" |> print
 
   fn double(x) x * 2
   21 |> double
 
   const (x, y) = (10, 20)
-{{< /repl >}}
+```
 
 i really tried to make it glaringly obvious when special syntax occurs
 
@@ -377,7 +377,7 @@ your blocking code is actually async
 
 revo runs fibers cooperatively! when a fiber hits i/o, it parks; the scheduler runs another ready fiber. when i/o completes, the fiber wakes up. this does not require threads - though the posix backend can spawn worker threads under the hood to handle 41k requests/second
 
-{{< repl >}}
+```revo
   fn serve(peer) do
     let iterations = 0
     while iterations < 5 do
@@ -414,13 +414,13 @@ revo runs fibers cooperatively! when a fiber hits i/o, it parks; the scheduler r
     spawn serve(conn)
     accepted = accepted + 1
   end
-{{< /repl >}}
+```
 
 that `spawn` call is all you need to run infinite clients; they all work with no callbacks, no await keywords, no thread pool config
 
 channels coordinate fibers. send and recv block cleanly - when one side isn't ready, it parks without blocking others
 
-{{< repl >}}
+```revo
   const ch = chan(4)
   spawn fn() do
     for i in 0..4
@@ -429,7 +429,7 @@ channels coordinate fibers. send and recv block cleanly - when one side isn't re
 
   for _ in 0..4
     print(recv(ch))
-{{< /repl >}}
+```
 
 ## a rich standard library
 
@@ -437,7 +437,7 @@ you should always have the best http client and server just there. because other
 
 people will write everything they can in the language they like, because that's the best way to actually finish it. and there's no shame in giving them the means to do that
 
-{{< repl >}}
+```revo
   const f = (fs.open("config.json"))?
   const raw = (f:read())?
   const config = (json.decode(raw))?
@@ -450,7 +450,7 @@ people will write everything they can in the language they like, because that's 
   end
 
   const result = join(co)
-{{< /repl >}}
+```
 
 while more complex packages, like generic game engines and web frameworks should at least exist as second-party
 
@@ -460,7 +460,7 @@ fixed-shape, immutable data! the advantage is not as much safety as it is predic
 
 this is what really makes error handling predictable and allows for gradual typing, once someone experienced enough feels like implementing that
 
-{{< repl >}}
+```revo
   const point = (10, 20)
   const (x, y) = point
 
@@ -469,7 +469,7 @@ this is what really makes error handling predictable and allows for gradual typi
   end
 
   const (vx, vy) = vector_mul(4, 6, 2)
-{{< /repl >}}
+```
 
 so take a look for yourself! any contributions are welcome, the project has been a massive effort to keep sane. help it get where it wants to get. thanks for telling a friend!
 
@@ -498,7 +498,7 @@ executable in c
 ## macros
 
 proc macros are really cool:
-{{< repl >}}
+```revo
   proc print!(iter) do
     let fmt = iter:next_of(:string)
     let args = {}
@@ -513,20 +513,20 @@ proc macros are really cool:
   end
 
   print!("hello, %v!", "world")
-{{< /repl >}}
+```
 i made them require valid AST and parens so that they wouldn't turn your codebase into DSL, but i might
 actually just let you have the whole build pipeline in them, if it doesn't end up being a horrible idea
 
 normal macros exist, too! they're much simpler and operate on normal AST
 ,,,very alike rust's macro_rules
 
-{{< repl >}}
+```revo
   macro printf! `(%fmt:str %ARGS(, %arg:expr)*)` `(print(fmt(%fmt %ARGS(, %arg))))`
-{{< /repl >}}
+```
 
 ## optional static typing
 
-{{< repl >}}
+```revo
   type Status = :done|:in_progress|:cancelled
 
   fn get_status() -> Result
@@ -535,7 +535,7 @@ normal macros exist, too! they're much simpler and operate on normal AST
   # question mark implies `-> bool`
   fn is_done?(status)
       status == done
-{{< /repl >}}
+```
 i've loved godot's optional typing to pieces, and this the end goal here is to have that and more
 
 what's different is the first-classness of it
@@ -544,7 +544,7 @@ dynamic code works just fine, but becomes faster and safer when typed. the progr
 on a type error, and type information is inferred when possible. even if you write fully dynamic code,
 you still get some of that safety, entirely for free
 
-{{< repl >}}
+```revo
   struct User {
     name: string = "me",
     age: number = 222,
@@ -554,12 +554,12 @@ you still get some of that safety, entirely for free
 
   const u = User{}
   print(u:get_age())
-{{< /repl >}}
+```
 
 ## first-class tests
 
 when you run a file with `--test`, something happens
-{{< repl >}}
+```revo
   test "asdf" do
     print("will only get printed with a --test flag")
   end
@@ -577,7 +577,7 @@ when you run a file with `--test`, something happens
         print(message)
       end
   end
-{{< /repl >}}
+```
 because what i've always loved to do is to describe a complex function with tests first, and only 
 then think of how i would satisfy them
 
@@ -589,7 +589,7 @@ then think of how i would satisfy them
 the `comp` block will get executed at build time, meaning you can use this for configuration!
 or even a build system!
 
-{{< repl >}}
+```revo
   const x = comp (1+2)
 
   const y = comp do
@@ -600,7 +600,7 @@ or even a build system!
   end
   # both execute once at build time, and then everyhing is baked into the .rvo file
   # they execute before any other execution even has an opportunity to run at all
-{{< /repl >}}
+```
 
 ## tooling
 
