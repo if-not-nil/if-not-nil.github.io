@@ -115,6 +115,12 @@ const state = match total
 const h = spawn add(20, 22)
 
 print((tag, total, name, state, join(h)))
+
+# labeled do-blocks act as one-shot loops you can break from
+let v = do/b
+    let x = 21
+    break/b(x * 2)
+end
 ```
 </div>
 </div>
