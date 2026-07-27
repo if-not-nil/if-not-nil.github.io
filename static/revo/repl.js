@@ -5,7 +5,7 @@ import { indentUnit } from '@codemirror/language'
 import { indentWithTab } from '@codemirror/commands'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { vim } from '@replit/codemirror-vim'
-import { revoLang } from './revo/cm-shared.js'
+import { revoLang } from './cm-shared.js'
 
 const els = document.querySelectorAll('.repl')
 if (els.length) {
@@ -19,8 +19,8 @@ if (els.length) {
 
   async function ensureRevo() {
     if (revo) return
-    const m = await import('./revo.js')
-    const wasmUrl = new URL('./revo.wasm', import.meta.url).href
+    const m = await import('../revo.js')
+    const wasmUrl = new URL('../revo.wasm', import.meta.url).href
     revo = await m.Revo.create({
       wasmUrl,
       stdout(s) { outputParts.push(s) },
