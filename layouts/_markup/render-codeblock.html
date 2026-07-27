@@ -8,5 +8,5 @@
   <pre class="repl-output" hidden></pre>
 </div>
 {{- else -}}
-<pre><code class="language-{{ .Type }}">{{ .Inner | htmlEscape }}</code></pre>
+{{ highlight .Inner .Type "" }}
 {{- end -}}

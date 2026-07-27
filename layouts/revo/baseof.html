@@ -11,6 +11,7 @@
 	</title>
 	<link rel="icon" href="/favicon.ico" type="image/gif">
 	<link rel='stylesheet' type='text/css' href='/wiki.css'>
+	<link rel='stylesheet' type='text/css' href='/revo/repl.css'>
 	<script type="importmap">
 	{
 		"imports": {
@@ -81,7 +82,7 @@
 		{{ block "main" . }}{{ end }}
 	</main>
 </body>
-<script type="module" src="/repl.js"></script>
+<script type="module" src="/revo/repl.js"></script>
 <script>
 	document.querySelectorAll("code-editor").forEach(el => {
 		customElements.upgrade(el);
