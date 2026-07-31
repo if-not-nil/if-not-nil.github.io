@@ -75,6 +75,7 @@ export const revoLang = StreamLanguage.define({
 				'test', 'suite', 'expect', 'skip', 'struct',
 				'macro', 'import', 'proc', 'pub', 'comp',
 				'and', 'or', 'not', 'orelse',
+				'band', 'bor', 'bxor', 'shl', 'shr',
 			])
 			if (keywords.has(word)) return 'keyword'
 			if (word.endsWith('?') || word.endsWith('!')) return 'builtin'
