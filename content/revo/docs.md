@@ -654,6 +654,13 @@ print(sum) # 15
 for i in 0..2..10 do
     sum = sum + i
 end # 0, 2, 4, 6, 8
+
+# negative step also works, and open-ended ranges with a negative step
+# use -inf as the sentinel so the loop runs downward forever:
+for i in 10..-2.. do
+    if i < 0 break
+    sum = sum + i
+end # 10, 8, 6, 4, 2
 ```
 
 ## match
@@ -754,6 +761,27 @@ each({a=1, b=2}, fn(v) print(v))          # side effects, returns :ok
 find((1,2,3,4), fn(x) x > 2)             # 3
 # all((1,2,3), fn(x) x > 0)               # :true (stdlib helper)
 # any((1,2,3), fn(x) x > 2)               # :true (stdlib helper)
+```
+
+# slicing
+
+`[start..end]` extracts a contiguous portion of a string, tuple, or table.
+`[start..step..end]` adds a step to skip elements. any bound can be omitted.
+
+```revo
+let s = "hello"
+s[1..4]          # "ell"
+s[..2]           # "he"   (open start)
+s[3..]           # "lo"   (open end)
+s[..]            # "hello" (full copy)
+s[0..2..5]       # "hlo"  (step: every 2nd char)
+
+let t = (1, 2, 3, 4, 5)
+t[..3]           # (1, 2, 3)
+t[3..]           # (4, 5)
+t[1..4][0]       # 2
+t[4..-2..0]      # (5, 3, 1)  (negative step)
+t[2..2]          # ()  (empty)
 ```
 
 # errors

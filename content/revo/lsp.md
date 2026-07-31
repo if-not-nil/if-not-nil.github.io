@@ -60,6 +60,39 @@ then open the logs via
 
 ## helix
 
+## vscode/code-oss/codium
+
+an extension is available at [github:PizzaLvr49/revo-lsp](https://github.com/PizzaLvr49/revo-lsp)
+
+it is not available on the marketplace, [so you need to get a version from the releases section](https://github.com/PizzaLvr49/revo-lsp/releases)
+
+**install from terminal**
+```bash
+code --install-extension ~/Downloads/revo-lsp-<the version you've dowloaded>.vsix
+```
+
+**install from gui**
+- open the `Extensions` tab (<kbd>Ctrl/Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>)
+- select `...` (Views and More Actions) at the top right
+- select `Install from VSIX...` from the menu and select
+
+### if it doesn't work
+
+- make sure the revo binary is in your path
+
+- if you built it from source, you must do so with the `lsp` feature enabled (`-Dfeatures=lsp,isocline,regex`)
+
+- if you need the binary to be in a different path, modify the `serverOptions` variable [(github search link)](https://github.com/search?q=repo%3APizzaLvr49%2Frevo-lsp+const+serverOptions&type=code) in the extension's source code, then rebuild manually
+    ```bash
+    # after cloning and modifying...
+    cd revo-lsp
+    npm i
+    npm i -g @vscode/vsce
+    vsce package -o ./revo-vscode.vsix
+    code --install-extension revo-vscode.vsix
+    ```
+
+
 ## supported features
 
 - [DONE] textDocument/didOpen
@@ -72,7 +105,7 @@ then open the logs via
 - [STUB] textDocument/completion
 - [DONE] workspace/symbol
 - [DONE] textDocument/publishDiagnostics
-- [TODO] textDocument/publishDiagnostics
+- [DONE] textDocument/semanticTokens/full
 - [TODO] textDocument/willSaveWaitUntil
 - [TODO] textDocument/formatting
 - [TODO] textDocument/rename

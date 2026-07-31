@@ -39,9 +39,9 @@ click the run button to evaluate
 to embed a repl on your own page, include these assets:
 
 ```html
-<script src="https://gills.pages.dev/revo.js" type="module"></script>
-<script src="https://gills.pages.dev/revo/repl.js" type="module"></script>
-<link rel="stylesheet" href="https://gills.pages.dev/revo/repl.css">
+<script src="/revo.js" type="module"></script>
+<script src="/revo/repl.js" type="module"></script>
+<link rel="stylesheet" href="/revo/repl.css">
 ```
 
 ...then wrap any code in a repl container
@@ -73,11 +73,4 @@ the javascript bindings live in `wasm/revo.js` (copied to `static/revo.js`). the
 
 ## syntax highlighting
 
-both the repl editors and the website's code blocks share a single `revoLang` stream parser defined in `revo/cm-shared.js`:
-
-```js
-import { revoLang } from './cm-shared.js'    // from revo/repl.js
-import { revoLang } from './revo/cm-shared.js' // from an external consumer
-```
-
-this module is the single source of truth for revo syntax highlighting. the repl imports it; any other consumer (an LSP client, a documentation generator, etc.) can import the same module
+the repl editors are highlighted by a `revoLang` stream parser defined in `revo/cm-shared.js`

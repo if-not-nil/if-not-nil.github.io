@@ -1535,5 +1535,3 @@ returns true if function returns true for any element
    any?((1,2,3), fn(x) = x > 2)
    any?("hello", fn(c) = c == "l")
    any?({a=1, b=2}, fn(v) = v > 1)
-
-
