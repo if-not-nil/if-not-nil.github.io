@@ -528,6 +528,42 @@ standard arithmetic and comparison work as you'd expect:
 "a" < "b" # :true, lexicographic
 ```
 
+integer division with `//` floors toward negative infinity, like python. it works on floats too
+(`x // y` is `floor(x / y)`), returning an int when both operands are integral and a float otherwise
+bitwise operators are spelled as words and, like python, reject non-integral operands at runtime:
+```revo
+5 // 2    # 2
+-5 // 2   # -3
+5.5 // 2  # 2 (still a float internally, displays without .0)
+-5.5 // 2 # -3
+7 // 2.0  # 3
+
+2 band 3  # 2
+2 bor 3   # 3
+2 bxor 3  # 1
+1 shl 4   # 16
+-16 shr 2 # -4 (arithmetic shift)
+2.5 band 1 # runtime error, like python's TypeError
+```
+
+since numbers are all the same runtime type, "integral" is judged by value: `2 band 3.0` works (3.0 is integral),
+but `2 band 3.5` is an error. `// 0` is a runtime error
+
+bitwise operators bind tighter than `+`/`-` but looser than `*`/`/`, so `1 + 2 band 3` is `1 + (2 band 3)`
+rather than `(1 + 2) band 3`. `shl`/`shr` wrap on overflow; shift amounts outside 0..63 are a runtime error
+
+`^` is exponentiation, like python's `**`. it's right-associative and binds tighter than multiplication and
+unary minus (`-2 ^ 2` is `-(2 ^ 2)` == -4). integral base with non-negative integral exponent stays an
+integer (wrapping); anything else gives a float (`2 ^ -1` == 0.5):
+```revo
+2 ^ 3     # 8
+2 ^ 3 ^ 2 # 512, right-assoc
+-2 ^ 2    # -4
+2 ^ -1    # 0.5
+2 ^ 0.5   # 1.4142135623730951
+x ^= 3    # compound assign, like +=
+```
+
 `and`/`or` preserve value semantics rather than collapsing to booleans, which makes them useful
 for default values and short-circuit guards:
 ```revo
