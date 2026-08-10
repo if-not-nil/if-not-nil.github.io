@@ -247,7 +247,7 @@ the fundamental types are:
     let a = fn() 1 + 2
 
     # all functions are anonymous, meaning you can put them anywhere
-    "hello":map(fn(c) c:upper())
+    iter.map("hello", fn(c) c:upper())
     ```
 
     also, every function really is a function and never just a procedure.
@@ -477,19 +477,25 @@ p.y = "bad"
 
 ## struct methods
 
-structs can have methods defined with `fn Type:method(params) body`:
+methods are declared inside the struct body with `fn` and receive `self` as the first
+argument:
 
 ```revo
-struct Counter { n: number }
-
-fn Counter:inc(self, amount) do
-    self.n = self.n + amount
-end
+struct Counter {
+    n: number,
+    fn inc(self, amount) do
+        self.n = self.n + amount
+    end,
+}
 
 let c = Counter({n = 0})
 c:inc(5)
 print(c.n) # 5
 ```
+
+methods can only be declared inside the struct definition; adding one after the fact
+(`fn Counter:inc(...) ... end`) is a compile error. this lets the compiler know every
+method at compile time instead of looking them up at runtime
 
 ## `?` suffix convention
 
@@ -527,6 +533,46 @@ standard arithmetic and comparison work as you'd expect:
 1 != 2    # :true
 "a" < "b" # :true, lexicographic
 ```
+
+integer division with `//` floors toward negative infinity, like python. it works on floats too
+(`x // y` is `floor(x / y)`), returning an int when both operands are integral and a float otherwise
+bitwise operators are spelled as words and, like python, reject non-integral operands at runtime:
+```revo
+5 // 2    # 2
+-5 // 2   # -3
+5.5 // 2  # 2 (still a float internally, displays without .0)
+-5.5 // 2 # -3
+7 // 2.0  # 3
+
+2 band 3  # 2
+2 bor 3   # 3
+2 bxor 3  # 1
+1 shl 4   # 16
+-16 shr 2 # -4 (arithmetic shift)
+2.5 band 1 # runtime error, like python's TypeError
+```
+
+since numbers are all the same runtime type, "integral" is judged by value: `2 band 3.0` works (3.0 is integral),
+but `2 band 3.5` is an error. `// 0` is a runtime error
+
+bitwise operators bind tighter than `+`/`-` but looser than `*`/`/`, so `1 + 2 band 3` is `1 + (2 band 3)`
+rather than `(1 + 2) band 3`. `shl`/`shr` wrap on overflow; shift amounts outside 0..63 are a runtime error
+
+`^` is exponentiation, like python's `**`. it's right-associative and binds tighter than multiplication and
+unary minus (`-2 ^ 2` is `-(2 ^ 2)` == -4). integral base with non-negative integral exponent stays an
+integer (wrapping); anything else gives a float (`2 ^ -1` == 0.5):
+```revo
+2 ^ 3     # 8
+2 ^ 3 ^ 2 # 512, right-assoc
+-2 ^ 2    # -4
+2 ^ -1    # 0.5
+2 ^ 0.5   # 1.4142135623730951
+x ^= 3    # compound assign, like +=
+```
+
+numbers are plain doubles, so literals may use the full float range (1.5e300 is fine). arithmetic
+overflow gives `inf` (`1e308 * 10`), which compares and propagates like math says; dividing by zero
+is a runtime error, not nan
 
 `and`/`or` preserve value semantics rather than collapsing to booleans, which makes them useful
 for default values and short-circuit guards:
@@ -581,16 +627,32 @@ print(a) # 5
 
 ## loops
 
-`loop` creates a loop block. `break` exits it with a value, `continue` skips to the next iteration:
+`loop` creates a loop block. a loop always evaluates to `:nil`; `break` exits it, `continue` skips to the next iteration
+
+BUT you CAN carry a value out of a loop!!!
+break out of a labeled loop or do-block with a value:
 
 ```revo
 let x = 0
-const result = loop do
-    if x < 10
+const result = loop/l do
+    if x < 10 do
         x = x + 1
-    else
-        break(x)
+    end else do
+        break/l(x)
+    end
 end
+print(result) # 10
+
+# an unlabeled loop used as an expression is always :nil
+let n = 0
+const nothing = loop do
+    if n < 3 do
+        n = n + 1
+    end else do
+        break(:nil)
+    end
+end
+print(nothing) # :nil
 
 # skip odd numbers
 let odds = 0
@@ -603,8 +665,7 @@ print(odds) # 9 (1 + 3 + 5)
 
 ### labeled loops
 
-loops and do-blocks can carry a label (like `loop/a`, `for/a`, `while/a`, `do/a`)
-`break/a` exits the named block with the value you give it; `continue/a` restarts the named loop
+loops and do-blocks can carry a label (like `loop/a`, `for/a`, `while/a`, `do/a`). `break/a` exits the named block with the value you give it; `continue/a` restarts the named loop. a labeled block only produces a value when it is exited with a labeled break; otherwise it evaluates to `:nil`:
 
 ```revo
 # break out of an outer loop from inside a nested one
@@ -751,16 +812,18 @@ match number("nope")
 
 # iteration
 
-`map`, `filter`, `reduce`, `each`, `find`, `all`, and `any` work uniformly on strings, tuples,
-and tables:
+all collection functions live under the `iter` module. transforms (`iter.map`, `iter.filter`,
+`iter.take`, ...) return lazy iterators; call `iter.collect` (or `iter.collect_tuple`,
+`iter.collect_string`) to materialize them into a value. terminal ops (`iter.reduce`,
+`iter.each`, `iter.find`, `iter.all?`, `iter.any?`, `iter.count`, `iter.sum`) run eagerly:
 ```revo
-map((1, 2, 3), fn(x) x * 2)              # (2, 4, 6)
-filter("hello", fn(c) c != "l")           # "heo"
-reduce((1,2,3,4), fn(acc, x) acc + x, 0) # 10
-each({a=1, b=2}, fn(v) print(v))          # side effects, returns :ok
-find((1,2,3,4), fn(x) x > 2)             # 3
-# all((1,2,3), fn(x) x > 0)               # :true (stdlib helper)
-# any((1,2,3), fn(x) x > 2)               # :true (stdlib helper)
+iter.collect(iter.map((1, 2, 3), fn(x) x * 2))   # {2, 4, 6}
+iter.collect_string(iter.filter("hello", fn(c) c != "l")) # "heo"
+iter.reduce((1,2,3,4), fn(acc, x) acc + x, 0)   # 10
+iter.each({a=1, b=2}, fn(v) print(v))            # side effects, returns :ok
+iter.find((1,2,3,4), fn(x) x > 2)               # 3
+iter.all?((1,2,3), fn(x) x > 0)                 # :true
+iter.any?((1,2,3), fn(x) x > 2)                 # :true
 ```
 
 # slicing
@@ -1074,6 +1137,9 @@ const reply = conn:recv({mode = :read_some})?
 conn:close()?
 ```
 
+`net.connect` is offloaded from the vm thread: a slow or unreachable host won't freeze
+other fibers while the kernel finishes the handshake.
+
 `os` - system access (read from stdin, etc.)
 
 `system` - run a subprocess and return its output:
@@ -1081,19 +1147,20 @@ conn:close()?
 system({"echo", "hello"}) # ("hello\n", "")
 ```
 
-strings interpolate expressions with `{}`. normal interpolation uses display formatting;
+strings interpolate expressions with `#{}`. normal interpolation uses display formatting;
 use `:?` for debug formatting or `:p` for pretty formatting:
 ```revo
 const name = "world"
-"hello {name}!"
-"value = {name:?}"
-"answer = {42:p}"
+"hello #{name}!"
+"value = #{name:?}"
+"answer = #{42:p}"
 ```
 
-use `{{` and `}}` for literal braces. `fmt` remains useful for dynamic format strings:
+`fmt` remains useful for dynamic format strings:
 ```revo
-fmt("hello %v", :world)   # "hello :world"
-fmt("%d + %d = %d", 1, 2, 3) # "1 + 2 = 3"
+fmt("hello %s", :world)   # hello world
+fmt("hello %d", "world")  # hello "world"
+fmt("hello %p", :world)   # hello "world" (this one has colors)
 ```
 
 `debug` - inspect the current vm state:

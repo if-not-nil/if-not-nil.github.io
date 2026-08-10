@@ -316,8 +316,10 @@ and what does it hurt you to return something actually useful? `:nil` or `:ok` c
   (a += 1) == 42
   (do 1 2 3 end) == 3
 
-  let b = while :true do
-    if a >= 50 break(a)
+  # when given a label, a loop can carry a value!
+  # (otherwise it's just :nil)
+  let b = while/l :true do
+    if a >= 50 break/l(a)
     a += 1
   end
   b == 50
