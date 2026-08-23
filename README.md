@@ -1,8 +1,3 @@
-# if you use my template, please let me know! i'd like to see what you do with it
+# if-not-nil.github.io
 
-whole thing is based on heavily modified [lugo](https://github.com/LukeSmithxyz/lugo) and [new.css](https://newcss.net/)
-
-important things to note:
-- make posts as bundles to keep it consistent
-- put all you gotta put into index.html
-
+my personal website, built with [hugo](https://gohugo.io/). based on a heavily modified [lugo](https://github.com/LukeSmithxyz/lugo) with [new.css](https://newcss.net/).

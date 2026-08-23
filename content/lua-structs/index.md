@@ -1,8 +1,8 @@
 +++
 date = '2025-12-13T16:32:24+00:00'
 draft = false
-title = "making lua do what it shouldn't: typesafe structs"
-description = "it should though"
+title = "typesafe structs in lua"
+description = "it should have them though"
 +++
 
 {{< figure

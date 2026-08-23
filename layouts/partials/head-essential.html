@@ -1,5 +1,4 @@
-<head>
-	<link rel="preload" href="/MapleMono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/MapleMono.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="canonical" href="{{ .Site.BaseURL }}">
 	<link rel='alternate' type='application/rss+xml' title="{{ .Site.Title }} RSS" href='/index.xml'>
 	{{ with .Site.Params.favicon }}
@@ -31,4 +30,3 @@
 	{{ with index .Params.images 0 }}
 	<meta name="twitter:image" content="{{ . | absURL }}">
 	{{ end }}
-</head>

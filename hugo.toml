@@ -5,11 +5,11 @@ enableRobotsTXT = "true"
 
 [server]
 [[server.headers]]
-  for = "/repl.js"
+  for = "/img/**"
   [server.headers.values]
-    Content-Type = "text/javascript"
+    Cache-Control = "public, max-age=31536000, immutable"
 [[server.headers]]
-  for = "/static/**"
+  for = "/css/**"
   [server.headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 [[server.headers]]
@@ -24,33 +24,15 @@ enableRobotsTXT = "true"
 [security]
   allowContent = ['.+']
 
-[caches]
-  [caches.images]
-    dir = ':cacheDir/images'
-
 [params]
 # "relatedtext" is the text that appears above the tag list at the bottom of pages.
     relatedtext = "related"
-    favicon = "/favicon.gif"
-		default_image = "/static/cat.png"
+    favicon = "/img/favicon.gif"
+    default_image = "/img/cat.png"
 #list items
     datesinlist = true
-    authorsinlist = true
 
 #footer items
     nextprev = true
     taglist = true
     showrss = true
-
-[privacy]
-	[privacy.youTube]
-		disable = false
-		privacyEnhanced = true
-
-[mediaTypes."image/webp"]
-	suffixes = ["webp"]
-
-[outputFormats]
-	[outputFormats.webp]
-		mediaType = "image/webp"
-		relURL = true
