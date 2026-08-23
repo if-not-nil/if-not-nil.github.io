@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/css/new.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>404 :(</title>
+</head>
+
+<body>
+	<div id="redirect-message">
+		<div>redirecting...</div>
+	</div>
+
+	<div id="not-found" style="display: none;">
+		<i>404 not found :(</i>
+	</div>
+
+	<script>
+		const path = window.location.pathname;
+
+		if (path === "/revo" || path.startsWith("/revo/")) {
+			const slug = path.slice("/revo".length) || "/";
+
+			const destination =
+				"https://revo.lung.fyi" +
+				slug +
+				window.location.search +
+				window.location.hash;
+
+			window.location.replace(destination);
+		} else {
+			document.title = "404 :(";
+			document.getElementById("redirect-message").style.display = "none";
+			document.getElementById("not-found").style.display = "block";
+		}
+	</script>
+</body>
+
+</html>
