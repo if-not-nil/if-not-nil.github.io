@@ -10,7 +10,7 @@ hideInList: true
 
 # revo, the programming language
 
-[docs](basics) | [github](https://github.com/if-not-nil/revo)
+[docs](docs) | [github](https://github.com/if-not-nil/revo)
 
 <b>revo</b> is a dynamic language made for the joy of programming
 
