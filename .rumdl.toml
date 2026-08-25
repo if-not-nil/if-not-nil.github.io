@@ -1,0 +1,40 @@
+# rumdl configuration - Relaxed preset
+# Lenient settings for existing projects adopting rumdl incrementally.
+# Minimizes initial warnings while still catching important issues.
+
+[global]
+exclude = [
+    ".git",
+    ".github",
+    "node_modules",
+    "vendor",
+    "dist",
+    "build",
+    "CHANGELOG.md",
+    "LICENSE.md",
+]
+respect-gitignore = true
+
+# Disable rules that produce the most noise on existing projects
+disable = [
+		"MD036",  # bold instead of heading
+    "MD013",  # Line length - most existing files exceed 80 chars
+    "MD033",  # Inline HTML - commonly used in real-world markdown
+		"MD041",  # First line heading - not all files need it
+]
+
+# Consistent heading style (any style, just be consistent)
+[MD003]
+style = "consistent"
+
+# Consistent list style
+[MD004]
+style = "consistent"
+
+# Consistent emphasis style
+[MD049]
+style = "consistent"
+
+# Consistent strong style
+[MD050]
+style = "consistent"
