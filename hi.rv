@@ -1,1 +1,28 @@
-2
+fn try(val, func) match val
+    | (:ok, v) => func(v)
+    | (:err, e) => (:err, e)
+    | x => panic("unexpected: #{x}")
+
+fn catch(val, func) match val
+    | (:ok, v) => (:ok, v)
+    | (:err, e) => func(e)
+    | x => panic("unexpected: #{x}")
+
+(:ok, "good")
+    |> try(fn(x) do
+        print("good! #{x}")
+        (:ok, x)
+    end)
+    |> try(fn(x) do
+        x = (:err, :Bad)
+        print("will return #{x}")
+        x
+    end)
+    |> try(fn(x) do
+        print("this will be skipped")
+        (:err, x)
+    end)
+    |> catch(fn(e) do
+        print("handling...")
+        (:ok, e)
+    end)

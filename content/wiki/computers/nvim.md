@@ -1,9 +1,11 @@
 ---
 title: 'nvim hat tricks'
 ---
+
 **linus lung tips**
 
-# random commands
+## random commands
+
 ```md
 `<C-g>`   file info
 `g<C-g>`  wc (count lines, chars, etc) 
@@ -22,7 +24,7 @@ in visual mode:
     `gu/gU` lower/upper the case
 ```
 
-# `:g[]` commands
+## `:g[]` commands
 
 ```md
 `ga` shows ascii for char under cursor. useful for int<->char shenanigans
@@ -30,7 +32,7 @@ in visual mode:
 `gi` goes to where you last exited insert mode
 ```
 
-# spellcheck
+## spellcheck
 
 ```md
 `:set spell` enable spellcheck
@@ -41,7 +43,7 @@ in visual mode:
 `zug`        remove from dict
 ```
 
-# insert mode
+## insert mode
 
 ```md
 remap your readline actions like <C-w>, <C-h>, <C-b> and <C-f>, <C-a>, <C-e>
@@ -56,8 +58,7 @@ to look for help pages go `:h i_` and tab
 `<C-a>` similar to normal mode's dot command
 ```
 
-
-# registers
+## registers
 
 ```md
 dont ignore them

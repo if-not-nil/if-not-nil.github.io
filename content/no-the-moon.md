@@ -5,16 +5,16 @@ title = 'no, the moon'
 description = 'a love letter to lua'
 +++
 
-https://teensuicide.bandcamp.com/track/no-the-moon-3
+<https://teensuicide.bandcamp.com/track/no-the-moon-3>
 
 Over time, I've come to use many languages, with use cases and quirks of their own.
 
 Lua truly succeeded in being painless because of its limitation to be as small and extensible as possible while providing the biggest amount of features. Its philosophy is very simple, but, once the programmer understands it, they can implement whatever they want if they think about it hard enough.
 
 If you think something is impossible in Lua, here are some pages to check out, in order of amount of information:
-https://learnxbyexample.com/lua/
-http://lua-users.org/wiki/LuaFaq
-https://github.com/uhub/awesome-lua
+<https://learnxbyexample.com/lua/>
+<http://lua-users.org/wiki/LuaFaq>
+<https://github.com/uhub/awesome-lua>
 
 Next two paragraphs are going to be very subjective so you can skip them.
 
@@ -27,7 +27,9 @@ It's really fast, has multithreading and, unlike other similar languages, and st
 Some things it doesn't have by default: its tests are primitive and it doesn't have networking due to its embedded nature, but the ways in which you'll get these features are trivial - a large portion of your libraries will be single files which can be pasted directly into your text editor, and larger ones are installed through the [luarocks.org](luarocks.org) package manager. Here's a [testing framework](https://lunarmodules.github.io/busted/) and an [http client](https://luarocks.org/modules/daurnimator/http).
 The runtime's code is thoroughly commented. If you don't want to read it yourself, [watch Tsoding do it](https://youtu.be/5CaoYmXYx6U)
 There's no shame in using wrappers for it from any other language, meaning that external libraries will likely run C under the hood, and with LuaJIT it ends up being way faster than languages like Python, which just end up being bottlenecks for underlying C code
-### Its uses as a scripting language for low-level code
+
+## Its uses as a scripting language for low-level code
+
 - [love2d](https://love2d.org)
 A full 2D game framework. Game of the year 2024, Balatro was made in it. If you have a copy of Balatro on your machine, I recommend opening it like a zip archive and looking through the source code - you'll get a good overview of fairly complicated Lua code as well as love's capabilities and its ecosystem.
 - [redbean](https://redbean.dev/) and [fullmoon](https://github.com/pkulchenko/fullmoon)
@@ -39,9 +41,10 @@ Just like love, it's a game framework, but [way more complicated](https://www.ve
 - [OpenResty](https://openresty.org/en/)
 The most used web technology. It uses LuaJIT to script for nginx.
 
-
 ### As a config language
+
 Without even noticing, at some point I started using a mostly Lua configured ecosystem
+
 - [neovim](https://neovim.io/)
 the lua config interface must be its most loved feature so far - especially for those, who had to use it with vimscript. i don't even see people talking about emacs as much after neovim became popular
 - [the awesome window manager](https://github.com/awesomeWM/awesome)
@@ -55,6 +58,7 @@ i've been told that many other games use it, but those are the two i'm personall
 please take a minute to check it out and give me a little bit of feedback, i haven't seen a system like this used before and i feel like a lot of people would like it
 
 ### it's not a toy language (most of the time)
+
 Lua is often considered one for its usage in Roblox, 1-indexed arrays and dynamic typing, and it's definitely true. But Lua manages to be a rare kind of language, one, which is easy to learn, easy to master and easy to go beyond. Most people use it for configuration, more advanced programmers use it for game development, and the ones beyond advaned do make insane things like redbean.
 There's a clear path to take at every step from using it for Roblox to applying it in serious software.
 
@@ -68,13 +72,16 @@ Due to its simplicity, it's hard for code to feel foreign.
 It's is dynamically typed, so if you're familiar with JS, you can check out the JSDoc-style LuaDoc comments and teal, Lua's TypeScript
 
 On dialects, it's easier to make them compared to other language, so there's a lot of them.
+
 #### dialects
+
 [fennel - lisp lua](https://fennel-lang.org/)  
 [moonscript - coffeescript lua](https://moonscript.org/). there's also [yuescript](https://yuescript.org/).  
 [teal - lua's own little typescript](https://github.com/teal-language/tl)  
 [amulet(not the engine) - ML lua](https://amulet.works/)  
 
 #### languages that are not lua, but can compile to it
+
 [haxe](https://haxe.org/)  
 [c#](https://github.com/yanghuan/CSharp.lua)  
 [typescript](https://github.com/TypeScriptToLua/TypeScriptToLua)  

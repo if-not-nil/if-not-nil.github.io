@@ -3,6 +3,7 @@
 	{{ partial "head-essential.html" . }}
 	<title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
 	<link rel='stylesheet' type='text/css' href='/css/new.css'>
+	<link rel="stylesheet" href="/css/repl.css">
 </head>
 <body>
 	{{ partial "header.html" . }}
@@ -15,6 +16,12 @@
 		{{- if .Param "showrss" }}<br><br><a href="/index.xml"><img src="/img/rss.svg" style="max-height:1.5em" alt="RSS Feed"
 			title="subscribe via RSS"></a>{{ end }}
 	</footer>
+	{{ end }}
+	{{ with resources.Get "js/repl.js" }}
+	{{ $repl := . | js.Build (dict "format" "esm" "minify" true "target" "es2020") | fingerprint }}
+	<script type="module">
+		if (document.querySelector('.repl')) import('{{ $repl.RelPermalink }}');
+	</script>
 	{{ end }}
 </body>
 

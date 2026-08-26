@@ -9,7 +9,7 @@ description = "it should have them though"
     src="https://wiby.me/lh_c.gif"
     class="float-right"
     caption="" >}}
-lua is a horrible language in the best way possible. it has one data structure for everything - the table, which i'll be exploiting here. 
+lua is a horrible language in the best way possible. it has one data structure for everything - the table, which i'll be exploiting here.
 
 <div style="clear: both;">
 </div>
@@ -22,7 +22,8 @@ i'll try to get motivated by the sunk cost fallacy
 
 for this one, i'll be implementing structs with no extra features
 
-### toc
+## toc
+
 - [structs](#structs)
 - [you can't have your boat and eat it too](#you-cant-have-your-boat-and-eat-it-too)
 - [how it ended up looking](#how-it-ended-up-looking)
@@ -31,6 +32,7 @@ for this one, i'll be implementing structs with no extra features
 oh, and also, this makes more sense in the context of [the soup files](https://github.com/if-not-nil/soup).
 
 i already made a result enum with Ok/Err
+
 ```lua
 local line_result = Result.Ok("soup.lua")
     :bind(function(filename)
@@ -42,7 +44,9 @@ local line_result = Result.Ok("soup.lua")
 
 local line = line_result:unwrap()
 ```
-and a match expression with guards, which is supposed to be reused to account for lua being an interpreted language 
+
+and a match expression with guards, which is supposed to be reused to account for lua being an interpreted language
+
 ```lua
 local m = soup.match()
 	:case(6, "six")
@@ -63,6 +67,7 @@ all tables in lua are always passed by reference, never by copy.
 they are also, on accident, the biggest and the smallest data structures possible.
 
 so this opens up this neat implication:
+
 ```lua
 local l = {}
 for _ = 1, 2 do
@@ -73,10 +78,12 @@ for _ = 1, 2 do
     print({}) -- table: ...50c0
 end           -- table: ...5100
 ```
+
 now this isn't some grand insane discovery, BUT it lets you have an alternative
 approach to implementing tagged data structures
 
 usually, they are done like this:
+
 ```lua
 local t = {
     type = "point",
@@ -89,6 +96,7 @@ this is an very very sane approach, which is very readable and is very perfect i
 but it definitely is not a fun way to do things
 
 so i settled on this syntax
+
 ```lua
 local Point <const> = struct { x = "number", y = "number" }
 local p1 = Point { 2, 8 } -- for those unfamiliar with lua, parentheses are implicit here.
@@ -106,7 +114,8 @@ if you try to instantiate a point of 2 and "asdf", it's gonna give you an error,
 which is where the safety comes in
 
 **implementation details warning!!!!!**
-# you can't have your boat and eat it too
+
+## you can't have your boat and eat it too
 
 > we're now at commit 2e5fa: `lua: structs work at a minimum-wage level`. it's not relevant for what i ended up with
 
@@ -121,11 +130,12 @@ local names, -- struct names: x and y
 
 is the index table really that necessary? probably not. but the limitations forced me to make it because the order in which you loop over a map is random
 
-
 so, putting all the sacrifices together lets me make a nice oneliner
+
 ```lua
 __index = function(tbl, key) return key and tbl[self.index[key]] end
 ```
+
 and now we can get `point.x` and `point.y`, which asks the underlying type to tell it where x and y are
 
 so, how is it different from the sane way?
@@ -149,9 +159,11 @@ but what happens if you try to get `line.start.x`?
 remember how the you can't index a map in the order you were given it?
 
 i thought i solved it like this
+
 ```lua
 table.sort(names) -- alphabetical
 ```
+
 and though it was ugly, it worked. i did it and forgot i put it in there. a point's `x` variable was always first, and `y` was always second. it worked perfectly
 
 but obviously that's just not a fix
@@ -159,11 +171,13 @@ but obviously that's just not a fix
 and the worst thing about unfixable things, is that if you try to fix them, they won't be fixed. because they're unfixable.
 
 so i had to rewrite it to be
+
 ```lua
 Point = struct {
     {"x", "number"}, {"y", "number"}
 }
 ```
+
 which is ugly
 
 but it's not like i cared about it looking nice too much or anything. i'm not even mad rught now
@@ -187,7 +201,8 @@ but yeah, the implementation actually went down from about 32 lines to 20
 
 and, since we won't have duck typing, i'll allow for single-field structs to be initialized with just `Email("asdf@yahoo.com")`
 
-# how it ended up looking
+## how it ended up looking
+
 ```lua
 "welcome to the end of the page if you skimmed it"
 
@@ -222,29 +237,27 @@ isn't the biggest argument against duck typing the email struct?
     class="float-right"
     caption="this guy knows email" >}}
 
-
 it's always a good idea to make invalid states unrepresentable. ideally, your pipeline would look like this:
 
 <div style="clear: both;"></div>
 
-- |> ` local email = Email.try_parse("test@example.com"):expect("invalid email")`
-    - | that function ensures the user's email isn't "asdf", <function>, or on outlook
-    - | it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult))
+- |> `local email = Email.try_parse("test@example.com"):expect("invalid email")`
+  - | that function ensures the user's email isn't "asdf", <function>, or on outlook
+  - | it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult))
 - |> pass it into `function(email) end` which checks the type inside of it (and actually throws this time)
 - if the soup dream lives on, it would also be done through pipe operators
-
 
 this is why methods are absolutely necessary for your code to be readable. and if you know what rust traits are, you probably know why i love them, too
 
 so, that's what i'll be implementing next. thanks for coming to my ted talk!
 
-# plans
+## plans
 
 - [ ] traits: implement them to look like a magic rust translator. some
   easy ones which are already accessible thru metatables are:
-    - [ ] `Grid:impl(Traits.debug(), function(self) end)` (you can now print() the grid and tostring() it)
-    - [ ] `Email:impl(Traits.from("string"), function(str) end)` (you can now `Email.from("asdf@yahoo.com")`)
-    - [ ] `Point:impl(Traits.sum(Point), function(self, other) end)` (you can now grid1 + grid2)
-    - [ ] `Grid:impl(Traits.drop(), function(self) end)` (this will run when it goes out of scope after `local grid <close> = Grid(...)`)
-    - [ ] `Grid:impl(Traits.trash(), function(self) end)` (this will run on garbage collection)
+  - [ ] `Grid:impl(Traits.debug(), function(self) end)` (you can now print() the grid and tostring() it)
+  - [ ] `Email:impl(Traits.from("string"), function(str) end)` (you can now `Email.from("asdf@yahoo.com")`)
+  - [ ] `Point:impl(Traits.sum(Point), function(self, other) end)` (you can now grid1 + grid2)
+  - [ ] `Grid:impl(Traits.drop(), function(self) end)` (this will run when it goes out of scope after `local grid <close> = Grid(...)`)
+  - [ ] `Grid:impl(Traits.trash(), function(self) end)` (this will run on garbage collection)
 - [x] methods: exactly how it looks in normal lua, but one function is shared for all objects so it just has to be better

@@ -1,7 +1,8 @@
 ---
 title: 'void cheat sheet'
 ---
-# xbps
+
+## xbps
 
 ```md
 `xbps-install -Su` - synchronize repositories and update system
@@ -18,7 +19,7 @@ title: 'void cheat sheet'
 `xbps-pkgdb -a` - check for broken package databases
 ```
 
-# xtools
+## xtools
 
 ```md
 `xq [string]` - search for package (shorthand)
@@ -34,7 +35,7 @@ title: 'void cheat sheet'
 `xsubpkg [pkg]` - list subpackages of package
 ```
 
-# services (runit)
+## services (runit)
 
 ```md
 `sv status [service]` - check service status
@@ -47,7 +48,7 @@ title: 'void cheat sheet'
 `sv down [service]` - stop service once
 ```
 
-# kernel
+## kernel
 
 ```md
 `xbps-reconfigure -f linux[version]` - reconfigure kernel and regenerate initramfs
@@ -57,7 +58,7 @@ title: 'void cheat sheet'
 `dracut --force --hostonly` - regenerate initramfs manually
 ```
 
-# system
+## system
 
 ```md
 `xbps-reconfigure -fa` - reconfigure all packages

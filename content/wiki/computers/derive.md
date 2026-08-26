@@ -2,21 +2,23 @@
 title: 'deriving your linux'
 date: 2026-02-17T17:43:42+02:00
 ---
+
 > choose life, choose a job, choose a linux distribution
   this is wip
 
 universal covered: setup, partitioning, UEFI bootloader, wayland
-hardware-specific covered (thinkpad t480, intel network, cpu and gpu): network, 
+hardware-specific covered (thinkpad t480, intel network, cpu and gpu): network,
 not covered: swap, proprietary drivers, x11
 
-# u should know this
+## u should know this
+
 there are many advantages to a simple linux system, and some will be applied here, sometimes unnecessarily. i'll try to have this be transparent and educational
 
 !!!please do all of this on a ventoy drive with the derive iso and also an arch iso. not everything is guaranteed to work/exist
 
 no steps here require you to be in the actual iso. you just need to have the rootfs from it. whatever you do in the ISO before copying the rootfs will be transferred over to the resulting installation, so don't be afraid to install packages and set up wifi and such
 
-# optional: local copy of the docs
+## optional: local copy of the docs
 
 the website was a little too slow while i was using it and you could not grep through it. i recommend you clone almost the entire project (not that big i swear) for a more pleasant experience
 
@@ -38,13 +40,15 @@ chmod +x update.sh
 cd derive
 ```
 
-# partitioning
+## partitioning
+
 you'd format mount your drives the normal way
 
 rootfs: anything, 2gb+
 uefi partition: vfat, 1gb+
 
 this is how the guide did it:
+
 ```sh
 mount /dev/nvme0n1p2 /mnt
 btrfs subvolume create /mnt/@derive
@@ -56,11 +60,12 @@ mount /dev/nvme0n1p1 /mnt/boot
 
 let's say they're on /mnt for the purposes of this
 
-# the boots
+## the boots
 
 this is the part where you can already work on the resulting system (install packages, configure wifi, etc). it's currently loaded into ram, but you'll copy the whole thing anyway. dont do it now, but remember for future installations
 
 **copy the rootfs**
+
 ```bash
 for dir in bin boot dev etc home include lib lib64 local opt ports root run sbin share usr var; do
     cp -a /$dir /mnt/
@@ -68,11 +73,13 @@ done
 ```
 
 **make the mount points**
+
 ```bash
 mkdir -p /mnt/proc /mnt/sys /mnt/dev /mnt/run /mnt/tmp /mnt/mnt
 ```
 
 **link some directories**
+
 ```bash
 cd /mnt
 ln -sf . /mnt/usr
@@ -83,6 +90,7 @@ busybox is a multicall binary, so it makes symlinks from itself to other places.
 at least that's what the installer does tho
 
 **fix busybox**
+
 ```bash
 cd /mnt/bin
 for cmd in $(busybox --list); do
@@ -91,6 +99,7 @@ done
 ```
 
 **fix permissions**
+
 ```bash
 for dir in bin boot etc lib local sbin share var; do
     chown -R root:root /mnt/$dir
@@ -103,6 +112,7 @@ chmod 600 /mnt/etc/shadow
 there's no useradd util
 
 **add a user**
+
 ```bash
 echo "user:x:1000:1000::/home/user:/bin/sh" >> /mnt/etc/passwd
 echo "user:x:1000:" >> /mnt/etc/group
@@ -112,11 +122,12 @@ chown -R 1000:1000 /mnt/home/user
 ```
 
 **set hostname**
+
 ```bash
 echo "derive" > /mnt/etc/hostname
 ```
 
-# system setup
+## system setup
 
 now, you're safe to `derive-chroot /mnt`! if it starts, your system is all ready (except for the bootloader)
 
@@ -125,7 +136,8 @@ you wanna run `passwd root` to set up a root password and `passwd user` if you s
 you only need to set up /etc/fstab now (the one below is how i have it \[you can also do anything else you'd do in a chroot but you should probably be sure your system is bootable prior\])
 
 **/etc/fstab**
-```
+
+```text
 /dev/nvme0n1p1  /boot/efi  vfat  defaults  0  2
 /dev/nvme0n1p2  /btrfs  defaults,noatime,compress=zstd,subvol=@derive  0  1
 ```
@@ -138,17 +150,18 @@ if you have ethernet - good, install whatever you need.
 if you have golang binaries accessible over curl, those onces almost certainly be compatible
 i recommend getting the `micro` text editor if you're unhappy with vi
 
+## bootloader
 
-# bootloader
-## installing limine, for EFI (fiction atm)
+### installing limine, for EFI (fiction atm)
+
 > derive doesnt ship efibootmgr OR efi limine for now, copy it from another linux system's /usr/share/limine/BOOTX64.efi. what i did is i booted into an arch iso
-
 
 i assume you're doing it on an EFI system
 
 copy the boot image into your boot partition
 
 `cp /boot/bzImage /mnt/boot/vmlinuz-derive`
+
 ```bash
 mkdir -p /mnt/boot/efi/EFI/limine
 cp /usr/share/limine/BOOTX64.efi /mnt/boot/efi/EFI/limine/BOOTX64
@@ -170,7 +183,7 @@ EOF
 
 and then you can reboot!!!
 
-# booting
+## booting
 
 thats where the peak starts kinda
 
@@ -180,7 +193,8 @@ since we just copied the files for passwords from the install iso, the root pass
 
 you can change it with passwd
 
-## services & kernel modules (to get yr wifi to work)
+### services & kernel modules (to get yr wifi to work)
+
 > see [sctl](https://derivelinux.org/docs/system/services) for system services
 
 > and also see [the derive article for setting up wifi on iwd](https://derivelinux.org/docs/system/networking/iwd-wifi) but only after doing this
@@ -198,6 +212,7 @@ the first process that starts on your system is /bin/situation. i recommend you 
 all of your services live in /etc/sv and the enabled ones are symlinks to them in /etc/sv/on
 
 here are the modules for your brand of card that i foudn online:
+
 ```bash
 iwlwifi, iwlmvm # intel (worked for me)
 ath9k           # atheros (not sure)
@@ -209,17 +224,19 @@ what i did is simple and janky - i prepended module loading to the iwd service d
 so if you want to make your own service, you'll `touch /etc/sv/modules && chmod +x /etc/sv/modules && vi /etc/sv/modules`
 
 **/etc/sv/modules**
+
 ```bash
 #!/bin/sh
 
 modproble iwlwifi
 modproble iwlmvm
 ```
+
 and then `sctl ua modules`
 
 and the modules will be started immediately & autostarted on every boot
 
-## package management
+### package management
 
 we need to larp so bad but our only way to do so is `cat /etc/os-release`
 this NEEDS fixing
@@ -234,32 +251,39 @@ yo why does it say not found
 well it's because we didn't clone the ports tree. this is equivalent to `pacman -Sy`. do it now: `dtr s`, and do it every few days. sometimes you may want to install ports with `dtr mis` instead
 
 we use the `spc` package manager for bmake, because its already compiled & seasoned to our clanker's taste, and `dtr` for qfetch, since it's just a build recipe
-### the package managers
+
+#### the package managers
+
 - [`spc`](https://derivelinux.org/docs/pkg/spc) | [`package list`](https://pkg.derivelinux.org/)
-    provides cooked&seasoned binaries
+  provides cooked&seasoned binaries
 - [`dtr`](https://derivelinux.org/docs/pkg/dtr) | [`package list`](https://ports.derivelinux.org/)
-    provides ports, which are derive-specific recipes adjusted to your system
+  provides ports, which are derive-specific recipes adjusted to your system
 
 the repos are strict about included packages: if a piece of software is too big, a smaller alternative is offered instead. and if the smaller alternative doesn't exist, the community will attempt to make one. this is evident in the standard build tools
 
 and now you can install programs! and everything works!
 
-# essential packages
+## essential packages
+
 - `mandoc` and `scdoc` - for manpages
 - `dtr mi vim`, `micro` - probably close to your text editor
 - `dtr mi dropbear` - ssh server
-    first, you need to make sure you have a user (that's not root) set up.
-    then, you run the server as root with `dropbear -F -E -R`. if everything works, you can make a service for it
-    create a script at `/etc/sv/dropbear`, put that command in, `chmod +x` it and run `sctl ua dropbear`
+  first, you need to make sure you have a user (that's not root) set up.
+  then, you run the server as root with `dropbear -F -E -R`. if everything works, you can make a service for it
+  create a script at `/etc/sv/dropbear`, put that command in, `chmod +x` it and run `sctl ua dropbear`
 
-# graphical environment (wayland)
+## graphical environment (wayland)
+
 ...
 
-# graphical environment (xorg)
+## graphical environment (xorg)
+
 [here](https://derivelinux.org/docs/system/xorg)
 
-# porting packages
+## porting packages
+
 ...
 
-# further: what to do when stuff breaks
+## further: what to do when stuff breaks
+
 ...
