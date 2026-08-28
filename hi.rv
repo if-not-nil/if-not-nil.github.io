@@ -1,28 +1,34 @@
-fn try(val, func) match val
-    | (:ok, v) => func(v)
-    | (:err, e) => (:err, e)
-    | x => panic("unexpected: #{x}")
+# lua-ish table, not a criteria. languages without them can just use maps
+#* 
+  this does this and that
+  hello world
+*#
+let table = {
+    # element 0:
 
-fn catch(val, func) match val
-    | (:ok, v) => (:ok, v)
-    | (:err, e) => func(e)
-    | x => panic("unexpected: #{x}")
+    # we need assignments and bindings to carry a value
+    let x =       # we need functions to be first-class
+          let y = fn(x)
+                      # we need files to always return a value
+            (x * 2) ~ revo.dofile("./mod.qux")?, # => "4lastvalofmod.qux"
+                                           # `?` unwraps an error tuple
+                                           # errors have to be values
 
-(:ok, "good")
-    |> try(fn(x) do
-        print("good! #{x}")
-        (:ok, x)
-    end)
-    |> try(fn(x) do
-        x = (:err, :Bad)
-        print("will return #{x}")
-        x
-    end)
-    |> try(fn(x) do
-        print("this will be skipped")
-        (:err, x)
-    end)
-    |> catch(fn(e) do
-        print("handling...")
-        (:ok, e)
-    end)
+    # element [5] (hashmap part):
+    # do-end blocks groups expressions,
+    # returns the last value, and is an expression in itself
+    # it's important for it to be optional
+    do 5 end ## => 5 ## = 
+        # `a` is a label you can break into
+        do/a 
+          break/a 10
+        end, # => 10 
+        # key 5 of the table 10
+
+    # element 3:
+    (fn() do
+           # `return` and `break` should be expressions too!
+        print(return 10)
+    end)() # => 10
+} # => that table
+

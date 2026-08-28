@@ -14,10 +14,10 @@ It will ensure every line of code yields something useful, something loggable an
 
 The MLs, Algols (Elixir) and Lisps will come to mind first, but nothing is stopping the more procedural languages from following
 
-### malleability
-> The examples will are written in [revo](https://revo.lung.fyi), because it's the easiest to embed and I made it
-> Many things, however, are consistent with other languages this is about (Fennel, Elixir, Julia)
+## malleability
 
+> The examples will are written in [revo](https://revo.lung.fyi), because it's the easiest to embed and I made it
+> Many things are said in the context of all of Elixir, revo, and Fennel
 
 I can not overstate the value of "being able to take a thing and put it somewhere else".
 
@@ -50,6 +50,7 @@ The example above contradicts the last sentence - we just gave last_res a sentin
 We could make it into `let last_res: num? = :nil` and check whether it's nil on every use
 
 Or, we could initialize a variable only when we have a meaningful value for it. `let` expressions carry a value, so let's use that:
+
 ```revo
 let last_res: number =
     let res = (match "Misc"
@@ -59,12 +60,14 @@ let last_res: number =
 
 return (res, last_res)
 ```
+
 We also saw an LSP inlay hint tell us `last_res` is of type `number | :nil`
 This is not the expected behaviour, so we explicitly gave it a type
 
 Turns out, the match was not exhaustive and could fall through to returning the atom `:nil` (of type `:nil`). We're forced to handle this, because we later use it in contexts that only accept type `number`
 
 A module, if inside a file, will look something like this
+
 ```revo
 pub fn foo() do
     print(return 5) # prints "5"
@@ -74,9 +77,10 @@ pub const res = foo() == 5
 ```
 
 `pub const x = 42` is just a shorthand for "`@exports.x = 42` and make sure you return @exports at the end of the file"
-A file is just a closure 
+A file is just a closure
 
 If we don't use `pub` (and if we want the browser demo to work), we can rewrite it as
+
 ```revo
 pub fn foo() do
     print(return 5) # prints "5"
@@ -92,7 +96,7 @@ This is why we can use the "unwrap-or-return" operator here to end up with an er
 (:err, :Dead)?
 ```
 
-"What about `return`/`break`?" Traditionally, it can larp an expression by just executing before anything that uses it. It's 
+"What about `return`/`break`?" Traditionally, it can larp an expression by just executing before anything that uses it. It's
 
 ```revo
 fn foo() do
@@ -103,6 +107,7 @@ foo() == 5
 ```
 
 There is nothing stopping us from following Lua traditions!
+
 ```revo
 let mod1 = {}
 mod1.out = fn()
@@ -164,6 +169,8 @@ fn bad(input) -> !string
 print(bad("should error"))
 ```
 
+The `(:ok, v)`/`(:err, e)` shape has proven itself in Erlang/Elixir before making its way outside of the BEAM realm, popularized by Rust
+
 It makes it _exceptionally_ easy to make much safer software by making the bad paths obvious.
 You're forced to acknowledge an error before using a value
 
@@ -174,6 +181,7 @@ Today, it's the standard for a language to include at least an optional type sys
 They're typed data whose type can be narrowed down by playing "guess who" with the compiler, and you need proper means of deduction to work with them
 
 One of those are match expressions:
+
 ```revo
 fn might_err(input: string) -> !string do
     # uses a fixed seed
@@ -188,6 +196,7 @@ const res: string = match might_err("hello")
     | (:err, e) => panic(e)  # nothing is reachable after `panic() -> noreturn` anyways
     # all branches handled
 ```
+
 What we really did here, is narrow down the type of one value and return another
 
 This means we can also write our own error handling flows, often more tailored to our usecase.
@@ -243,6 +252,7 @@ let result = (:ok, "user_123")
 
 Now, this makes `nil` is a strange value. There can be no functions that return nothing
 If you think you've found a way, no. It still returns something
+
 ```revo
 fn blank() ()
 blank() |> print
@@ -253,9 +263,9 @@ This is where `:nil`, the value, might appear. It's not its own type but instead
 
 ```revo
 let t = {}
-print("t[10] is #{t[10]}")
+print("t[10] is #{t[10]}") # :undef
 fn opt(?arg) do
-    print("arg is #{arg}")
+    print("arg is #{arg}") # :none
 end
 opt()
 opt(1)
@@ -264,20 +274,65 @@ print("""
     iterating over the table:
     #{it()} # first
     #{it()} # second
-    #{it()} # iterator stopped!
-    #{it()} # calling it again
+    #{it()} # iterator stopped! (:done)
+    #{it()} # calling it again  (:done)
 """)
 ```
 
+Atoms being ordinary values helps a lot with letting us do this. `nil` usually lies about having a type, but `:nil` is an ordinary value of an ordinary type. These can be better deduced by compilers
+
+The nil-avoidance above is really resolving one distinction three different ways without naming it: `unit` (a real, meaningful "nothing happened" value - Rust's `()`, Zig's `void`), `bottom` (a value that means "this point is never reached" - Rust/OCaml's `!`/`raise`, revo's `return`/`break`), and `null` (a value that lies about having a type it doesn't). revo and Elixir's atoms sidestep the third by making `:nil` an ordinary value of an ordinary type instead of a hole in the type system.
+
+### Program structure & conversational development
+
+These languages mostly exist within the functional/lisp realm, but aren't exclusive to it. It helps to think of them as lisps: your program is a tree of expressions, all converging into one value.
+
+Backtick revo code to get its AST as tuples:
+
+```revo
+`
+let a = 5; a += 10
+if :true # semicolons are whitespace
+   a * 2; else 10
+`
+```
+
+Trim and format as a list:
+
+```lisp
+(do (decl :let a 5) ; 5
+    (assign a (+ a 10)) ; 15
+    (if (:true) (* a 2) 10) ; 30
+    ) ; 30
+```
+
+No parser split means no privileged "top" of the tree.
+Any node is a valid unit to hand to the interpreter, and it's guaranteed to come back with a value.
+`(assign a (+ a 10))` on its own is exactly as legal a program as the whole block is.
+
+We can start a REPL that runs indefinitely, into which we can feed these units. They may have side-effects, which may be the modification of anything we can hold in the environment - the basis of conversational development
+
+This breaks and tightens the traditional loop of writing a program, starting it, and restarting it entirely when you make changes, since you will now have the ability to only change the bits you need.
+
+I've personally been highly impressed by
+
+- Conjure (for neovim)
+- Emacs:
+  It was made for Lisp during its' prime
+  `C-c C-e` will evaluate the current buffer/selection for any supported language. [It's trivial to add support for any language you want](https://github.com/if-not-nil/revo/blob/main/Emacs.org?plain=1)
+  Making Emacs able to evaluate a language also means making it available in interactive Org-mode snippets or fully literate Org notes, which can be trimmed back into just the source
+
+- iex: Elixir's REPL
+  If you've haven't yet had the pleasure of working with Phoenix through it, I highly recommend you do. You are able to start a server inside of a repl and do whatever you want with the process - overwrite a specific handler, run it manually to see what the output looks like, query Postgres on the same connection the server uses, etc.
+
 ## Language comparisons
 
-Revo, the language i'm currently making is attempting to push the idea as much as is reasonable, so we'll be using this snippet as a test for all languages. It's quite loaded so I'll try to break it up & explain it:
+Revo is attempting to push the idea as much as is reasonable, so we'll be using this snippet as a test for all languages. It's quite loaded so I'll try to break it up & explain it:
 
 ```revo
 # lua-ish table, not a criteria. languages without them can just use maps
 let table = {
     # element 0:
-
     # we need assignments and bindings to carry a value
     let x =       # we need functions to be first-class
           let y = fn(x)
@@ -307,7 +362,7 @@ let table = {
 
 Then, the file needs to have a value as well
 
-We'll also note whether
+We'll also note whether:
 the parser distinguishes statements, expressions and items,
 the whole thing can be written in one line (like ML/Lua. Both newlines and semicolons count),
 and give bonus points for using existing concepts cleverly
@@ -357,6 +412,36 @@ let result = loop {
     break 10;
 };
 assert_eq!(result, 10);
+```
+
+### OCaml
+
+OCaml is a good but slightly frustrating comparison. A file folds into one first-class value, that being a struct instead of whatever the last expression was.
+The parser is still split, but in its own way - it differentiates only between top-level and function-level. Once inside a function, the body is an expression
+
+```ocaml
+let hi () =
+  let table = Hashtbl.create 8 in
+
+  (* element 0 *)
+  let x =
+    let y x = x * 2 in
+    (* no runtime dofile! modules are resolved at compile time, not called.
+       the closest is `#use "mod.ml"`, and that only exists at toplevel *)
+    Printf.sprintf "%d%s" (y 2) "lastvalofmod.ml"
+  in
+
+  (* element [5]: begin/end is just parens *)
+  Hashtbl.replace table "5"
+    (string_of_int begin
+       (* no labeled break exists, but a local works for a "jumping out with a value" *)
+       let exception Value of int in
+       try raise (Value 10) with Value v -> v
+     end); (* => 10 *)
+
+  Hashtbl.replace table "x" x;
+
+  table (* => the table *)
 ```
 
 ### Elixir
@@ -500,11 +585,8 @@ table = Dict(
 - One-lining might require disambiguations
 - Modules are structs
 
-They mostly exist within the functional/lisp realm, but it doesn't have to be like this!
-
-
-
 REVO REF
+
 ```revo
 # some common traits you might love are if-expressions
 let x = if (:true) 5 else 10
@@ -532,3 +614,5 @@ const res = # match expressions
 # which can narrow types
 const r: num = res
 ```
+
+The REPL motivation from the top is worth returning to: expression-orientation and REPL-friendliness are the same design pressure wearing two hats. A language where every line yields a value is, almost by definition, a language where every line is worth typing into a prompt one at a time - which is probably why Lisps and MLs converged on it independently rather than copying each other.

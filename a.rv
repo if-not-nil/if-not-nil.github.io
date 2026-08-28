@@ -1,2 +1,8 @@
+#*
+asdfasdf
+```rb
+asdf
+```
+*#
 import "./hi.rv"
 print(hi)
