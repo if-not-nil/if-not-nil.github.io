@@ -1,7 +1,6 @@
 title = "if err != nil"
-baseURL = 'https://lung-notification.github.io'
+baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
-enableRobotsTXT = "true"
 
 [server]
 [[server.headers]]
