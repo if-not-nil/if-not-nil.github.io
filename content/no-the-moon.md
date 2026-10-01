@@ -54,7 +54,7 @@ a terminal written in rust. i love it. there's no types there by default, but yo
 - [hades](https://www.supergiantgames.com/games/hades/) and [garry's mod](https://gmod.facepunch.com/)
 since lua is so easy to embed, many games use a lower-level language for defining the game's base functionality and lua to script out levels.
 i've been told that many other games use it, but those are the two i'm personally familiar with. hades has their scripts just there, which is a surprising game to require nothing but notepad to mod (just like balatro)
-- [cow tools (i made this! please check it out!!!!!)](https://github.com/if-not-nil/)
+- [cow tools (i made this! please check it out!!!!!)](https://github.com/lung-notification/)
 please take a minute to check it out and give me a little bit of feedback, i haven't seen a system like this used before and i feel like a lot of people would like it
 
 ### it's not a toy language (most of the time)

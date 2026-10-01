@@ -2,6 +2,7 @@
 date = '2026-08-25T13:01:09+03:00'
 title = "Expression-based languages"
 description = "love them to death"
+draft=true
 +++
 
 It seems like expression-based languages have become a lost art. We've tragically lost them to the monolithization of the thought in language design. But they still are a fascinating branch of language design that can not go ignored.
@@ -319,7 +320,7 @@ I've personally been highly impressed by
 - Conjure (for neovim)
 - Emacs:
   It was made for Lisp during its' prime
-  `C-c C-e` will evaluate the current buffer/selection for any supported language. [It's trivial to add support for any language you want](https://github.com/if-not-nil/revo/blob/main/Emacs.org?plain=1)
+  `C-c C-e` will evaluate the current buffer/selection for any supported language. [It's trivial to add support for any language you want](https://github.com/lung-notification/revo/blob/main/Emacs.org?plain=1)
   Making Emacs able to evaluate a language also means making it available in interactive Org-mode snippets or fully literate Org notes, which can be trimmed back into just the source
 
 - iex: Elixir's REPL

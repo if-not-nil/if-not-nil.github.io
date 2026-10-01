@@ -29,7 +29,7 @@ for this one, i'll be implementing structs with no extra features
 - [how it ended up looking](#how-it-ended-up-looking)
 - [plans](#plans)
 
-oh, and also, this makes more sense in the context of [the soup files](https://github.com/if-not-nil/soup).
+oh, and also, this makes more sense in the context of [the soup files](https://github.com/lung-notification/soup).
 
 i already made a result enum with Ok/Err
 
@@ -243,7 +243,7 @@ it's always a good idea to make invalid states unrepresentable. ideally, your pi
 
 - |> `local email = Email.try_parse("test@example.com"):expect("invalid email")`
   - | that function ensures the user's email isn't "asdf", <function>, or on outlook
-  - | it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/if-not-nil/soup/tree/main/lua#a-result-structure-soupresult))
+  - | it would return the email struct (wrapped in the [Result struct from the soup files btw](https://github.com/lung-notification/soup/tree/main/lua#a-result-structure-soupresult))
 - |> pass it into `function(email) end` which checks the type inside of it (and actually throws this time)
 - if the soup dream lives on, it would also be done through pipe operators
 
