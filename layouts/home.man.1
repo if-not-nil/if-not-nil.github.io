@@ -1,0 +1,59 @@
+.TH "LUNG" "1" "{{ now.Format "2006-01-02" }}" "lung.fyi" "lung.fyi"
+.SH NAME
+lung \- proud computer owner
+.SH SYNOPSIS
+.B lung
+[\-\-projects] [\-\-text] [\-\-contact]
+.SH PROJECTS
+.TP
+.B revo
+optionally-typed programming language
+.br
+https://revo.lung.fyi
+.TP
+.B horse
+the least-friction file manager
+.br
+https://github.com/if-not-nil/horse
+.TP
+.B bark
+this color scheme + themes for software
+.br
+https://github.com/if-not-nil/bark
+.TP
+.B stab
+nice little hypermedia frontend framework (usable today! about 60% done)
+.br
+https://github.com/if-not-nil/stab
+.TP
+.B song
+a 3d game engine, still wip
+.TP
+.B soup
+pure-lua experiments! result types, type-safety, pattern matching and structs
+.br
+https://github.com/if-not-nil/soup
+.TP
+.B user
+manage groups and users in posix sh
+.br
+https://codeberg.org/lung/users
+.PP
+there's more on https://github.com/if-not-nil and https://codeberg.org/lung
+.SH WRITING
+{{- range .Pages }}{{ if and (ne .File.Path "index.md") (not (.Param "hideInList")) }}
+.TP
+.B {{ .Title | lower }}
+{{ with .Description }}{{ . | lower }}{{ else }}{{ .Summary | plainify | htmlUnescape | replace "`" "" | lower | truncate 120 }}{{ end }}
+{{- with .OutputFormats.Get "man" }}
+.br
+{{ .Permalink }}
+{{- end }}
+{{- end }}{{ end }}
+.TP
+.B the rest
+if you're trying to find one of the other five, they're hidden
+.SH CONTACT
+find me on https://github.com/if-not-nil, https://codeberg.org/lung
+.br
+or email me@lung.fyi

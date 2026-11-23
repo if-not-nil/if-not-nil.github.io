@@ -1,8 +1,13 @@
 {{ define "main" }}
-<nav class="wiki-nav">
-	<a href="/wiki/">wiki</a>{{ if .Title }} / {{ .Title }}{{ end }}
-</nav>
-<article>
-	{{ .Content }}
-</article>
+<h2>name</h2>
+<p><b>wiki</b></p>
+{{ with .Content }}{{ . }}{{ end }}
+<h2>entries</h2>
+<ul class="whatis">
+	{{- $pages := where .Site.RegularPages "Section" "wiki" }}
+	{{- range sort $pages "File.Path" }}
+	<li><b><a href="{{ .RelPermalink }}">{{ .Title | lower }}</a></b><span>{{ with .Description }}{{ . | lower }}{{ else
+			}}{{ .Summary | plainify | lower | truncate 140 }}{{ end }}</span></li>
+	{{- end }}
+</ul>
 {{ end }}

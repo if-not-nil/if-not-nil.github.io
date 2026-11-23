@@ -1,22 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+
 <head>
 	{{ partial "head-essential.html" . }}
-	<title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
-	<link rel='stylesheet' type='text/css' href='/css/new.css'>
+	<title>{{ if not .IsHome }}{{ .Title | lower }} | {{ end }}{{ .Site.Title | lower }}</title>
+	<link rel="stylesheet" href="/css/new.css">
 </head>
+
 <body>
-	{{ partial "header.html" . }}
-	<main>
-		{{ block "main" . }}{{ end }}
-	</main>
-	{{ block "footer" . }}
-	<footer>
-		<a href="{{ .Site.BaseURL }}">{{ .Site.BaseURL }}</a>
-		{{- if .Param "showrss" }}<br><br><a href="/index.xml"><img src="/img/rss.svg" style="max-height:1.5em" alt="RSS Feed"
-			title="subscribe via RSS"></a>{{ end }}
-	</footer>
-	{{ end }}
+	<div id="page">
+		{{ $manTitle := "lung(1)" }}
+		{{ if not .IsHome }}{{ $manTitle = printf "%s(7)" (.Title | lower) }}{{ end }}
+		<p class="prompt"><a href="/">~</a> $ <b>man {{ if .IsHome }}lung{{ else }}{{ .Title | lower | urlize }}{{ end
+				}}</b></p>
+		{{ with .OutputFormats.Get "man" }}<pre class="try"><code>{{ printf "curl -fsSL '%s' | mandoc -Tutf8 | less"
+				.Permalink }}</code></pre>{{ end }}
+		<div role="doc-pageheader" class="th"><span class="head-ltitle">{{ $manTitle }}</span><span class="head-vol"><a
+					href="/">lung.fyi<span> manual</span></a></span><span class="head-rtitle">{{ $manTitle }}</span></div>
+		<main class="man">
+			{{ block "main" . }}{{ end }}
+		</main>
+		<div role="doc-pagefooter" class="tf"><span class="foot-left">lung.fyi</span><span class="foot-date">{{ now.Format
+				"2006-01-02" }}</span><span class="foot-right">{{ $manTitle }}</span></div>
+		<p class="prompt"><a href="/">~</a> $</p>
+	</div>
 </body>
 
 </html>
-

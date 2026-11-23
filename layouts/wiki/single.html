@@ -1,9 +1,7 @@
 {{ define "main" }}
-<nav class="wiki-nav">
-	<a href="/wiki/">wiki</a>{{ if .Title }} / {{ .Title }}{{ end }}
-</nav>
-<article>
-	<!-- <h1>{{ .Title }}</h1> -->
-	{{ .Content }}
-</article>
+<p class="wiki-nav"><a href="/wiki/">wiki</a> / {{ .Title | lower }}</p>
+<h2>name</h2>
+<p><b>{{ .Title | lower }}</b>{{ with .Description }} - {{ . | lower }}{{ end }}</p>
+<h2>description</h2>
+<section class="article-content">{{ .Content }}</section>
 {{ end }}

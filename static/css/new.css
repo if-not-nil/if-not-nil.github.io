@@ -1,507 +1,137 @@
-/* noto-sans-mono-regular - latin */
+@import url("/css/chroma.css");
+
+/* bark: https://github.com/if-not-nil/bark */
 @font-face {
-	font-display: swap;
-	/* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-	font-family: 'Noto Sans Mono';
+	font-family: "Noto Sans Mono";
+	src: url("/fonts/noto-sans-mono-v32-latin-regular.woff2") format("woff2");
 	font-style: normal;
 	font-weight: 400;
-	src: url('../fonts/noto-sans-mono-v32-latin-regular.woff2') format('woff2');
-	/* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+	font-display: swap;
 }
 
-/* noto-sans-mono-600 - latin */
 @font-face {
-	font-display: swap;
-	/* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-	font-family: 'Noto Sans Mono';
+	font-family: "Noto Sans Mono";
+	src: url("/fonts/noto-sans-mono-v32-latin-600.woff2") format("woff2");
 	font-style: normal;
 	font-weight: 600;
-	src: url('../fonts/noto-sans-mono-v32-latin-600.woff2') format('woff2');
-	/* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+	font-display: swap;
 }
 
-/* noto-sans-mono-700 - latin */
 @font-face {
-	font-display: swap;
-	/* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-	font-family: 'Noto Sans Mono';
+	font-family: "Noto Sans Mono";
+	src: url("/fonts/noto-sans-mono-v32-latin-700.woff2") format("woff2");
 	font-style: normal;
 	font-weight: 700;
-	src: url('../fonts/noto-sans-mono-v32-latin-700.woff2') format('woff2');
-	/* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-@font-face {
-	font-family: 'Maple Mono';
 	font-display: swap;
-	font-style: normal;
-	font-weight: 400;
-	src: url('/MapleMono.woff2') format('woff2');
 }
 
 :root {
-	--font-sans: 'Noto Sans Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	--font-mono: 'Maple Mono', 'Noto Sans Mono', ui-monospace, SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-
-	--text: #d0d0d0;
-	--text-darker: #b0b0b0;
-	--bg-1: #151515;
-	--bg-2: #101010;
-	--bg-3: #fefefe0f;
-	--accent: #f4bf75;
-	--accent-text: #ffffff;
+	color-scheme: dark;
+	--base00: #101010;
+	--base01: #202020;
+	--base02: #2b2b2b;
+	--base03: #505050;
+	--base04: #b0b0b0;
+	--base05: #d0d0d0;
+	--base06: #e0e0e0;
+	--base07: #fafafa;
+	--base08: #ab4642;
+	--base09: #dc9656;
+	--base0A: #f7ca88;
+	--base0B: #a1b56c;
+	--base0C: #86c1b9;
+	--base0D: #7cafc2;
+	--base0E: #ba8baf;
+	--base0F: #a16946;
 }
 
-* {
-	/* Reset margins and padding */
-	margin: 0;
-	padding: 0;
-}
-
-address,
-area,
-article,
-aside,
-audio,
-blockquote,
-datalist,
-details,
-dl,
-fieldset,
-figure,
-form,
-input,
-iframe,
-img,
-meter,
-nav,
-ol,
-optgroup,
-option,
-output,
-p,
-pre,
-progress,
-ruby,
-section,
-table,
-textarea,
-ul,
-video {
-	/* Margins for most elements */
-	margin-bottom: 1rem;
-}
-
-html,
-input,
-select,
-button {
-	/* Set body font family and some finicky elements */
-	font-family: var(--font-sans);
-}
-
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--base00); scroll-behavior: smooth; }
 body {
-	/* Center body in page */
-	margin: 0 auto;
-	max-width: 900px;
-	padding: 2rem;
-	border-radius: 6px;
-	overflow-x: hidden;
-	word-break: break-word;
-	overflow-wrap: break-word;
-	background: var(--bg-1);
-
-	/* Main body text */
-	color: var(--text);
-	font-size: 1.03rem;
-	line-height: 1.5;
-}
-
-::selection {
-	/* Set background color for selected text */
-	background: var(--accent);
-	color: var(--accent-text);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	line-height: 1;
-	color: var(--text);
-	padding-top: .875rem;
-}
-
-h1,
-h2,
-h3 {
-	color: var(--text);
-	padding-bottom: 2px;
-	margin-bottom: 8px;
-	/* border-bottom: 1px solid var(--bg-3); */
-}
-
-/* figure.float-right { */
-/*   float: right; */
-/*   margin: 0.2em 0 0.8em 1em; */
-/* } */
-/**/
-/* figure.float-left { */
-/*   float: left; */
-/*   margin: 0.2em 1em 0.8em 0; */
-/* } */
-/**/
-/* figure.float-right, */
-/* figure.float-left { */
-/*   max-width: 260px; */
-/* } */
-/**/
-/* figure img { */
-/*   width: 100%; */
-/*   height: auto; */
-/* } */
-/**/
-/* figure figcaption { */
-/*   font-size: 0.85em; */
-/*   color: var(--text-darker); */
-/* } */
-
-/* @media (min-width: 800px) { */
-/*   figure.float-right, */
-/*   figure.float-left { */
-/*     max-width: 300px; */
-/*   } */
-/* } */
-
-h4,
-h5,
-h6 {
-	margin-bottom: .3rem;
-}
-
-h1 {
-	font-size: 2.25rem;
-}
-
-h2 {
-	font-size: 1.85rem;
-}
-
-h3 {
-	font-size: 1.55rem;
-}
-
-h4 {
-	font-size: 1.25rem;
-}
-
-h5 {
-	font-size: 1rem;
-}
-
-h6 {
-	font-size: .875rem;
-}
-
-a {
-	color: var(--accent);
-}
-
-a:hover {
-	color: var(--accent);
-}
-
-abbr:hover {
-	/* Set the '?' cursor while hovering an abbreviation */
-	cursor: help;
-}
-
-blockquote {
-	padding: 1.5rem;
-	background: var(--bg-2);
-	border-left: 5px solid var(--bg-3);
-}
-
-abbr {
-	cursor: help;
-}
-
-blockquote *:last-child {
-	padding-bottom: 0;
-	margin-bottom: 0;
-}
-
-footer,
-.taglist {
-	text-align: center;
-	clear: both;
-}
-
-header {
-	background: var(--bg-2);
-	/* border-bottom: 1px solid var(--bg-3); */
-	padding: 2rem 1.5rem;
-
-	/* This sets the right and left margins to cancel out the body's margins. It's width is still the same, but the background stretches across the page's width. */
-
-	margin: -2rem calc(50% - 50vw) 2rem;
-
-	/* Shorthand for:
-
-	margin-top: -2rem;
-	margin-bottom: 2rem;
-
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw); */
-
-	padding-left: calc(50vw - 50%);
-	padding-right: calc(50vw - 50%);
-}
-
-header h1,
-header h2,
-header h3 {
-	padding-bottom: 0;
-	border-bottom: 0;
-}
-
-header>*:first-child {
-	margin-top: 0;
-	padding-top: 0;
-}
-
-header>*:last-child {
-	margin-bottom: 0;
-}
-
-a button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-	font-size: 1rem;
-	display: inline-block;
-	padding: 6px 12px;
-	text-align: center;
-	text-decoration: none;
-	white-space: nowrap;
-	background: var(--accent);
-	color: var(--accent-text);
-	border: 0;
-	border-radius: 4px;
-	box-sizing: border-box;
-	cursor: pointer;
-	color: var(--accent-text);
-}
-
-a button[disabled],
-button[disabled],
-input[type="submit"][disabled],
-input[type="reset"][disabled],
-input[type="button"][disabled] {
-	cursor: default;
-	opacity: .5;
-
-	/* Set the [X] cursor while hovering a disabled link */
-	cursor: not-allowed;
-}
-
-.button:focus,
-.button:enabled:hover,
-button:focus,
-button:enabled:hover,
-input[type="submit"]:focus,
-input[type="submit"]:enabled:hover,
-input[type="reset"]:focus,
-input[type="reset"]:enabled:hover,
-input[type="button"]:focus,
-input[type="button"]:enabled:hover {
-	background: var(--accent);
-}
-
-a img {
-	margin-bottom: 0px;
-}
-
-code,
-pre,
-kbd,
-samp {
-	/* Set the font family for monospaced elements */
-	font-family: var(--font-mono);
-}
-
-code,
-samp,
-kbd,
-pre {
-	/* The main preformatted style. This is changed slightly across different cases. */
-	background: var(--bg-2);
-	border: 1px solid var(--bg-3);
-	border-radius: 4px;
-	padding: 3px 6px;
-	/* ↓ font-size is relative to containing element, so it scales for titles*/
-	font-size: 0.9em;
-}
-
-kbd {
-	/* Makes the kbd element look like a keyboard key */
-	border-bottom: 3px solid var(--bg-3);
-}
-
-pre {
-	padding: 1rem 1.4rem;
-	max-width: 100%;
-	overflow: auto;
-}
-
-pre code {
-	/* When <code> is in a <pre>, reset it's formatting to blend in */
-	background: inherit;
-	font-size: inherit;
-	color: inherit;
-	border: 0;
-	padding: 0;
 	margin: 0;
+	padding-bottom: 2em;
+	background: var(--base00);
+	color: var(--base05);
+	font-family: "Noto Sans Mono", Menlo, Consolas, monospace;
+	font-size: 16px;
+	line-height: 1.6;
 }
+::selection { color: var(--base07); background: var(--base03); }
+a { color: var(--base0D); text-decoration: underline dashed; text-decoration-color: var(--base03); text-underline-offset: 2px; }
+a:hover { color: var(--base0C); text-decoration-color: currentColor; }
+a:focus-visible { outline: 1px dashed var(--base0A); outline-offset: 2px; }
+b, strong { color: var(--base06); }
+code, kbd, samp { color: var(--base0B); font-weight: 700; }
+pre { margin: 0 0 1.6em; padding: .8em 2ch; overflow-x: auto; border: 1px solid var(--base02); background: var(--base01); color: var(--base05); font-size: .85em; line-height: 1.5; scrollbar-color: var(--base03) transparent; scrollbar-width: thin; }
+pre code { font-weight: 400; }
+blockquote { margin: 0 0 1.6em; padding-left: 2ch; border-left: 1px dashed var(--base03); color: var(--base04); }
+hr { margin: 0 0 1.6em; border: 0; border-top: 1px dashed var(--base03); }
+table { border-collapse: collapse; }
+th, td { padding: .45em 1ch; border-bottom: 1px solid var(--base02); text-align: left; }
+th { color: var(--base06); }
 
-code pre {
-	/* When <pre> is in a <code>, reset it's formatting to blend in */
-	display: inline;
-	background: inherit;
-	font-size: inherit;
-	color: inherit;
-	border: 0;
-	padding: 0;
-	margin: 0;
-}
+/* 80-column terminal layout, based on hachem.wtf's man(1) page */
+#page { max-width: 80ch; margin: 0 auto; padding: 2.4em 2ch 1em; }
+.prompt { margin: 0 0 1.6em; color: var(--base04); }
+.prompt a { color: inherit; text-decoration: none; }
+.prompt a:hover { color: var(--base06); text-decoration: underline dashed; }
+.prompt b { color: var(--base06); font-weight: 400; }
+.man pre.try, pre.try { margin: 0 0 1.6em; padding: 0; border: 0; background: none; color: var(--base04); font-size: .85em; }
+.th, .tf { display: flex; justify-content: space-between; gap: 2ch; white-space: nowrap; color: var(--base04); }
+.th { margin-bottom: 1.6em; }
+.tf { margin: 1.6em 0; }
+.th a { color: var(--base05); text-decoration: none; }
+.th a:hover { text-decoration: underline dashed; }
+.man { padding-left: 7ch; overflow-wrap: break-word; }
+.man h1, .man h2, .man h3 { color: var(--base06); font-size: 1em; font-weight: 700; line-height: inherit; scroll-margin-top: 1.6em; }
+.man h1, .man h2 { margin: 1.6em 0 0 -7ch; color: var(--base0A); text-transform: uppercase; }
+.man h1:first-child, .man h2:first-child { margin-top: 0; }
+.man h3 { margin: 1.6em 0 0 -4ch; }
+.man p, .man ul, .man ol, .man pre, .man blockquote { margin: 0 0 1.6em; }
+.man code { color: var(--base0B); font-weight: 700; }
+.man pre code { font-weight: 400; }
+.man ul, .man ol { padding-left: 2ch; }
+.man ol { padding-left: 3ch; }
+.man ul { list-style: none; }
+.man ul > li { position: relative; }
+.man ul > li::before { position: absolute; left: -2ch; color: var(--base04); content: "-"; }
+.man li > p { margin-bottom: .8em; }
+.man ul.whatis { display: grid; grid-template-columns: max-content auto; gap: .55em 2ch; padding: 0; }
+.man ul.whatis li { display: contents; }
+.man ul.whatis li::before { content: none; }
+.man ul.whatis b { align-self: start; }
+.man ul.whatis span::before { color: var(--base04); content: "- "; }
+.man time { color: var(--base04); }
+.synopsis { padding-left: calc(var(--hang) * 1ch); text-indent: calc(var(--hang) * -1ch); }
+.synopsis span { display: inline-block; max-width: 100%; overflow-wrap: anywhere; color: var(--base04); text-indent: 0; }
+.synopsis span a { color: var(--base0D); font-weight: 700; text-decoration: none; }
+.synopsis span a:hover { text-decoration: underline dashed; }
+.man .article-title { margin: 0; color: var(--base06); font-size: 1.35em; text-transform: none; }
+.man .article-meta { margin: .4em 0 1.6em; color: var(--base04); font-size: .85em; }
+.man .article-content h1, .man .article-content h2, .man .article-content h3, .man .article-content h4 { margin: 1.6em 0 .6em; color: var(--base0A); text-transform: none; }
+.man .article-content h1 { font-size: 1.15em; }
+.man .article-content h2 { font-size: 1em; }
+.man .article-content h3 { margin-left: -4ch; font-size: 1em; }
+.man .article-content h4 { font-size: .95em; }
+.man .article-content p, .man .article-content li { overflow-wrap: anywhere; }
+.man .article-content img { max-width: 100%; height: auto; }
+.man .comments-link { display: inline-block; margin-bottom: 1.6em; }
+.man .nextprev { display: flex; justify-content: space-between; gap: 2ch; margin-bottom: 1.6em; font-size: .85em; }
+.man .nextprev > span { flex: 1; }
+.man .nextart { text-align: right; }
+.man .taglist { margin: 1.6em 0; color: var(--base04); }
+.man .wiki-nav { margin: 0 0 1.6em; color: var(--base04); font-size: .85em; }
 
-details {
-	/* Make the <details> look more "clickable" */
-	padding: .6rem 1rem;
-	background: var(--bg-2);
-	border: 1px solid var(--bg-3);
-	border-radius: 4px;
+@media (max-width: 40em) {
+	#page { max-width: 80ch; margin: 0 auto; padding: 2.4em 2ch 1em; }
+	.man { margin-left: 2ch; }
+	.man h1, .man h2 { margin-left: -2ch; }
+	.man h3, .man .article-content h3 { margin-left: -1ch; }
+	.man pre { font-size: .8em; }
+	.th > span:last-child, .th a span, .tf > span:first-child { display: none; }
+	.synopsis { --hang: 2 !important; }
+	.man ul.whatis { grid-template-columns: 1fr; gap: 0; }
+	.man ul.whatis span { margin: 0 0 .6em 2ch; }
+	.man ul.whatis span::before { content: none; }
 }
-
-summary {
-	/* Makes the <summary> look more like a "clickable" link with the pointer cursor */
-	cursor: pointer;
-	font-weight: bold;
-}
-
-details[open] {
-	/* Adjust the <details> padding while open */
-	padding-bottom: .75rem;
-}
-
-details[open] summary {
-	/* Adjust the <details> padding while open */
-	margin-bottom: 6px;
-}
-
-details[open]>*:last-child {
-	/* Resets the bottom margin of the last element in the <details> while <details> is opened. This prevents double margins/paddings. */
-	margin-bottom: 0;
-}
-
-dt {
-	font-weight: bold;
-}
-
-dd::before {
-	/* Add an arrow to data table definitions */
-	content: '→ ';
-}
-
-hr {
-	/* Reset the border of the <hr> separator, then set a better line */
-	border: 0;
-	border-bottom: 1px solid var(--bg-3);
-	margin: 1rem auto;
-}
-
-fieldset {
-	margin-top: 1rem;
-	padding: 2rem;
-	border: 1px solid var(--bg-3);
-	border-radius: 4px;
-}
-
-legend {
-	padding: auto .5rem;
-}
-
-table {
-	/* border-collapse sets the table's elements to share borders, rather than floating as separate "boxes". */
-	border-collapse: collapse;
-	width: 100%
-}
-
-td,
-th {
-	border: 1px solid var(--bg-3);
-	text-align: left;
-	padding: .5rem;
-}
-
-th {
-	background: var(--bg-2);
-}
-
-tr:nth-child(even) {
-	/* Set every other cell slightly darker. Improves readability. */
-	background: var(--bg-2);
-}
-
-table caption {
-	font-weight: bold;
-	margin-bottom: .5rem;
-}
-
-textarea {
-	/* Don't let the <textarea> extend off the screen naturally or when dragged by the user */
-	max-width: 100%;
-}
-
-ol,
-ul {
-	/* Replace the browser default padding */
-	padding-left: 2rem;
-}
-
-li {
-	margin-top: .4rem;
-}
-
-ul ul,
-ol ul,
-ul ol,
-ol ol {
-	margin-bottom: 0;
-}
-
-mark {
-	padding: 3px 6px;
-	background: var(--accent);
-	color: var(--accent-text);
-}
-
-textarea,
-select,
-input {
-	padding: 6px 12px;
-	margin-bottom: .5rem;
-	background: var(--bg-2);
-	color: var(--text);
-	border: 1px solid var(--bg-3);
-	border-radius: 4px;
-	box-shadow: none;
-	box-sizing: border-box;
-}
-
-img {
-	max-width: 100%;
-}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

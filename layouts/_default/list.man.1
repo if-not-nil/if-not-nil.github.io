@@ -1,0 +1,14 @@
+{{ $title := or .Title .Section -}}
+.TH "{{ $title | upper }}" "1" "{{ now.Format "2006-01-02" }}" "lung.fyi" "lung.fyi"
+.SH NAME
+{{ $title | lower }}{{ with .Description }} \- {{ . | lower }}{{ end }}
+.SH ENTRIES
+{{- range .RegularPagesRecursive }}
+.TP
+.B {{ .Title | lower }}
+{{ with .Description }}{{ . | lower }}{{ else }}{{ .Summary | plainify | htmlUnescape | replace "`" "" | lower | truncate 70 }}{{ end }}
+{{- with .OutputFormats.Get "man" }}
+.br
+{{ .Permalink }}
+{{- end }}
+{{- end }}

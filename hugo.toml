@@ -2,6 +2,23 @@ title = "if err != nil"
 baseURL = 'https://if-not-nil.github.io'
 languageCode = 'en-us'
 
+[mediaTypes."text/troff"]
+  suffixes = ["1"]
+
+[outputFormats.man]
+  mediaType = "text/troff"
+  baseName = "index"
+  ugly = true
+  isPlainText = true
+  rel = "alternate"
+
+[outputs]
+  home = ["HTML", "RSS", "man"]
+  page = ["HTML", "man"]
+  section = ["HTML", "man"]
+  taxonomy = ["HTML", "man"]
+  term = ["HTML", "man"]
+
 [server]
 [[server.headers]]
   for = "/img/**"
@@ -19,6 +36,10 @@ languageCode = 'en-us'
 [markup.goldmark.renderer]
 	hardWraps = true
 	unsafe = true
+
+[markup.highlight]
+  noClasses = false
+  style = "base16-snazzy"
 
 [security]
   allowContent = ['.+']

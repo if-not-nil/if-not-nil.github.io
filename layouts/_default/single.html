@@ -1,18 +1,14 @@
 {{ define "main" }}
 <article>
-	{{ if .Param "nextprev" }}{{ partial "nextprev.html" . -}}{{ end -}}
-	<span class="articleheader">
-		<h1>{{ .Title }}</h1>
-		{{- with .Param "description" }}
-		<p>{{ . }}</p>
-		{{- end }}
-		{{- if not .Date.IsZero }}
-		<p><span style="font-size:14px;"> {{ .Date.Format "January 2, 2006" }}</span></p>
-		{{- end }}
-		<hr>
-	</span>
-	<a href="https://github.com/if-not-nil/if-not-nil.github.io/issues/new">comments</a>
-	<section>{{ .Content }}</section>
-	{{ if .Param "taglist" }}{{ partial "taglist.html" . }}{{ end -}}
+	{{ if .Param "nextprev" }}{{ partial "nextprev.html" . }}{{ end }}
+	<h2>name</h2>
+	<p><b>{{ .Title | lower }}</b>{{ with .Description }} - {{ . | lower }}{{ end }}</p>
+	{{ if not .Date.IsZero }}<h2>date</h2>
+	<p><time datetime="{{ .Date.Format " 2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006-01-02" }}</time></p>{{ end
+	}}
+	{{ if .Param "taglist" }}{{ partial "taglist.html" . }}{{ end }}
+	<h2>description</h2>
+	<section class="article-content">{{ .Content }}</section>
+	<p class="comments-link"><a href="https://github.com/if-not-nil/if-not-nil.github.io/issues/new">comments</a></p>
 </article>
 {{ end }}

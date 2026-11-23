@@ -1,0 +1,5 @@
+.TH "{{ .Title | upper }}" "1" "{{ .Date.Format "2006-01-02" }}" "lung.fyi" "lung.fyi"
+.SH NAME
+{{ .Title | lower }}{{ with .Description }} \- {{ . | lower }}{{ end }}
+.SH DESCRIPTION
+{{ .RawContent | replaceRE `\\` `\e` | replaceRE `(?m)^([.'])` `\&$1` | replaceRE "(?s)```[^\n]*\n(.*?)```" ".nf\n$1.fi\n" }}

@@ -1,6 +1,6 @@
 +++
 date = '2025-12-13T16:32:24+00:00'
-draft = false
+draft = true
 title = "typesafe structs in lua"
 description = "it should have them though"
 +++
